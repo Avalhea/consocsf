@@ -19,6 +19,10 @@ class ActionJustice
     #[ORM\Column(type: 'integer', nullable: true)]
     private $nbAccompagnement;
 
+    #[ORM\ManyToOne(targetEntity: Lieu::class, inversedBy: 'atelier')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $lieu;
+
     public function getId(): ?int
     {
         return $this->id;

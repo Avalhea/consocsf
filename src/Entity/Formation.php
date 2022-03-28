@@ -23,6 +23,9 @@ class Formation
     #[ORM\JoinColumn(nullable: false)]
     private $lieu;
 
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private $nbFormation;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -60,6 +63,18 @@ class Formation
     public function setLieu(?Lieu $lieu): self
     {
         $this->lieu = $lieu;
+
+        return $this;
+    }
+
+    public function getNbFormation(): ?int
+    {
+        return $this->nbFormation;
+    }
+
+    public function setNbFormation(?int $nbFormation): self
+    {
+        $this->nbFormation = $nbFormation;
 
         return $this;
     }

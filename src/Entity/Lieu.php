@@ -24,16 +24,17 @@ class Lieu
     #[ORM\Column(type: 'integer', nullable: true)]
     private $nbBenevole;
 
-    #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: User::class)]
-    private $user;
 
     #[ORM\ManyToOne(targetEntity: Statut::class, inversedBy: 'lieus')]
     private $statut;
 
+    #[ORM\ManyToOne(targetEntity: Echelle::class, inversedBy: 'lieus')]
+    private $echelle;
+
     #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Permanence::class, orphanRemoval: true)]
     private $permanence;
 
-    #[ORM\ManyToMany(targetEntity: UD::class, inversedBy: 'lieus')]
+    #[ORM\ManyToOne(targetEntity: UD::class, inversedBy: 'lieus')]
     private $ud;
 
     #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Representation::class, orphanRemoval: true)]
@@ -48,7 +49,7 @@ class Lieu
     #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Formation::class, orphanRemoval: true)]
     private $formation;
 
-    #[ORM\OneToOne(targetEntity: ActionJustice::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Evenement::class, orphanRemoval: true)]
     private $actionJustice;
 
     #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Evenement::class, orphanRemoval: true)]
@@ -59,7 +60,6 @@ class Lieu
 
     public function __construct()
     {
-        $this->user = new ArrayCollection();
         $this->permanence = new ArrayCollection();
         $this->ud = new ArrayCollection();
         $this->representation = new ArrayCollection();
@@ -111,35 +111,6 @@ class Lieu
         return $this;
     }
 
-    /**
-     * @return Collection<int, User>
-     */
-    public function getUser(): Collection
-    {
-        return $this->user;
-    }
-
-    public function addUser(User $user): self
-    {
-        if (!$this->user->contains($user)) {
-            $this->user[] = $user;
-            $user->setLieu($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->user->removeElement($user)) {
-            // set the owning side to null (unless already changed)
-            if ($user->getLieu() === $this) {
-                $user->setLieu(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function getStatut(): ?Statut
     {
