@@ -31,4 +31,22 @@ class LoginController extends AbstractController
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
+
+    #[Route('/check', name: 'check')]
+    public function check(
+        UserRepository $repoUser
+    ): Response
+
+    {
+        $user = $this->getUser();
+
+        $isPassword1234 = password_verify('1234',$user->getPassword());
+
+
+        if($isPassword1234){
+            return $this->redirectToRoute('home/mdp.html.twigs');
+        }
+
+        return $this->render('home/index.html.twig');
+    }
 }
