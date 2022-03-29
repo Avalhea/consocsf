@@ -19,6 +19,18 @@
 {% block body %}
 {% endblock %}
 
+{% block navbar %}
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand">Navbar</a>
+            <form class="d-flex">
+                <button class="btn btn-outline-success me-2" type="button">Aide</button>
+                <a href="{{ path('app_logout') }}"><button class="btn btn-outline-success" type="submit"> Se déconnecter</button></a>
+            </form>
+        </div>
+    </nav>
+{% endblock %}
+
 {% block javascripts %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js">
     {#<script src="{{ asset('js/creationsortie.js') }}"></script>#}
