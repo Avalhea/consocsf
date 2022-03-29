@@ -44,9 +44,24 @@ class LoginController extends AbstractController
 
 
         if($isPassword1234){
-            return $this->redirectToRoute('home/mdp.html.twigs');
+            return $this->redirectToRoute('mdp');
         }
 
+        return $this->redirectToRoute('home');
+    }
+
+    #[Route('/mdp', name: 'mdp')]
+    public function premiermdp(
+        UserRepository $repository
+    ): Response {
+        return $this->render('home/mdp.html.twig');
+    }
+
+    #[Route('/home', name: 'home')]
+    public function home(
+        UserRepository $repository
+    ): Response {
         return $this->render('home/index.html.twig');
     }
+
 }
