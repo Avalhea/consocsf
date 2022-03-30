@@ -35,7 +35,7 @@
 
                             <div class="field">
                                 <div class="control">
-                                    <input type="password" name="password" id="inputPassword" class="form-control input is-normal" placeholder="Entrez votre mot de passe" autocomplete="current-password" required>
+                                    <input type="password" name="password" id="inputPassword" class="form-control input is-normal" placeholder="Entrez votre mot de passe" autocomplete="current-password">
                                 </div>
                             </div>
                             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
@@ -44,7 +44,10 @@
                                     <input type="checkbox" name="_remember_me"> &nbsp; Se souvenir de moi
                                 </label>
                             </div>#}
-                            <button class="button is-block is-info is-large is-fullwidth" type="submit"> Se connecter <i class="fa fa-sign-in" aria-hidden="true"></i></button>
+                            <button class="button is-block is-info is-large is-fullwidth" type="submit">Se connecter</button>&nbsp;
+
+                           <button class="button is-small" id="btnaidemini" > <a href="{{ path('miniaide') }}">Aide à la connexion</a></button>
+                            <style>#btnaidemini  {background-color: #adadad; color: #FFFFFF;font-family: 'Recursive', sans-serif}</style>
                         </form>
                     </div>
                     <p class="has-text-grey">

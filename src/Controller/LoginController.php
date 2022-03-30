@@ -64,4 +64,12 @@ class LoginController extends AbstractController
         return $this->render('home/index.html.twig');
     }
 
+    #[Route('/miniaide', name: 'miniaide')]
+    public function miniaide(
+        UserRepository $repository
+    ): Response {
+        return $this->render('home/miniaide.html.twig');
+    }
+
+
 }
