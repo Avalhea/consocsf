@@ -5,6 +5,7 @@
 
 {% block body %}
     <body>
+    <style>body  {background-image: url("../../public/img/logo.gif"); background-size: 500px }</style>
     <section class="hero is-fullheight">
         <div class="hero-body">
             <div class="container has-text-centered">
@@ -12,13 +13,13 @@
                     <h3 class="title has-text-black"> Connexion </h3>
                     <hr class="login-hr">
                     <div class="box">
-                        <p class="subtitle has-text-black">Vous devez être connecté pour continuer</p>
+                        <p class="subtitle has-text-black">Connectez-vous avec votre e-mail @la-csf.org </p>
                         <figure class="avatar has-text-centered">
                             <img class="image is-inline-block" id="logo1" src="{{ asset('img/logo.gif') }}">
                         </figure>
                         <form method="post">
                             {% if error %}
-                                <div class="alert alert-danger"> Identifiants ou mdp incorrects </div>
+                                <div class="alert alert-danger"> Erreur : vos identifiants ne sont pas reconnus </div>
                             {% endif %}
 
                             {% if app.user %}
@@ -46,13 +47,12 @@
                             </div>#}
                             <button class="button is-block is-info is-large is-fullwidth" type="submit">Se connecter</button>&nbsp;
 
-                           <button class="button is-small" id="btnaidemini" > <a href="{{ path('miniaide') }}">Aide à la connexion</a></button>
-                            <style>#btnaidemini  {background-color: #adadad; color: #FFFFFF;font-family: 'Recursive', sans-serif}</style>
+                           <button class="button is-small" id="btnaidemini" ><a href="{{ path('miniaide') }}" id="lien_aidemini">Aide à la connexion</a></button>
+                            <style>#btnaidemini  {background-color: #adadad</style><style>#lien_aidemini  {text-decoration: none; color: #FFFFFF;font-family: 'Recursive', sans-serif}</style>
                         </form>
                     </div>
                     <p class="has-text-grey">
                         {#                            <a href="{{ path('app_forgot_password_request') }}"> Mot de passe oublié </a> &nbsp;·&nbsp; #}
-                        {#                            <a href="{{ path('aide') }}"> Besoin d'aide </a>#}
                     </p>
                 </div>
             </div>

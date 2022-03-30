@@ -1,37 +1,28 @@
+{% extends 'base.html.twig' %}
 {% block body%}
 <body>
-<section class="hero is-fullheight">
-    <div class="hero-body">
+    <div class="hero-body is-fullheight">
         <div class="container has-text-centered">
             <div class="column is-4 is-offset-4">
-                <h3 class="title has-text-black">Bienvenue sur notre FAQ</h3>
-                <hr class="login-hr">
-                <p class="subtitle has-text-black">La CSF | non connecté</p>
+                <h3 class="title has-text-black">La CSF | Bilan annuel conso numérique</h3>
                 <div class="box">
-                    <figure class="avatar has-text-centered">
-                        <img class="is-rounded image is-128x128 is-inline-block" src="{{ asset('img/logo.gif') }}">
-                    </figure>
                     <div class="field">
                         <div class="control">
-
-                            Notre site est exclusivement reservé aux bénévoles et salariés de l'association La CSF. <br>
-                            Les comptes sont automatiquement créés par le service informatique avec un mot de passe provisoire qui vous a été fournis dans le mode d'emploi.
+                            <p>Notre site est exclusivement reservé aux bénévoles et salariés de l'association La CSF.</p>
+                            <p>Les comptes sont automatiquement créés par le service informatique avec un mot de passe provisoire qui vous a été fournis.
                             Dans le cas où vous n'avez pas encore vos identifiants de connexion, ou que vous rencontrez des problèmes pour vous connecter, veuillez contacter :
-                            <A href="mailto:bilanconso@la-csf.org">bilanconso@la-csf.org</A>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <div class="control">
+                            </p>
+                                <A href="mailto:bilanconso@la-csf.org">bilanconso@la-csf.org</A>
                         </div>
                     </div>
                     <div class="field">
                     </div>
                 </div>
-                <button class="btn btn-primary"><a href="{{ path('login') }}" id="btn_href">Retour</a></button>
+                <button class="btn " id="btn_href"><a href="{{ path('app_login') }}" id="lien_href">Retour</a></button>
+                <style>#btn_href {background-color: #005AA1}</style><style>#lien_href {text-decoration: none; color: #FFFFFF}</style>
             </div>
         </div>
     </div>
-</section>
 <script async type="text/javascript" src="../js/bulma.js"></script>
 </body>
 {% endblock %}
