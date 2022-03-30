@@ -2,11 +2,15 @@
 
 namespace App\Controller;
 
+use App\Form\MdpType;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[Route("/", name:"")]
 class LoginController extends AbstractController
@@ -51,10 +55,29 @@ class LoginController extends AbstractController
     }
 
     #[Route('/mdp', name: 'mdp')]
-    public function premiermdp(
-        UserRepository $repository
+    public function changeMdp(
+        UserRepository $repository,
+        EntityManagerInterface $entityManager,
+        Request $request,
+        UserPasswordHasherInterface $passwordHasher
     ): Response {
-        return $this->render('home/mdp.html.twig');
+
+        $user = $this->getUser();
+        $form = $this->createForm(MdpType::class, $user );
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $mdpSimple = $user->GetPassword();
+            $vraiMdp = $passwordHasher->hashPassword($user,$mdpSimple);
+            $user->setPassword($vraiMdp);
+            $entityManager->persist($user);
+            $entityManager->flush();
+        return $this->render('home/index.html.twig');
+        }
+
+        $this->addFlash('error', ' Les deux mots de passes ne correspondent pas !');
+        return $this->renderForm('home/mdp.html.twig', compact('form'));
+
     }
 
     #[Route('/home', name: 'home')]

@@ -1,1 +1,44 @@
-Veuillez entrer votre mdp modifié
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<style>
+
+    .container {
+        padding-top: 10vh;
+    }
+    .titre {
+        text-align: center;
+        margin-top: 5vh;
+    }
+
+    .deux {
+        background-color: rgba(86, 183, 172, 0.22);
+        height: 30vh;
+        width: 25vw;
+        margin-top: 13vh;
+        text-align: center;
+        padding-top: 9vh;
+    }
+
+    .deux:hover {
+        background-color: rgba(86, 183, 172, 1);
+        transition: 1s;
+    }
+
+</style>
+
+    <div class="container">
+        <h3 class="titre">Afin de protéger l'accès à votre compte, veuillez personnaliser votre mot de passe.</h3>
+
+        <div class="container deux">
+            {{ form_start(form) }}
+            {{ form_row(form.password.first) }}<br>
+            {{ form_row(form.password.second) }}
+            <br>
+            <button type="submit" class="btn btn-light">Enregistrer</button>
+            {{ form_end(form) }}
+        </div>
+
+    </div>
+
+{% endblock %}
