@@ -58,6 +58,12 @@ class Lieu
     #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Dossier::class, orphanRemoval: true)]
     private $dossier;
 
+    #[ORM\Column(type: 'string', length: 254, nullable: true)]
+    private $adresse;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    private $joursEtHorairesOuverture;
+
     public function __construct()
     {
         $this->permanence = new ArrayCollection();
@@ -366,6 +372,30 @@ class Lieu
                 $dossier->setLieu(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAdresse(): ?string
+    {
+        return $this->adresse;
+    }
+
+    public function setAdresse(?string $adresse): self
+    {
+        $this->adresse = $adresse;
+
+        return $this;
+    }
+
+    public function getJoursEtHorairesOuverture(): ?string
+    {
+        return $this->joursEtHorairesOuverture;
+    }
+
+    public function setJoursEtHorairesOuverture(?string $joursEtHorairesOuverture): self
+    {
+        $this->joursEtHorairesOuverture = $joursEtHorairesOuverture;
 
         return $this;
     }
