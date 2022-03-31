@@ -1,7 +1,10 @@
 {% extends 'base.html.twig' %}
+
+{% block navbar %} {% endblock %}
 {% block body%}
 <body>
-    <div class="hero-body is-fullheight">
+<section class="hero is-fullheight">
+    <div class="hero-body">
         <div class="container has-text-centered">
             <div class="column is-4 is-offset-4">
                 <h3 class="title has-text-black">La CSF | Bilan annuel conso numérique</h3>
@@ -23,6 +26,7 @@
             </div>
         </div>
     </div>
+</section>
 <script async type="text/javascript" src="../js/bulma.js"></script>
 </body>
 {% endblock %}

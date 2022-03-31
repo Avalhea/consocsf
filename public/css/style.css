@@ -1,5 +1,6 @@
 body{
     font-family: 'Recursive', sans-serif;
+    background-image: url("../../public/img/fadedlogo.gif");
 }
 
 #logo1{
@@ -9,3 +10,4 @@ body{
     padding: 2px;
     width: 250px;
 }
+

@@ -21,7 +21,6 @@ class LoginController extends AbstractController
         // if ($this->getUser()) {
         //     return $this->redirectToRoute('target_path');
         // }
-
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
@@ -43,14 +42,11 @@ class LoginController extends AbstractController
 
     {
         $user = $this->getUser();
-
         $isPassword1234 = password_verify('1234',$user->getPassword());
-
 
         if($isPassword1234){
             return $this->redirectToRoute('mdp');
         }
-
         return $this->redirectToRoute('home');
     }
 
@@ -79,20 +75,5 @@ class LoginController extends AbstractController
         return $this->renderForm('home/mdp.html.twig', compact('form'));
 
     }
-
-    #[Route('/home', name: 'home')]
-    public function home(
-        UserRepository $repository
-    ): Response {
-        return $this->render('home/index.html.twig');
-    }
-
-    #[Route('/miniaide', name: 'miniaide')]
-    public function miniaide(
-        UserRepository $repository
-    ): Response {
-        return $this->render('home/miniaide.html.twig');
-    }
-
 
 }
