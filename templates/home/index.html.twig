@@ -1,1 +1,44 @@
 {% extends 'base.html.twig' %}
+{% block navbar %}
+    <div class="container fixed-top">
+    <nav class="navbar navbar-light bgbleu">
+        <div class="container-fluid">
+            <a class="navbar-brand"></a>
+            <form class="d-flex">
+                <a href="{{ path('faq') }}"><button class="btn bgvertmenthe btn-default me-1" type="button" id="btnaide">Aide</button></a>
+                <a href="{{ path('app_logout') }}"><button class="btn bggris" type="submit">Se déconnecter</button></a>
+            </form>
+        </div>
+    </nav>
+    </div>
+{% endblock %}
+
+{% block body %}
+    <body>
+    <section class="hero is-fullheight">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <div class="column is-6 is-offset-3">
+                    <div class="box">
+                        <h1 class="title txtbleu">Préambule</h1>
+                        <div class="field">
+                            <div class="control">
+                              <div class="preambule"><p>À savoir avant de commencer ...</p></div>&nbsp;
+
+                                <p>Merci de préparer au préalable les pièces constituants <br> votre dossier conso dont vous avez reçu la liste.</p>
+                                <p>Si votre section n’a pas participé à certaine des rubriques,<br> <b>merci de le préciser en inscrivant le chiffre: “ 0 ”.</b></p>
+                                <p>Des bulles d'aide <i class="fa-solid fa-circle-question fa-2xl"></i> s'affichent pour vous expliquer
+                                    <br> les informations à saisir. Survoler le pour y accéder.</p>&nbsp;
+                            </div>
+                        </div>
+                        <div class="field">
+                            <button class="btn is-round btn-lg" id="btn_href"><a href="" id="lien_href">Commencer</a></button>
+                            <style>#btn_href {background-color: #005AA1}</style><style>#lien_href {text-decoration: none; color: #FFFFFF}</style>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    </body>
+{% endblock %}

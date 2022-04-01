@@ -16,6 +16,24 @@ body{
     font-weight: bold;
 }
 
+.preambule{
+    text-align: center;
+    font-weight: bold;
+    font-style: italic;
+    text-decoration: underline;
+}
+
+.bgvertmenthe{
+    background-color: #59B5AA;
+    color: white;
+}
+
+.bggris{
+    background-color: #adadad;
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
 .txtbleu {
     color: #005AA1;
 }

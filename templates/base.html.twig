@@ -13,27 +13,25 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Recursive&display=swap" rel="stylesheet">
+
     {% block link %} {% endblock %}
     <title>{% block title %}Bilan Conso | CSF{% endblock %}</title>
 </head>
 
 {% block navbar %}
+<div class="container fixed-top">
     <nav class="navbar navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand"></a>
             <form class="d-flex">
-                <button class="btn btn-default me-1" type="button" id="btnaide">Aide</button>
-                <style>#btnaide  {background-color: #59B5AA; color: #FFFFFF; font-family: 'Recursive', sans-serif}</style>
-                <button class="btn"  id="btndeco" type="submit"><a href="{{ path('app_logout') }}" id="liendeco" > Se déconnecter</a></button>
-                <style>#btndeco  {background-color: #adadad}</style><style>#liendeco {text-decoration: none; color: #FFFFFF;font-family: 'Recursive', sans-serif}</style>
+                <a href="{{ path('faq') }}"><button class="btn bgvertmenthe btn-default me-1" type="button" id="btnaide">Aide</button></a>
+                <a href="{{ path('app_logout') }}"><button class="btn bggris" type="submit">Se déconnecter</button></a>
             </form>
         </div>
     </nav>
+</div>
 {% endblock %}
 {% block body %}
-    <body>
-    <p>je suis un caca</p>
-    </body>
 {% endblock %}
 
 {% block javascripts %}
