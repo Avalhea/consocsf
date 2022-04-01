@@ -24,7 +24,7 @@
             <form class="d-flex">
                 <button class="btn btn-default me-1" type="button" id="btnaide">Aide</button>
                 <style>#btnaide  {background-color: #59B5AA; color: #FFFFFF; font-family: 'Recursive', sans-serif}</style>
-                <button class="btn"  id="btndeco" type="submit">  <a href="{{ path('app_logout') }}" id="liendeco" > Se déconnecter</a></button>
+                <button class="btn"  id="btndeco" type="submit"><a href="{{ path('app_logout') }}" id="liendeco" > Se déconnecter</a></button>
                 <style>#btndeco  {background-color: #adadad}</style><style>#liendeco {text-decoration: none; color: #FFFFFF;font-family: 'Recursive', sans-serif}</style>
             </form>
         </div>
@@ -39,5 +39,4 @@
 {% block javascripts %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js">
     {#<script src="{{ asset('js/creationsortie.js') }}"></script>#}
-    {##}
 {% endblock %}

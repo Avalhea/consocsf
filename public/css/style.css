@@ -1,6 +1,8 @@
 body{
     font-family: 'Recursive', sans-serif;
-    background-image: url("../../public/img/fadedlogo.gif");
+    background: url("../img/fadedlogo.gif");
+    background-repeat: no-repeat;
+    background-size: 1300px 1150px;
 }
 
 #logo1{
@@ -10,3 +12,6 @@ body{
     width: 250px;
 }
 
+#miniaide_txt{
+    font-weight: bold;
+}
