@@ -1,8 +1,8 @@
 body{
     font-family: 'Recursive', sans-serif;
-    background: url("../img/fadedlogo.gif");
-    background-repeat: no-repeat;
-    background-size: 1300px 1150px;
+    background: url("../img/fadedlogo.gif") no-repeat;
+    background-size: 1250px 1100px;
+    min-height: 100vh;
 }
 
 #logo1{
@@ -15,3 +15,41 @@ body{
 #miniaide_txt{
     font-weight: bold;
 }
+
+.txtbleu {
+    color: #005AA1;
+}
+
+.bgbleu {
+    background-color: #005AA1;
+    color: white;
+}
+
+.txtorange {
+    color: #EE961B;
+}
+
+.bgorange {
+    background-color: #EE961B;
+    color: white;
+}
+
+.txtviolet {
+    color: #A981A6;
+}
+
+.bgviolet {
+    background-color: #A981A6;
+    color: white;
+}
+
+.txtbrun {
+    color: #9A6754;
+}
+
+.bgbrun {
+    background-color: #9A6754;
+    color: white;
+}
+
+
