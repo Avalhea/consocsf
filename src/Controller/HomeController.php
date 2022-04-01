@@ -22,7 +22,7 @@ class HomeController extends AbstractController
     public function home(
         UserRepository $repository
     ): Response {
-        return $this->render('home/gestionform.html.twig');
+        return $this->render('home/index.html.twig');
     }
 
     #[Route('/miniaide', name: 'miniaide')]
