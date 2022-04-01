@@ -11,7 +11,7 @@ class FormulaireController extends AbstractController
     #[Route('/formulaire/id', name: 'formulaire')]
     public function index(): Response
     {
-        return $this->render('formulaire/index.html.twig', [
+        return $this->render('formulaire/gestionform.html.twig', [
             'controller_name' => 'FormulaireController',
         ]);
     }
