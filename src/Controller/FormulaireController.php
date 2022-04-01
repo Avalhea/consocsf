@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class FormulaireController extends AbstractController
 {
-    #[Route('/formulaire', name: 'app_formulaire')]
+    #[Route('/formulaire/id', name: 'formulaire')]
     public function index(): Response
     {
         return $this->render('formulaire/index.html.twig', [

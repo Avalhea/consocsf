@@ -12,16 +12,17 @@
     }
 
     .deux {
-        background-color: rgba(86, 183, 172, 0.22);
-        height: 30vh;
+        background-color: #d7d7d7;
+        height: 43vh;
         width: 25vw;
         margin-top: 13vh;
         text-align: center;
-        padding-top: 9vh;
+        padding-top : 9vh;
+        contain: content;
     }
 
     .deux:hover {
-        background-color: rgba(86, 183, 172, 1);
+        background-color: #cecece;
         transition: 1s;
     }
 
@@ -32,10 +33,10 @@
 
         <div class="container deux">
             {{ form_start(form) }}
-            {{ form_row(form.password.first) }}<br>
-            {{ form_row(form.password.second) }}
+            Nouveau mot de passe : {{ form_row(form.password.first) }}<br>
+            Confirmation :  {{ form_row(form.password.second) }}
             <br>
-            <button type="submit" class="btn btn-light">Enregistrer</button>
+            <button type="submit" class="btn bgbleu">Enregistrer</button>
             {{ form_end(form) }}
         </div>
 

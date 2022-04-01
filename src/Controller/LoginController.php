@@ -21,6 +21,7 @@ class LoginController extends AbstractController
         // if ($this->getUser()) {
         //     return $this->redirectToRoute('target_path');
         // }
+
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
@@ -42,7 +43,9 @@ class LoginController extends AbstractController
 
     {
         $user = $this->getUser();
+
         $isPassword1234 = password_verify('1234',$user->getPassword());
+
 
         if($isPassword1234){
             return $this->redirectToRoute('mdp');
@@ -68,7 +71,7 @@ class LoginController extends AbstractController
             $user->setPassword($vraiMdp);
             $entityManager->persist($user);
             $entityManager->flush();
-        return $this->render('home/index.html.twig');
+            return $this->render('home/index.html.twig');
         }
 
         $this->addFlash('error', ' Les deux mots de passes ne correspondent pas !');
