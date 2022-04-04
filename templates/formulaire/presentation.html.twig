@@ -1,10 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
-{% endblock %}
-
-{% block title %}
-
+    {{ form_start(formPresentation) }}
+    UD : {{ form_row(formPresentation.UD) }}<br>
+    SECTION :  {{ form_row(formPresentation.nom) }}<br>
+    ADRESSE :  {{ form_row(formPresentation.joursEtHorairesOuverture) }}<br>
+    JOURS ET HORAIRES D'OUVERTURE :  {{ form_row(formPresentation) }}<br>
+    <button type="submit" class="btn bgbleu">Enregistrer</button>
+    {{ form_end(formPresentation) }}
 {% endblock %}
 

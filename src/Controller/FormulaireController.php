@@ -8,7 +8,6 @@ use App\Repository\LieuRepository;
 use App\Repository\StatutRepository;
 use App\Repository\UDRepository;
 use App\Repository\UserRepository;
-use Container1Q99vfo\getStatutRepositoryService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/formulaire', name: 'formulaire')]
 class FormulaireController extends AbstractController
 {
-    #[Route('/presentation/{idLieu}', name: 'presentation', requirements: ['idLieu' => '\d+'])]
+    #[Route('/presentation/{idLieu}', name: '_presentation', requirements: ['idLieu' => '\d+'])]
     public function presentation(LieuRepository $lieuRepository, UDRepository $UDRepository, UserRepository $userRepository,StatutRepository$statutRepository ,EntityManagerInterface $entityManager,
                                  Request $request, $idLieu=0): Response
     {
@@ -37,10 +36,10 @@ class FormulaireController extends AbstractController
                 $entityManager->persist($lieu);
                 $entityManager->flush();
 
-                return $this->redirectToRoute('_permanence',$idLieu);
+                return $this->redirectToRoute('formulaire_permanence',$idLieu);
             }
 
-            return $this->renderForm('index.html.twig',
+            return $this->renderForm('formulaire/presentation.html.twig',
                 compact('formPresentation')
             );
 
@@ -55,14 +54,14 @@ class FormulaireController extends AbstractController
                 $entityManager->persist($lieu);
                 $entityManager->flush();
 
-                return $this->redirectToRoute('permanence',$idLieu);
+                return $this->redirectToRoute('formulaire_permanence',$idLieu);
 
             }
-        }return $this->renderForm('index.html.twig',
+        }return $this->renderForm('formulaire/presentation.html.twig',
         compact('formPresentation')
     );
     }
-    #[Route('/permanence/{idLieu}', name: 'permanence', requirements: ['idLieu' => '\d+'])]
+    #[Route('/permanence/{idLieu}', name: '_permanence', requirements: ['idLieu' => '\d+'])]
     public function permanence(LieuRepository $lieuRepository, UDRepository $UDRepository, UserRepository $userRepository,StatutRepository$statutRepository ,EntityManagerInterface $entityManager,
                                Request $request, $idLieu=0): Response
     {
