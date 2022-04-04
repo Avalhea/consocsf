@@ -20,7 +20,7 @@ class FormulaireController extends AbstractController
 {
     #[Route('/presentation/{idLieu}', name: 'presentation', requirements: ['idLieu' => '\d+'])]
     public function presentation(LieuRepository $lieuRepository, UDRepository $UDRepository, UserRepository $userRepository,StatutRepository$statutRepository ,EntityManagerInterface $entityManager,
-                          Request $request, $idLieu=0): Response
+                                 Request $request, $idLieu=0): Response
     {
 
         if ($idLieu == 0) {
@@ -40,7 +40,7 @@ class FormulaireController extends AbstractController
                 return $this->redirectToRoute('_permanence',$idLieu);
             }
 
-            return $this->renderForm('formulaire/presentation.html.twig',
+            return $this->renderForm('index.html.twig',
                 compact('formPresentation')
             );
 
@@ -58,19 +58,15 @@ class FormulaireController extends AbstractController
                 return $this->redirectToRoute('permanence',$idLieu);
 
             }
-        }return $this->renderForm('formulaire/presentation.html.twig',
+        }return $this->renderForm('index.html.twig',
         compact('formPresentation')
     );
     }
     #[Route('/permanence/{idLieu}', name: 'permanence', requirements: ['idLieu' => '\d+'])]
     public function permanence(LieuRepository $lieuRepository, UDRepository $UDRepository, UserRepository $userRepository,StatutRepository$statutRepository ,EntityManagerInterface $entityManager,
-                          Request $request, $idLieu=0): Response
+                               Request $request, $idLieu=0): Response
     {
-        return $this->renderForm('formulaire/presentation.html.twig',
+        return $this->renderForm('index.html.twig',
             compact(''));
     }
-
-
 }
-
-

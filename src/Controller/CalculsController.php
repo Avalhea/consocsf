@@ -11,7 +11,7 @@ class CalculsController extends AbstractController
     #[Route('/calculs', name: 'app_calculs')]
     public function index(): Response
     {
-        return $this->render('calculs/index.html.twig', [
+        return $this->render('calculs/gestionform.html.twig', [
             'controller_name' => 'CalculsController',
         ]);
     }
