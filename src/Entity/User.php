@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -27,6 +29,18 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(targetEntity: Echelle::class)]
     #[ORM\JoinColumn(nullable: false)]
     private $echelle;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Lieu::class)]
+    private $lieux;
+
+    #[ORM\OneToOne(targetEntity: UD::class, cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: true)]
+    private $ud;
+
+    public function __construct()
+    {
+        $this->lieux = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -106,6 +120,48 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface
     public function setEchelle(?Echelle $echelle): self
     {
         $this->echelle = $echelle;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Lieu>
+     */
+    public function getLieux(): Collection
+    {
+        return $this->lieux;
+    }
+
+    public function addLieux(Lieu $lieux): self
+    {
+        if (!$this->lieux->contains($lieux)) {
+            $this->lieux[] = $lieux;
+            $lieux->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLieux(Lieu $lieux): self
+    {
+        if ($this->lieux->removeElement($lieux)) {
+            // set the owning side to null (unless already changed)
+            if ($lieux->getUser() === $this) {
+                $lieux->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getUd(): ?UD
+    {
+        return $this->ud;
+    }
+
+    public function setUd(UD $ud): self
+    {
+        $this->ud = $ud;
 
         return $this;
     }

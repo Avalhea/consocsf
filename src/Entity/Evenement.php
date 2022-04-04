@@ -13,9 +13,6 @@ class Evenement
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 100, nullable: true)]
-    private $libelle;
-
     #[ORM\Column(type: 'text', nullable: true)]
     private $detailEvenement;
 
@@ -26,18 +23,6 @@ class Evenement
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getLibelle(): ?string
-    {
-        return $this->libelle;
-    }
-
-    public function setLibelle(?string $libelle): self
-    {
-        $this->libelle = $libelle;
-
-        return $this;
     }
 
     public function getDetailEvenement(): ?string

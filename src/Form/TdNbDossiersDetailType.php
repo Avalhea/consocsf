@@ -14,7 +14,6 @@ class TdNbDossiersDetailType extends AbstractType
         $builder
             ->add('nbDossiers')
             ->add('typologieDossier')
-            ->add('lieu')
         ;
     }
 

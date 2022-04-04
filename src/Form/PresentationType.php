@@ -16,8 +16,7 @@ class PresentationType extends AbstractType
             ->add('nom')
             ->add('adresse')
             ->add('joursEtHorairesOuverture')
-        ; //TODO  revoir l'entité : Nb consommateurs ? / Actions/activités à valoriser (text) etc..
-    }
+;    }
 
     public function configureOptions(OptionsResolver $resolver): void
     {

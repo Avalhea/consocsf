@@ -64,6 +64,13 @@ class Lieu
     #[ORM\Column(type: 'text', nullable: true)]
     private $joursEtHorairesOuverture;
 
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'lieux')]
+    #[ORM\JoinColumn(nullable: true)]
+    private $user;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private $NbConsomRensTel;
+
     public function __construct()
     {
         $this->permanence = new ArrayCollection();
@@ -396,6 +403,30 @@ class Lieu
     public function setJoursEtHorairesOuverture(?string $joursEtHorairesOuverture): self
     {
         $this->joursEtHorairesOuverture = $joursEtHorairesOuverture;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getNbConsomRensTel(): ?int
+    {
+        return $this->NbConsomRensTel;
+    }
+
+    public function setNbConsomRensTel(?int $NbConsomRensTel): self
+    {
+        $this->NbConsomRensTel = $NbConsomRensTel;
 
         return $this;
     }
