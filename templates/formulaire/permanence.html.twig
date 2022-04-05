@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ form_start(formPermanence) }}
+    Nombre de jours de permanence par an : {{ form_row(formPermanence.nbJours) }}<br>
+    Nombre d’heures de permanences par an :  {{ form_row(formPermanence.nbHeures) }}<br>
+    Nombre de dossiers consommation/ vie quotidienne simples :  {{ form_row(formPermanence.nbDossierSimple) }}<br>
+    Nombre de dossiers consommation/ vie quotidienne difficiles :  {{ form_row(formPermanence.nbDossierDifficile) }}<br>
+    <button type="submit" class="btn bgbleu">Enregistrer</button>
+    {{ form_end(formPermanence) }}
+{% endblock %}

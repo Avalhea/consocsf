@@ -4,8 +4,8 @@
     {{ form_start(formPresentation) }}
     UD : {{ form_row(formPresentation.UD) }}<br>
     SECTION :  {{ form_row(formPresentation.nom) }}<br>
-    ADRESSE :  {{ form_row(formPresentation.joursEtHorairesOuverture) }}<br>
-    JOURS ET HORAIRES D'OUVERTURE :  {{ form_row(formPresentation) }}<br>
+    ADRESSE :  {{ form_row(formPresentation.adresse) }}<br>
+    JOURS ET HORAIRES D'OUVERTURE :  {{ form_row(formPresentation.joursEtHorairesOuverture) }}<br>
     <button type="submit" class="btn bgbleu">Enregistrer</button>
     {{ form_end(formPresentation) }}
 {% endblock %}

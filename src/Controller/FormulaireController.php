@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Lieu;
+use App\Entity\Permanence;
+use App\Form\PermanencesType;
 use App\Form\PresentationType;
 use App\Repository\LieuRepository;
 use App\Repository\StatutRepository;
@@ -18,8 +20,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class FormulaireController extends AbstractController
 {
     #[Route('/presentation/{idLieu}', name: '_presentation', requirements: ['idLieu' => '\d+'])]
-    public function presentation(LieuRepository $lieuRepository, UDRepository $UDRepository, UserRepository $userRepository,StatutRepository$statutRepository ,EntityManagerInterface $entityManager,
-                                 Request $request, $idLieu=0): Response
+    public function presentation(LieuRepository $lieuRepository, UDRepository $UDRepository, UserRepository $userRepository, StatutRepository $statutRepository, EntityManagerInterface $entityManager,
+                                 Request        $request, $idLieu = 0): Response
     {
 
         if ($idLieu == 0) {
@@ -36,14 +38,14 @@ class FormulaireController extends AbstractController
                 $entityManager->persist($lieu);
                 $entityManager->flush();
 
-                return $this->redirectToRoute('formulaire_permanence',$idLieu);
+                return $this->redirectToRoute('formulaire_permanence', $idLieu);
             }
 
             return $this->renderForm('formulaire/presentation.html.twig',
                 compact('formPresentation')
             );
 
-        } else { //si il existe déjà un lieu (ex : après avoir cliqué sur modifier au niveau des bilans US/Nationaux, ou quand on clique sur 'suivant')
+        } else { //s'il existe déjà un lieu (ex : après avoir cliqué sur modifier au niveau des bilans US/Nationaux, ou quand on clique sur 'suivant')
 
             $lieu = $lieuRepository->find($idLieu);
             $formPresentation = $this->createForm(presentationType::class, $lieu);
@@ -54,18 +56,35 @@ class FormulaireController extends AbstractController
                 $entityManager->persist($lieu);
                 $entityManager->flush();
 
-                return $this->redirectToRoute('formulaire_permanence',$idLieu);
+                return $this->redirectToRoute('formulaire_permanence', $idLieu);
 
             }
-        }return $this->renderForm('formulaire/presentation.html.twig',
-        compact('formPresentation')
-    );
+        }
+        return $this->renderForm('formulaire/presentation.html.twig',
+            compact('formPresentation')
+        );
     }
-    #[Route('/permanence/{idLieu}', name: '_permanence', requirements: ['idLieu' => '\d+'])]
-    public function permanence(LieuRepository $lieuRepository, UDRepository $UDRepository, UserRepository $userRepository,StatutRepository$statutRepository ,EntityManagerInterface $entityManager,
-                               Request $request, $idLieu=0): Response
+
+    #[Route('/permanence/{idLieu}', name: 'permanence', requirements: ['idLieu' => '\d+'])]
+    public function permanence(LieuRepository $lieuRepository, UDRepository $UDRepository, UserRepository $userRepository, StatutRepository $statutRepository, EntityManagerInterface $entityManager,
+                               Request        $request, $idLieu = 0): Response
     {
-        return $this->renderForm('index.html.twig',
-            compact(''));
-    }
+
+//        dump($lieu);
+            $Permanence = new Permanence();
+            $formPermanence = $this->createForm(PermanencesType::class);
+            $formPermanence->handleRequest($request);
+
+            if ($formPermanence->isSubmitted() && $formPermanence->isValid()) {
+                $lieu = $lieuRepository->find($idLieu);
+
+                $entityManager->persist($Permanence);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('home', $idLieu);
+            }
+            return $this->renderForm('formulaire/permanence.html.twig',
+                compact('formPermanence'));
+
+        }
 }

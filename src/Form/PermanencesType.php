@@ -14,26 +14,19 @@ class PermanencesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nb_jours', EntityType::class,
-                ["class"=>Permanence::class,
-                    "choice_label"=>"name",
-                    'label' => "Nombre de jours de permanence par an : "])
+            ->add('nbJours', EntityType::class,
+                ["class"=>Permanence::class])
 
-            ->add('nb_heures', EntityType::class,
-                ["class"=>Permanence::class,
-                    "choice_label"=>"name",
-                    'label' => "Nombre d'heures de permanence par an : "])
+            ->add('nbHeures', EntityType::class,
+                ["class"=>Permanence::class])
 
-            ->add('nb_dossier_simple', EntityType::class,
+            ->add('nbDossierSimple', EntityType::class,
                 ["class"=>Permanence::class,
-                    "choice_label"=>"name",
-                    'label' => "Nombre de dossiers consommation/ vie quotidienne simples "])
+                    "choice_label"=>"name"])
 
-            ->add('nb_dossier_difficile', EntityType::class,
+            ->add('nbDossierDifficile', EntityType::class,
                 ["class"=>Permanence::class,
-                    "choice_label"=>"name",
-                    'label' => "Nombre de dossiers consommation/ vie quotidienne difficiles "])
-        ;
+                    "choice_label"=>"name"]);
 
 
     }
@@ -41,7 +34,7 @@ class PermanencesType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Lieu::class,
+            'data_class' => PermanencesType::class,
         ]);
     }
 }
