@@ -37,4 +37,15 @@
 {% block javascripts %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js">
     {#<script src="{{ asset('js/creationsortie.js') }}"></script>#}
+    type="text/javascript">
+        function verif(evt) {
+        var keyCode = evt.which ? evt.which : evt.keyCode;
+        var accept = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        if (accept.indexOf(String.fromCharCode(keyCode)) >= 0) {
+        return true;
+    } else {
+        return false;
+    }}
+</script>
+
 {% endblock %}
