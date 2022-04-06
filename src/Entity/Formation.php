@@ -19,12 +19,11 @@ class Formation
     #[ORM\Column(type: 'string', length: 60)]
     private $themeFormation;
 
-    #[ORM\ManyToOne(targetEntity: Lieu::class, inversedBy: 'formation')]
-    #[ORM\JoinColumn(nullable: false)]
-    private $lieu;
-
     #[ORM\Column(type: 'integer', nullable: true)]
     private $nbFormation;
+
+    #[ORM\ManyToOne(targetEntity: Lieu::class, inversedBy: 'formation')]
+    private $lieu;
 
     public function getId(): ?int
     {
@@ -55,18 +54,6 @@ class Formation
         return $this;
     }
 
-    public function getLieu(): ?Lieu
-    {
-        return $this->lieu;
-    }
-
-    public function setLieu(?Lieu $lieu): self
-    {
-        $this->lieu = $lieu;
-
-        return $this;
-    }
-
     public function getNbFormation(): ?int
     {
         return $this->nbFormation;
@@ -75,6 +62,18 @@ class Formation
     public function setNbFormation(?int $nbFormation): self
     {
         $this->nbFormation = $nbFormation;
+
+        return $this;
+    }
+
+    public function getLieu(): ?Lieu
+    {
+        return $this->lieu;
+    }
+
+    public function setLieu(?Lieu $lieu): self
+    {
+        $this->lieu = $lieu;
 
         return $this;
     }

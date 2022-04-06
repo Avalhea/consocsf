@@ -24,8 +24,8 @@ class Communication
     private $typeCommunication;
 
     #[ORM\ManyToOne(targetEntity: Lieu::class, inversedBy: 'communication')]
-    #[ORM\JoinColumn(nullable: false)]
     private $lieu;
+
 
     public function getId(): ?int
     {
@@ -79,4 +79,5 @@ class Communication
 
         return $this;
     }
+
 }

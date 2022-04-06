@@ -38,7 +38,7 @@ class FormulaireController extends AbstractController
                 $entityManager->persist($lieu);
                 $entityManager->flush();
 
-                return $this->redirectToRoute('formulaire_permanence', $idLieu);
+                return $this->redirectToRoute('formulaire_permanence', array('idLieu'=>$idLieu));
             }
 
             return $this->renderForm('formulaire/presentation.html.twig',
@@ -56,7 +56,7 @@ class FormulaireController extends AbstractController
                 $entityManager->persist($lieu);
                 $entityManager->flush();
 
-                return $this->redirectToRoute('formulaire_permanence', $idLieu);
+                return $this->redirectToRoute('formulaire_permanence', array('idLieu'=>$idLieu));
 
             }
         }
@@ -65,7 +65,7 @@ class FormulaireController extends AbstractController
         );
     }
 
-    #[Route('/permanence/{idLieu}', name: 'permanence', requirements: ['idLieu' => '\d+'])]
+    #[Route('/permanence/{idLieu}', name: '_permanence', requirements: ['idLieu' => '\d+'])]
     public function permanence(LieuRepository $lieuRepository, UDRepository $UDRepository, UserRepository $userRepository, StatutRepository $statutRepository, EntityManagerInterface $entityManager,
                                Request        $request, $idLieu = 0): Response
     {
@@ -74,14 +74,14 @@ class FormulaireController extends AbstractController
             $Permanence = new Permanence();
             $formPermanence = $this->createForm(PermanencesType::class);
             $formPermanence->handleRequest($request);
-
+            dump($idLieu);
             if ($formPermanence->isSubmitted() && $formPermanence->isValid()) {
                 $lieu = $lieuRepository->find($idLieu);
 
                 $entityManager->persist($Permanence);
                 $entityManager->flush();
 
-                return $this->redirectToRoute('home', $idLieu);
+                return $this->redirectToRoute('home', array('lieu'=>$lieu));
             }
             return $this->renderForm('formulaire/permanence.html.twig',
                 compact('formPermanence'));

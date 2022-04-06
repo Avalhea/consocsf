@@ -21,8 +21,8 @@ class Representation
     private $categorie;
 
     #[ORM\ManyToOne(targetEntity: Lieu::class, inversedBy: 'representation')]
-    #[ORM\JoinColumn(nullable: false)]
     private $lieu;
+
 
     public function getId(): ?int
     {
@@ -64,4 +64,5 @@ class Representation
 
         return $this;
     }
+
 }

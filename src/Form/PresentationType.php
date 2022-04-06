@@ -17,7 +17,7 @@ class PresentationType extends AbstractType
             ->add('UD', EntityType::class,
                 ["class"=>UD::class,
                     "choice_label"=>"libelle",
-                    'label' => "UD : ",'mapped' => false])
+                    'label' => "UD : "])
             ->add('nom')
             ->add('adresse')
             ->add('joursEtHorairesOuverture')

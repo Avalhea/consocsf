@@ -29,8 +29,8 @@ class Permanence
     private $nbTotalDossiers;
 
     #[ORM\ManyToOne(targetEntity: Lieu::class, inversedBy: 'permanence')]
-    #[ORM\JoinColumn(nullable: false)]
     private $lieu;
+
 
     public function getId(): ?int
     {
@@ -108,4 +108,5 @@ class Permanence
 
         return $this;
     }
+
 }

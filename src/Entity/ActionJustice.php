@@ -19,9 +19,9 @@ class ActionJustice
     #[ORM\Column(type: 'integer', nullable: true)]
     private $nbAccompagnement;
 
-    #[ORM\ManyToOne(targetEntity: Lieu::class, inversedBy: 'atelier')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Lieu::class, inversedBy: 'actionJustice')]
     private $lieu;
+
 
     public function getId(): ?int
     {
@@ -48,6 +48,18 @@ class ActionJustice
     public function setNbAccompagnement(?int $nbAccompagnement): self
     {
         $this->nbAccompagnement = $nbAccompagnement;
+
+        return $this;
+    }
+
+    public function getLieu(): ?Lieu
+    {
+        return $this->lieu;
+    }
+
+    public function setLieu(?Lieu $lieu): self
+    {
+        $this->lieu = $lieu;
 
         return $this;
     }

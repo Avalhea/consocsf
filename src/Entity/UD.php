@@ -18,12 +18,16 @@ class UD
     #[ORM\Column(type: 'string', length: 20)]
     private $libelle;
 
-    #[ORM\ManyToMany(targetEntity: Lieu::class, mappedBy: 'ud')]
+    #[ORM\OneToMany(mappedBy: 'ud',targetEntity: Lieu::class)]
     private $lieus;
+
+    #[ORM\OneToMany(mappedBy: 'UD', targetEntity: Lieu::class)]
+    private $lieux;
 
     public function __construct()
     {
         $this->lieus = new ArrayCollection();
+        $this->lieux = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -46,27 +50,31 @@ class UD
     /**
      * @return Collection<int, Lieu>
      */
-    public function getLieus(): Collection
+    public function getLieux(): Collection
     {
-        return $this->lieus;
+        return $this->lieux;
     }
 
-    public function addLieu(Lieu $lieu): self
+    public function addLieux(Lieu $lieux): self
     {
-        if (!$this->lieus->contains($lieu)) {
-            $this->lieus[] = $lieu;
-            $lieu->addUd($this);
+        if (!$this->lieux->contains($lieux)) {
+            $this->lieux[] = $lieux;
+            $lieux->setUD($this);
         }
 
         return $this;
     }
 
-    public function removeLieu(Lieu $lieu): self
+    public function removeLieux(Lieu $lieux): self
     {
-        if ($this->lieus->removeElement($lieu)) {
-            $lieu->removeUd($this);
+        if ($this->lieux->removeElement($lieux)) {
+            // set the owning side to null (unless already changed)
+            if ($lieux->getUD() === $this) {
+                $lieux->setUD(null);
+            }
         }
 
         return $this;
     }
+
 }

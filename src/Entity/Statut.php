@@ -19,11 +19,13 @@ class Statut
     private $libelle;
 
     #[ORM\OneToMany(mappedBy: 'statut', targetEntity: Lieu::class)]
-    private $lieus;
+    private $lieux;
+
 
     public function __construct()
     {
         $this->lieus = new ArrayCollection();
+        $this->lieux = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -51,25 +53,34 @@ class Statut
         return $this->lieus;
     }
 
-    public function addLieu(Lieu $lieu): self
+    /**
+     * @return Collection<int, Lieu>
+     */
+    public function getLieux(): Collection
     {
-        if (!$this->lieus->contains($lieu)) {
-            $this->lieus[] = $lieu;
-            $lieu->setStatut($this);
+        return $this->lieux;
+    }
+
+    public function addLieux(Lieu $lieux): self
+    {
+        if (!$this->lieux->contains($lieux)) {
+            $this->lieux[] = $lieux;
+            $lieux->setStatut($this);
         }
 
         return $this;
     }
 
-    public function removeLieu(Lieu $lieu): self
+    public function removeLieux(Lieu $lieux): self
     {
-        if ($this->lieus->removeElement($lieu)) {
+        if ($this->lieux->removeElement($lieux)) {
             // set the owning side to null (unless already changed)
-            if ($lieu->getStatut() === $this) {
-                $lieu->setStatut(null);
+            if ($lieux->getStatut() === $this) {
+                $lieux->setStatut(null);
             }
         }
 
         return $this;
     }
+
 }

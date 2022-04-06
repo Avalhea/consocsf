@@ -17,8 +17,8 @@ class Evenement
     private $detailEvenement;
 
     #[ORM\ManyToOne(targetEntity: Lieu::class, inversedBy: 'evenement')]
-    #[ORM\JoinColumn(nullable: false)]
     private $lieu;
+
 
     public function getId(): ?int
     {
@@ -48,4 +48,5 @@ class Evenement
 
         return $this;
     }
+
 }

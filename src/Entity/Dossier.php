@@ -21,8 +21,8 @@ class Dossier
     private $typologieDossier;
 
     #[ORM\ManyToOne(targetEntity: Lieu::class, inversedBy: 'dossier')]
-    #[ORM\JoinColumn(nullable: false)]
-    private $lieu;
+    private $user;
+
 
     public function getId(): ?int
     {
@@ -53,15 +53,16 @@ class Dossier
         return $this;
     }
 
-    public function getLieu(): ?Lieu
+    public function getUser(): ?Lieu
     {
-        return $this->lieu;
+        return $this->user;
     }
 
-    public function setLieu(?Lieu $lieu): self
+    public function setUser(?Lieu $user): self
     {
-        $this->lieu = $lieu;
+        $this->user = $user;
 
         return $this;
     }
+
 }

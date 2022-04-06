@@ -24,63 +24,58 @@ class Lieu
     #[ORM\Column(type: 'integer', nullable: true)]
     private $nbBenevole;
 
-
-    #[ORM\ManyToOne(targetEntity: Statut::class, inversedBy: 'lieus')]
-    private $statut;
-
-    #[ORM\ManyToOne(targetEntity: Echelle::class, inversedBy: 'lieus')]
-    private $echelle;
-
-    #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Permanence::class, orphanRemoval: true)]
-    private $permanence;
-
-    #[ORM\ManyToOne(targetEntity: UD::class, inversedBy: 'lieus')]
-    private $ud;
-
-    #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Representation::class, orphanRemoval: true)]
-    private $representation;
-
-    #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Atelier::class, orphanRemoval: true)]
-    private $atelier;
-
-    #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Communication::class, orphanRemoval: true)]
-    private $communication;
-
-    #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Formation::class, orphanRemoval: true)]
-    private $formation;
-
-    #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Evenement::class, orphanRemoval: true)]
-    private $actionJustice;
-
-    #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Evenement::class, orphanRemoval: true)]
-    private $evenement;
-
-    #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Dossier::class, orphanRemoval: true)]
-    private $dossier;
-
     #[ORM\Column(type: 'string', length: 254, nullable: true)]
     private $adresse;
 
     #[ORM\Column(type: 'text', nullable: true)]
     private $joursEtHorairesOuverture;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'lieux')]
-    #[ORM\JoinColumn(nullable: true)]
-    private $user;
-
     #[ORM\Column(type: 'integer', nullable: true)]
     private $NbConsomRensTel;
 
+    #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Evenement::class)]
+    private $evenement;
+
+    #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Dossier::class)]
+    private $dossier;
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'lieux')]
+    private $user;
+
+    #[ORM\ManyToOne(targetEntity: Statut::class, inversedBy: 'lieux')]
+    private $statut;
+
+    #[ORM\ManyToOne(targetEntity: UD::class, inversedBy: 'lieux')]
+    private $UD;
+
+    #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Permanence::class)]
+    private $permanence;
+
+    #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Representation::class)]
+    private $representation;
+
+    #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Atelier::class)]
+    private $atelier;
+
+    #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Communication::class)]
+    private $communication;
+
+    #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Formation::class)]
+    private $formation;
+
+    #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: ActionJustice::class)]
+    private $actionJustice;
+
     public function __construct()
     {
+        $this->evenement = new ArrayCollection();
+        $this->dossier = new ArrayCollection();
         $this->permanence = new ArrayCollection();
-        $this->ud = new ArrayCollection();
         $this->representation = new ArrayCollection();
         $this->atelier = new ArrayCollection();
         $this->communication = new ArrayCollection();
         $this->formation = new ArrayCollection();
-        $this->evenement = new ArrayCollection();
-        $this->dossier = new ArrayCollection();
+        $this->actionJustice = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -125,6 +120,115 @@ class Lieu
     }
 
 
+    public function getAdresse(): ?string
+    {
+        return $this->adresse;
+    }
+
+    public function setAdresse(?string $adresse): self
+    {
+        $this->adresse = $adresse;
+
+        return $this;
+    }
+
+    public function getJoursEtHorairesOuverture(): ?string
+    {
+        return $this->joursEtHorairesOuverture;
+    }
+
+    public function setJoursEtHorairesOuverture(?string $joursEtHorairesOuverture): self
+    {
+        $this->joursEtHorairesOuverture = $joursEtHorairesOuverture;
+
+        return $this;
+    }
+
+
+    public function getNbConsomRensTel(): ?int
+    {
+        return $this->NbConsomRensTel;
+    }
+
+    public function setNbConsomRensTel(?int $NbConsomRensTel): self
+    {
+        $this->NbConsomRensTel = $NbConsomRensTel;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Evenement>
+     */
+    public function getEvenement(): Collection
+    {
+        return $this->evenement;
+    }
+
+    public function addEvenement(Evenement $evenement): self
+    {
+        if (!$this->evenement->contains($evenement)) {
+            $this->evenement[] = $evenement;
+            $evenement->setLieu($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvenement(Evenement $evenement): self
+    {
+        if ($this->evenement->removeElement($evenement)) {
+            // set the owning side to null (unless already changed)
+            if ($evenement->getLieu() === $this) {
+                $evenement->setLieu(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Dossier>
+     */
+    public function getDossier(): Collection
+    {
+        return $this->dossier;
+    }
+
+    public function addDossier(Dossier $dossier): self
+    {
+        if (!$this->dossier->contains($dossier)) {
+            $this->dossier[] = $dossier;
+            $dossier->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDossier(Dossier $dossier): self
+    {
+        if ($this->dossier->removeElement($dossier)) {
+            // set the owning side to null (unless already changed)
+            if ($dossier->getUser() === $this) {
+                $dossier->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
     public function getStatut(): ?Statut
     {
         return $this->statut;
@@ -133,6 +237,18 @@ class Lieu
     public function setStatut(?Statut $statut): self
     {
         $this->statut = $statut;
+
+        return $this;
+    }
+
+    public function getUD(): ?UD
+    {
+        return $this->UD;
+    }
+
+    public function setUD(?UD $UD): self
+    {
+        $this->UD = $UD;
 
         return $this;
     }
@@ -163,30 +279,6 @@ class Lieu
                 $permanence->setLieu(null);
             }
         }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, UD>
-     */
-    public function getUd(): Collection
-    {
-        return $this->ud;
-    }
-
-    public function addUd(UD $ud): self
-    {
-        if (!$this->ud->contains($ud)) {
-            $this->ud[] = $ud;
-        }
-
-        return $this;
-    }
-
-    public function removeUd(UD $ud): self
-    {
-        $this->ud->removeElement($ud);
 
         return $this;
     }
@@ -311,122 +403,32 @@ class Lieu
         return $this;
     }
 
-    public function getActionJustice(): ?ActionJustice
-    {
-        return $this->ActionJustice;
-    }
-
-    public function setActionJustice(?ActionJustice $ActionJustice): self
-    {
-        $this->ActionJustice = $ActionJustice;
-
-        return $this;
-    }
-
     /**
-     * @return Collection<int, Evenement>
+     * @return Collection<int, ActionJustice>
      */
-    public function getEvenement(): Collection
+    public function getActionJustice(): Collection
     {
-        return $this->evenement;
+        return $this->actionJustice;
     }
 
-    public function addEvenement(Evenement $evenement): self
+    public function addActionJustice(ActionJustice $actionJustice): self
     {
-        if (!$this->evenement->contains($evenement)) {
-            $this->evenement[] = $evenement;
-            $evenement->setLieu($this);
+        if (!$this->actionJustice->contains($actionJustice)) {
+            $this->actionJustice[] = $actionJustice;
+            $actionJustice->setLieu($this);
         }
 
         return $this;
     }
 
-    public function removeEvenement(Evenement $evenement): self
+    public function removeActionJustice(ActionJustice $actionJustice): self
     {
-        if ($this->evenement->removeElement($evenement)) {
+        if ($this->actionJustice->removeElement($actionJustice)) {
             // set the owning side to null (unless already changed)
-            if ($evenement->getLieu() === $this) {
-                $evenement->setLieu(null);
+            if ($actionJustice->getLieu() === $this) {
+                $actionJustice->setLieu(null);
             }
         }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Dossier>
-     */
-    public function getDossier(): Collection
-    {
-        return $this->dossier;
-    }
-
-    public function addDossier(Dossier $dossier): self
-    {
-        if (!$this->dossier->contains($dossier)) {
-            $this->dossier[] = $dossier;
-            $dossier->setLieu($this);
-        }
-
-        return $this;
-    }
-
-    public function removeDossier(Dossier $dossier): self
-    {
-        if ($this->dossier->removeElement($dossier)) {
-            // set the owning side to null (unless already changed)
-            if ($dossier->getLieu() === $this) {
-                $dossier->setLieu(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getAdresse(): ?string
-    {
-        return $this->adresse;
-    }
-
-    public function setAdresse(?string $adresse): self
-    {
-        $this->adresse = $adresse;
-
-        return $this;
-    }
-
-    public function getJoursEtHorairesOuverture(): ?string
-    {
-        return $this->joursEtHorairesOuverture;
-    }
-
-    public function setJoursEtHorairesOuverture(?string $joursEtHorairesOuverture): self
-    {
-        $this->joursEtHorairesOuverture = $joursEtHorairesOuverture;
-
-        return $this;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    public function getNbConsomRensTel(): ?int
-    {
-        return $this->NbConsomRensTel;
-    }
-
-    public function setNbConsomRensTel(?int $NbConsomRensTel): self
-    {
-        $this->NbConsomRensTel = $NbConsomRensTel;
 
         return $this;
     }

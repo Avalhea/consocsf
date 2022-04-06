@@ -23,8 +23,8 @@ class Atelier
     private $nbPersonnesTotal;
 
     #[ORM\ManyToOne(targetEntity: Lieu::class, inversedBy: 'atelier')]
-    #[ORM\JoinColumn(nullable: false)]
     private $lieu;
+
 
     public function getId(): ?int
     {
@@ -78,4 +78,5 @@ class Atelier
 
         return $this;
     }
+
 }
