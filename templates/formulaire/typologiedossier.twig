@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block navbar %}
+    <div class="container" style="top: 0">
+        <nav class="navbar navbar-light bgviolet">
+            <div class="container-fluid">
+                <a class="navbar-brand"></a>
+                <form class="d-flex">
+                    <a href="{{ path('faq') }}"><button class="btn bgvertmenthe btn-default me-1" type="button" id="btnaide">Aide</button></a>
+                    <button class="btn bggris" type="button"><a href="{{ path('app_logout') }}" class="bggris">Se déconnecter</a></button>
+                </form>
+            </div>
+        </nav>
+    </div>
+{#    TODO changer ça ^^^^^^^^^   et variabiliser la couleur plutôt que toute la navbar #}
+{% endblock %}
+
+{% block body %}
+    <body>
+    <section class="hero is-fullheight">
+        <div class="hero-body">
+            <div class="container has-text-centered" >
+                <div class="column is-6 is-offset-3">
+                    <div class="box" >
+                        <h1 class="title txtviolet">Permanences</h1>
+                        <div class="field" style="height : 500px ;overflow : scroll">
+                            {{ form_start(formDossier) }}
+                            Communications électroniques : {{ form_row(formDossier.CommunicationsElectroniques) }}<br>
+                            Banque : {{ form_row(formDossier.Banque) }}<br>
+                            Surendettement : {{ form_row(formDossier.Surendettement) }}<br>
+                            Assurance : {{ form_row(formDossier.Assurance) }}<br>
+                            Santé : {{ form_row(formDossier.Sante) }}<br>
+                            Services (voyages, prestations...) : {{ form_row(formDossier.Services) }}<br>
+                            Energie : {{ form_row(formDossier.Energie) }}<br>
+                            Eau : {{ form_row(formDossier.Eau) }}<br>
+                            Automobile : {{ form_row(formDossier.Automobile) }}<br>
+                            Logement ; location (logement social) : {{ form_row(formDossier.LogementLocSocial) }}<br>
+                            Logement ; location (logement privé) : {{ form_row(formDossier.LogementLocPriv) }}<br>
+                            Logement : (co)propriétaire : {{ form_row(formDossier.LogementPropri) }}<br>
+                            Travaux : {{ form_row(formDossier.Travaux) }}<br>
+                            Pratiques commerciales déloyales : {{ form_row(formDossier.PratiquesComDeloyales) }}<br>
+                            Défense des droits/ accès aux droits : {{ form_row(formDossier.DefenseDroitsAcces) }}<br>
+                            Autres : {{ form_row(formDossier.NbAutre) }}<br>
+                            Précisez les thèmes : {{ form_row(formDossier.AutreLibelle) }}<br>
+
+                            <button type="submit" class="btn bgviolet">Suivant</button>
+                            {{ form_end(formDossier) }}
+                            <a href="{{ path('formulaire_presentation',{'idLieu':idLieu} ) }}"><button class="btn bgviolet" id="lien_precedent">Précedent</button></a>
+                            <style>#lien_precedent {text-decoration: none; color: #FFFFFF;font-family: 'Recursive', sans-serif}</style>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    </body>
+{% endblock %}

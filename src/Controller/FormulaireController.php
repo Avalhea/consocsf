@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Dossiers;
 use App\Entity\Lieu;
 use App\Entity\Permanence;
+use App\Form\DossierType;
 use App\Form\PermanencesType;
 use App\Form\PermanenceType;
 use App\Form\PresentationType;
@@ -87,22 +89,52 @@ class FormulaireController extends AbstractController
                 $permanence = new Permanence();
             }
 
-            $formPermanence = $this->createForm(PermanenceType::class);
+            $formPermanence = $this->createForm(PermanenceType::class,$permanence);
             $formPermanence->handleRequest($request);
 
             if ($formPermanence->isSubmitted() && $formPermanence->isValid()) {
-                dump($request->request->get('nbJour'));
+                dump($permanence);
                 $lieu->setPermanence($permanence);
                 $entityManager->persist($permanence);
                 $entityManager->flush();
 
-//                return $this->redirectToRoute('home', array('idLieu'=>$idLieu, 'caca'=>$formPermanence));
+                return $this->redirectToRoute('formulaire_typologiedossier', array('idLieu'=>$idLieu));
             }
 
             return $this->renderForm('formulaire/permanence.html.twig',
                 compact('formPermanence',  'idLieu'));
 
         }
+
+    #[Route('/typologiedossier/{idLieu}', name: '_typologiedossier', requirements: ['idLieu' => '\d+'])]
+    public function dossier(LieuRepository $lieuRepository, UDRepository $UDRepository, UserRepository $userRepository, StatutRepository $statutRepository, EntityManagerInterface $entityManager,
+                               Request $request, $idLieu): Response
+    {
+
+        $lieu = $lieuRepository->find($idLieu);
+
+        if ($lieu->getDossiers() !== null) {
+            $TypologieDossier = $lieu->getDossiers();
+        }
+        else {
+            $TypologieDossier = new Dossiers();
+        }
+
+        $formDossier = $this->createForm(DossierType::class,$TypologieDossier);
+        $formDossier->handleRequest($request);
+
+        if ($formDossier->isSubmitted() && $formDossier->isValid()) {
+            $lieu->setDossiers($TypologieDossier);
+            $entityManager->persist($TypologieDossier);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('home', array('idLieu'=>$idLieu));
+        }
+
+        return $this->renderForm('formulaire/typologiedossier.twig',
+            compact('formDossier',  'idLieu'));
+
+    }
 
 
 
