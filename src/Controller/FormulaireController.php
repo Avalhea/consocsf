@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Lieu;
 use App\Entity\Permanence;
 use App\Form\PermanencesType;
+use App\Form\PermanenceType;
 use App\Form\PresentationType;
 use App\Repository\LieuRepository;
 use App\Repository\StatutRepository;
@@ -24,7 +25,10 @@ class FormulaireController extends AbstractController
                                  Request        $request, $idLieu = 0): Response
     {
 
+
+
         if ($idLieu == 0) {
+
             $lieu = new Lieu();
             $formPresentation = $this->createForm(presentationType::class, $lieu);
             $formPresentation->handleRequest($request);
@@ -32,6 +36,7 @@ class FormulaireController extends AbstractController
             if ($formPresentation->isSubmitted() && $formPresentation->isValid()) {
 
                 $user = $userRepository->find($this->getUser()->getId());
+                dump($user);
                 $lieu->setUser($user);
                 $lieu->setStatut($statutRepository->find(1));
 
@@ -46,6 +51,9 @@ class FormulaireController extends AbstractController
             );
 
         } else { //s'il existe déjà un lieu (ex : après avoir cliqué sur modifier au niveau des bilans US/Nationaux, ou quand on clique sur 'suivant')
+
+            //TODO Faire en sorte que la page soit accessible qu'au user qui est lié au formulaire et aux Victoires / Elsa
+
 
             $lieu = $lieuRepository->find($idLieu);
             $formPresentation = $this->createForm(presentationType::class, $lieu);
@@ -67,27 +75,28 @@ class FormulaireController extends AbstractController
 
     #[Route('/permanence/{idLieu}', name: '_permanence', requirements: ['idLieu' => '\d+'])]
     public function permanence(LieuRepository $lieuRepository, UDRepository $UDRepository, UserRepository $userRepository, StatutRepository $statutRepository, EntityManagerInterface $entityManager,
-                               Request        $request, $idLieu): Response
+                               Request $request, $idLieu): Response
     {
 
         $lieu = $lieuRepository->find($idLieu);
 
             if ($lieu->getPermanence() !== null) {
-                $Permanence = $lieu->getPermanence();
+                $permanence = $lieu->getPermanence();
             }
             else {
-                $Permanence = new Permanence();
+                $permanence = new Permanence();
             }
 
-            $formPermanence = $this->createForm(PermanencesType::class);
+            $formPermanence = $this->createForm(PermanenceType::class);
             $formPermanence->handleRequest($request);
 
             if ($formPermanence->isSubmitted() && $formPermanence->isValid()) {
-                $lieu->setPermanence($Permanence);
-                $entityManager->persist($Permanence);
+                dump($request->request->get('nbJour'));
+                $lieu->setPermanence($permanence);
+                $entityManager->persist($permanence);
                 $entityManager->flush();
 
-                return $this->redirectToRoute('home', array('lieu'=>$lieu));
+//                return $this->redirectToRoute('home', array('idLieu'=>$idLieu, 'caca'=>$formPermanence));
             }
 
             return $this->renderForm('formulaire/permanence.html.twig',

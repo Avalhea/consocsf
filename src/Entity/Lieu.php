@@ -45,7 +45,6 @@ class Lieu
     #[ORM\ManyToOne(targetEntity: UD::class, inversedBy: 'lieux')]
     private $UD;
 
-
     #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Representation::class)]
     private $representation;
 
