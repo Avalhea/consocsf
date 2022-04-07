@@ -28,8 +28,6 @@ class Permanence
     #[ORM\Column(type: 'integer', nullable: true)]
     private $nbTotalDossiers;
 
-    #[ORM\ManyToOne(targetEntity: Lieu::class, inversedBy: 'permanence')]
-    private $lieu;
 
 
     public function getId(): ?int
@@ -97,16 +95,5 @@ class Permanence
         return $this;
     }
 
-    public function getLieu(): ?Lieu
-    {
-        return $this->lieu;
-    }
-
-    public function setLieu(?Lieu $lieu): self
-    {
-        $this->lieu = $lieu;
-
-        return $this;
-    }
 
 }

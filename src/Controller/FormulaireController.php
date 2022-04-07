@@ -38,7 +38,7 @@ class FormulaireController extends AbstractController
                 $entityManager->persist($lieu);
                 $entityManager->flush();
 
-                return $this->redirectToRoute('formulaire_permanence', array('idLieu'=>$idLieu));
+                return $this->redirectToRoute('formulaire_permanence', array('idLieu'=>$lieu->getId()));
             }
 
             return $this->renderForm('formulaire/presentation.html.twig',
@@ -67,24 +67,41 @@ class FormulaireController extends AbstractController
 
     #[Route('/permanence/{idLieu}', name: '_permanence', requirements: ['idLieu' => '\d+'])]
     public function permanence(LieuRepository $lieuRepository, UDRepository $UDRepository, UserRepository $userRepository, StatutRepository $statutRepository, EntityManagerInterface $entityManager,
-                               Request        $request, $idLieu = 0): Response
+                               Request        $request, $idLieu): Response
     {
 
-//        dump($lieu);
-            $Permanence = new Permanence();
+        $lieu = $lieuRepository->find($idLieu);
+
+            if ($lieu->getPermanence() !== null) {
+                $Permanence = $lieu->getPermanence();
+            }
+            else {
+                $Permanence = new Permanence();
+            }
+
             $formPermanence = $this->createForm(PermanencesType::class);
             $formPermanence->handleRequest($request);
-            dump($idLieu);
-            if ($formPermanence->isSubmitted() && $formPermanence->isValid()) {
-                $lieu = $lieuRepository->find($idLieu);
 
+            if ($formPermanence->isSubmitted() && $formPermanence->isValid()) {
+                $lieu->setPermanence($Permanence);
                 $entityManager->persist($Permanence);
                 $entityManager->flush();
 
                 return $this->redirectToRoute('home', array('lieu'=>$lieu));
             }
+
             return $this->renderForm('formulaire/permanence.html.twig',
-                compact('formPermanence'));
+                compact('formPermanence',  'idLieu'));
 
         }
+
+
+
+
+
+
+
+
+
+
 }

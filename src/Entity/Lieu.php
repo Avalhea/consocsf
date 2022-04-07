@@ -36,9 +36,6 @@ class Lieu
     #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Evenement::class)]
     private $evenement;
 
-    #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Dossier::class)]
-    private $dossier;
-
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'lieux')]
     private $user;
 
@@ -48,8 +45,6 @@ class Lieu
     #[ORM\ManyToOne(targetEntity: UD::class, inversedBy: 'lieux')]
     private $UD;
 
-    #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Permanence::class)]
-    private $permanence;
 
     #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Representation::class)]
     private $representation;
@@ -66,11 +61,15 @@ class Lieu
     #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: ActionJustice::class)]
     private $actionJustice;
 
+    #[ORM\OneToOne(targetEntity: Dossiers::class, cascade: ['persist', 'remove'])]
+    private $dossiers;
+
+    #[ORM\OneToOne(targetEntity: Permanence::class, cascade: ['persist', 'remove'])]
+    private $permanence;
+
     public function __construct()
     {
         $this->evenement = new ArrayCollection();
-        $this->dossier = new ArrayCollection();
-        $this->permanence = new ArrayCollection();
         $this->representation = new ArrayCollection();
         $this->atelier = new ArrayCollection();
         $this->communication = new ArrayCollection();
@@ -187,36 +186,6 @@ class Lieu
         return $this;
     }
 
-    /**
-     * @return Collection<int, Dossier>
-     */
-    public function getDossier(): Collection
-    {
-        return $this->dossier;
-    }
-
-    public function addDossier(Dossier $dossier): self
-    {
-        if (!$this->dossier->contains($dossier)) {
-            $this->dossier[] = $dossier;
-            $dossier->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeDossier(Dossier $dossier): self
-    {
-        if ($this->dossier->removeElement($dossier)) {
-            // set the owning side to null (unless already changed)
-            if ($dossier->getUser() === $this) {
-                $dossier->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getUser(): ?User
     {
         return $this->user;
@@ -253,35 +222,6 @@ class Lieu
         return $this;
     }
 
-    /**
-     * @return Collection<int, Permanence>
-     */
-    public function getPermanence(): Collection
-    {
-        return $this->permanence;
-    }
-
-    public function addPermanence(Permanence $permanence): self
-    {
-        if (!$this->permanence->contains($permanence)) {
-            $this->permanence[] = $permanence;
-            $permanence->setLieu($this);
-        }
-
-        return $this;
-    }
-
-    public function removePermanence(Permanence $permanence): self
-    {
-        if ($this->permanence->removeElement($permanence)) {
-            // set the owning side to null (unless already changed)
-            if ($permanence->getLieu() === $this) {
-                $permanence->setLieu(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Representation>
@@ -429,6 +369,30 @@ class Lieu
                 $actionJustice->setLieu(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDossiers(): ?Dossiers
+    {
+        return $this->dossiers;
+    }
+
+    public function setDossiers(?Dossiers $dossiers): self
+    {
+        $this->dossiers = $dossiers;
+
+        return $this;
+    }
+
+    public function getPermanence(): ?Permanence
+    {
+        return $this->permanence;
+    }
+
+    public function setPermanence(?Permanence $permanence): self
+    {
+        $this->permanence = $permanence;
 
         return $this;
     }

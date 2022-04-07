@@ -58,7 +58,7 @@ class PermanencesType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => PermanencesType::class,
+            'data_class' => Permanence::class,
         ]);
     }
 }
