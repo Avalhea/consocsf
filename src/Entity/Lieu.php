@@ -33,9 +33,6 @@ class Lieu
     #[ORM\Column(type: 'integer', nullable: true)]
     private $NbConsomRensTel;
 
-    #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Evenement::class)]
-    private $evenement;
-
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'lieux')]
     private $user;
 
@@ -66,9 +63,11 @@ class Lieu
     #[ORM\OneToOne(targetEntity: Permanence::class, cascade: ['persist', 'remove'])]
     private $permanence;
 
+    #[ORM\OneToOne(targetEntity: Evenement::class, cascade: ['persist', 'remove'])]
+    private $evenement;
+
     public function __construct()
     {
-        $this->evenement = new ArrayCollection();
         $this->representation = new ArrayCollection();
         $this->atelier = new ArrayCollection();
         $this->communication = new ArrayCollection();
@@ -155,35 +154,6 @@ class Lieu
         return $this;
     }
 
-    /**
-     * @return Collection<int, Evenement>
-     */
-    public function getEvenement(): Collection
-    {
-        return $this->evenement;
-    }
-
-    public function addEvenement(Evenement $evenement): self
-    {
-        if (!$this->evenement->contains($evenement)) {
-            $this->evenement[] = $evenement;
-            $evenement->setLieu($this);
-        }
-
-        return $this;
-    }
-
-    public function removeEvenement(Evenement $evenement): self
-    {
-        if ($this->evenement->removeElement($evenement)) {
-            // set the owning side to null (unless already changed)
-            if ($evenement->getLieu() === $this) {
-                $evenement->setLieu(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function getUser(): ?User
     {
@@ -392,6 +362,18 @@ class Lieu
     public function setPermanence(?Permanence $permanence): self
     {
         $this->permanence = $permanence;
+
+        return $this;
+    }
+
+    public function getEvenement(): ?Evenement
+    {
+        return $this->evenement;
+    }
+
+    public function setEvenement(?Evenement $evenement): self
+    {
+        $this->evenement = $evenement;
 
         return $this;
     }

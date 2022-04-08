@@ -3,12 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Dossiers;
+use App\Entity\Evenement;
 use App\Entity\Lieu;
 use App\Entity\Permanence;
 use App\Form\DossierType;
 use App\Form\PermanencesType;
 use App\Form\PermanenceType;
 use App\Form\PresentationType;
+use App\Form\VieAssociativeType;
 use App\Repository\LieuRepository;
 use App\Repository\StatutRepository;
 use App\Repository\UDRepository;
@@ -27,10 +29,12 @@ class FormulaireController extends AbstractController
                                  Request        $request, $idLieu = 0): Response
     {
 
+
+
         if ($idLieu == 0) {
 
             $lieu = new Lieu();
-            $formPresentation = $this->createForm(PresentationType::class, $lieu);
+            $formPresentation = $this->createForm(presentationType::class, $lieu);
             $formPresentation->handleRequest($request);
 
             if ($formPresentation->isSubmitted() && $formPresentation->isValid()) {
@@ -56,7 +60,7 @@ class FormulaireController extends AbstractController
 
 
             $lieu = $lieuRepository->find($idLieu);
-            $formPresentation = $this->createForm(PresentationType::class, $lieu);
+            $formPresentation = $this->createForm(presentationType::class, $lieu);
             $formPresentation->handleRequest($request);
 
             if ($formPresentation->isSubmitted() && $formPresentation->isValid()) {
@@ -80,33 +84,33 @@ class FormulaireController extends AbstractController
 
         $lieu = $lieuRepository->find($idLieu);
 
-            if ($lieu->getPermanence() !== null) {
-                $permanence = $lieu->getPermanence();
-            }
-            else {
-                $permanence = new Permanence();
-            }
-
-            $formPermanence = $this->createForm(PermanenceType::class,$permanence);
-            $formPermanence->handleRequest($request);
-
-            if ($formPermanence->isSubmitted() && $formPermanence->isValid()) {
-                dump($permanence);
-                $lieu->setPermanence($permanence);
-                $entityManager->persist($permanence);
-                $entityManager->flush();
-
-                return $this->redirectToRoute('formulaire_typologiedossier', array('idLieu'=>$idLieu));
-            }
-
-            return $this->renderForm('formulaire/permanence.html.twig',
-                compact('formPermanence',  'idLieu'));
-
+        if ($lieu->getPermanence() !== null) {
+            $permanence = $lieu->getPermanence();
         }
+        else {
+            $permanence = new Permanence();
+        }
+
+        $formPermanence = $this->createForm(PermanenceType::class,$permanence);
+        $formPermanence->handleRequest($request);
+
+        if ($formPermanence->isSubmitted() && $formPermanence->isValid()) {
+            dump($permanence);
+            $lieu->setPermanence($permanence);
+            $entityManager->persist($permanence);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('formulaire_typologiedossier', array('idLieu'=>$idLieu));
+        }
+
+        return $this->renderForm('formulaire/permanence.html.twig',
+            compact('formPermanence',  'idLieu'));
+
+    }
 
     #[Route('/typologiedossier/{idLieu}', name: '_typologiedossier', requirements: ['idLieu' => '\d+'])]
     public function dossier(LieuRepository $lieuRepository, UDRepository $UDRepository, UserRepository $userRepository, StatutRepository $statutRepository, EntityManagerInterface $entityManager,
-                               Request $request, $idLieu): Response
+                            Request $request, $idLieu): Response
     {
 
         $lieu = $lieuRepository->find($idLieu);
@@ -126,7 +130,7 @@ class FormulaireController extends AbstractController
             $entityManager->persist($TypologieDossier);
             $entityManager->flush();
 
-            return $this->redirectToRoute('home', array('idLieu'=>$idLieu));
+            return $this->redirectToRoute('formulaire_vieAssociative', array('idLieu'=>$idLieu));
         }
 
         return $this->renderForm('formulaire/typologiedossier.twig',
@@ -137,6 +141,37 @@ class FormulaireController extends AbstractController
 
 
 
+    #[Route('/vieAssociative/{idLieu}', name: '_vieAssociative', requirements: ['idLieu' => '\d+'])]
+    public function vieAssociative(LieuRepository $lieuRepository, UDRepository $UDRepository, UserRepository $userRepository, StatutRepository $statutRepository, EntityManagerInterface $entityManager,
+                                   Request $request, $idLieu): Response
+    {
+
+        $lieu = $lieuRepository->find($idLieu);
+
+        if ($lieu->getEvenement() !== null) {
+            $Evenement = $lieu->getEvenement();
+        }
+        else {
+            $Evenement = new Evenement();
+        }
+
+        $formVieAssociative = $this->createForm(vieAssociativeType::class,$lieu);
+        $formVieAssociative->handleRequest($request);
+
+
+        if ($formVieAssociative->isSubmitted() && $formVieAssociative->isValid()) {
+
+            $entityManager->persist($lieu);
+
+            $entityManager->flush();
+
+            return $this->redirectToRoute('home', array('idLieu'=>$idLieu));
+        }
+
+        return $this->renderForm('formulaire/vieAssociative.twig',
+            compact('formVieAssociative',  'idLieu'));
+
+    }
 
 
 

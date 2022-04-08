@@ -16,9 +16,6 @@ class Evenement
     #[ORM\Column(type: 'text', nullable: true)]
     private $detailEvenement;
 
-    #[ORM\ManyToOne(targetEntity: Lieu::class, inversedBy: 'evenement')]
-    private $lieu;
-
 
     public function getId(): ?int
     {
@@ -33,18 +30,6 @@ class Evenement
     public function setDetailEvenement(?string $detailEvenement): self
     {
         $this->detailEvenement = $detailEvenement;
-
-        return $this;
-    }
-
-    public function getLieu(): ?Lieu
-    {
-        return $this->lieu;
-    }
-
-    public function setLieu(?Lieu $lieu): self
-    {
-        $this->lieu = $lieu;
 
         return $this;
     }
