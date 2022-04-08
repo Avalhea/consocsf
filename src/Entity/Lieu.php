@@ -51,8 +51,6 @@ class Lieu
     #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Communication::class)]
     private $communication;
 
-    #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Formation::class)]
-    private $formation;
 
     #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: ActionJustice::class)]
     private $actionJustice;
@@ -65,6 +63,9 @@ class Lieu
 
     #[ORM\OneToOne(targetEntity: Evenement::class, cascade: ['persist', 'remove'])]
     private $evenement;
+
+    #[ORM\OneToOne(targetEntity: Formations::class, cascade: ['persist', 'remove'])]
+    private $formations;
 
     public function __construct()
     {
@@ -282,35 +283,6 @@ class Lieu
         return $this;
     }
 
-    /**
-     * @return Collection<int, Formation>
-     */
-    public function getFormation(): Collection
-    {
-        return $this->formation;
-    }
-
-    public function addFormation(Formation $formation): self
-    {
-        if (!$this->formation->contains($formation)) {
-            $this->formation[] = $formation;
-            $formation->setLieu($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFormation(Formation $formation): self
-    {
-        if ($this->formation->removeElement($formation)) {
-            // set the owning side to null (unless already changed)
-            if ($formation->getLieu() === $this) {
-                $formation->setLieu(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, ActionJustice>
@@ -374,6 +346,18 @@ class Lieu
     public function setEvenement(?Evenement $evenement): self
     {
         $this->evenement = $evenement;
+
+        return $this;
+    }
+
+    public function getFormations(): ?Formations
+    {
+        return $this->formations;
+    }
+
+    public function setFormations(?Formations $formations): self
+    {
+        $this->formations = $formations;
 
         return $this;
     }

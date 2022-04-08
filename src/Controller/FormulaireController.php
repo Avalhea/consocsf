@@ -4,9 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Dossiers;
 use App\Entity\Evenement;
+use App\Entity\Formation;
+use App\Entity\Formations;
 use App\Entity\Lieu;
 use App\Entity\Permanence;
 use App\Form\DossierType;
+use App\Form\FormationsType;
 use App\Form\PermanencesType;
 use App\Form\PermanenceType;
 use App\Form\PresentationType;
@@ -165,7 +168,7 @@ class FormulaireController extends AbstractController
 
             $entityManager->flush();
 
-            return $this->redirectToRoute('home', array('idLieu'=>$idLieu));
+            return $this->redirectToRoute('formulaire_formation', array('idLieu'=>$idLieu));
         }
 
         return $this->renderForm('formulaire/vieAssociative.twig',
@@ -174,6 +177,38 @@ class FormulaireController extends AbstractController
     }
 
 
+
+    #[Route('/formation/{idLieu}', name: '_formation', requirements: ['idLieu' => '\d+'])]
+    public function formation(LieuRepository $lieuRepository, UDRepository $UDRepository, UserRepository $userRepository, StatutRepository $statutRepository, EntityManagerInterface $entityManager,
+                                   Request $request, $idLieu): Response
+    {
+
+        $lieu = $lieuRepository->find($idLieu);
+
+        if ($lieu->getFormations() !== null) {
+            $Formations = $lieu->getFormations();
+        }
+        else {
+            $Formations = new Formations();
+        }
+
+        $formFormations = $this->createForm(FormationsType::class,$Formations);
+        $formFormations->handleRequest($request);
+
+
+        if ($formFormations->isSubmitted() && $formFormations->isValid()) {
+
+            $lieu->setFormations($Formations);
+            $entityManager->persist($Formations);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('home', array('idLieu'=>$idLieu));
+        }
+
+        return $this->renderForm('formulaire/formation.twig',
+            compact('formFormations',  'idLieu'));
+
+    }
 
 
 

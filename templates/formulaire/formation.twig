@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+{% block navbar %}
+    <div class="container" style="top: 0">
+        <nav class="navbar navbar-light bgorange">
+            <div class="container-fluid">
+                <a class="navbar-brand"></a>
+                <form class="d-flex">
+                    <a href="{{ path('faq') }}"><button class="btn bgvertmenthe btn-default me-1" type="button" id="btnaide">Aide</button></a>
+                    <button class="btn bggris" type="button"><a href="{{ path('app_logout') }}" class="bggris">Se déconnecter</a></button>
+                </form>
+            </div>
+        </nav>
+    </div>
+{% endblock %}
+
+{% block body %}
+<section class="hero is-fullheight">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <div class="column is-6 is-offset-3">
+                <div class="box">
+                    <h1 class="title txtorange">Permanences</h1>
+                    <hr class="login-hr">
+                    <div class="field">
+                        {{ form_start(formFormations) }}
+                        Nombre de formations dans l'année : {{ form_row(formFormations.NbFormationsAnnee) }}<br>
+                        Thème & nombre de participants à chaque formation :  {{ form_row(formFormations.ThemeFormationEtParticipants) }}<br>
+
+                        <button type="submit" class="btn bgorange">Suivant</button>
+                        {{ form_end(formFormations) }}
+                        <a href="{{ path('formulaire_presentation',{'id':'lieu.idLieu'} ) }}"><button class="btn bgorange" id="lien_precedent">Précedent</button></a>
+                        <style>#lien_precedent {text-decoration: none; color: #FFFFFF;font-family: 'Recursive', sans-serif}</style>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+</div>
+{% endblock %}
