@@ -27,12 +27,10 @@ class FormulaireController extends AbstractController
                                  Request        $request, $idLieu = 0): Response
     {
 
-
-
         if ($idLieu == 0) {
 
             $lieu = new Lieu();
-            $formPresentation = $this->createForm(presentationType::class, $lieu);
+            $formPresentation = $this->createForm(PresentationType::class, $lieu);
             $formPresentation->handleRequest($request);
 
             if ($formPresentation->isSubmitted() && $formPresentation->isValid()) {
@@ -58,7 +56,7 @@ class FormulaireController extends AbstractController
 
 
             $lieu = $lieuRepository->find($idLieu);
-            $formPresentation = $this->createForm(presentationType::class, $lieu);
+            $formPresentation = $this->createForm(PresentationType::class, $lieu);
             $formPresentation->handleRequest($request);
 
             if ($formPresentation->isSubmitted() && $formPresentation->isValid()) {

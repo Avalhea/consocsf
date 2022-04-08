@@ -15,13 +15,13 @@
 {% endblock %}
 
 {% block body %}
-    <body>
      <section class="hero is-fullheight">
         <div class="hero-body">
             <div class="container has-text-centered">
                 <div class="column is-6 is-offset-3">
                     <div class="box">
                         <h1 class="title txtviolet">Permanences</h1>
+                        <hr class="login-hr">
                         <div class="field">
                        {{ form_start(formPermanence) }}
                             Nombre de jours de permanence par an : {{ form_row(formPermanence.nbJours) }}<br>
@@ -29,30 +29,35 @@
                             Nombre de dossiers consommation/ vie quotidienne simples :  {{ form_row(formPermanence.nbDossierSimple) }}<br>
                             Nombre de dossiers consommation/ vie quotidienne difficiles :  {{ form_row(formPermanence.nbDossierDifficile) }}<br>
                             <button type="submit" class="btn bgviolet">Suivant</button>
-                        {{ form_end(formPermanence) }}
-                            <a href="{{ path('formulaire_presentation',{'idLieu':idLieu} ) }}"><button class="btn bgviolet" id="lien_precedent">Précedent</button></a>
+                            {{ form_end(formPermanence) }}
+                            <a href="{{ path('formulaire_presentation',{'id':'lieu.idLieu'} ) }}"><button class="btn bgviolet" id="lien_precedent">Précedent</button></a>
                             <style>#lien_precedent {text-decoration: none; color: #FFFFFF;font-family: 'Recursive', sans-serif}</style>
                         </div>
                 </div>
                 </div>
             </div>
         </div>
+         </div>
      </section>
-    </body>
+    </div>
+
+
+
+
 {% endblock %}
 
-{#{% block javascripts %}#}
-{#    {{ parent()}}#}
-{#    <script>#}
-{#    type="text/javascript">#}
-{#    function verif(evt) {#}
-{#    var keyCode = evt.which ? evt.which : evt.keyCode;#}
-{#    var accept = '0123456789';#}
-{#    if (accept.indexOf(String.fromCharCode(keyCode)) >= 0) {#}
-{#    return true;#}
-{#    } else {#}
-{#    return false;#}
-{#    }}#}
+{% block javascripts %}
+    {{ parent()}}
+    <script>
+    type="text/javascript">
+    function verif(evt) {
+    var keyCode = evt.which ? evt.which : evt.keyCode;
+    var accept = '0123456789';
+    if (accept.indexOf(String.fromCharCode(keyCode)) >= 0) {
+    return true;
+    } else {
+    return false;
+    }}
 
-{#     onkeydown=verif(evt) </script>#}
-{#{% endblock %}#}
+     onkeydown=verif(evt) </script>
+{% endblock %}

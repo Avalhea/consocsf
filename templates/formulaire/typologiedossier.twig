@@ -22,7 +22,9 @@
             <div class="container has-text-centered" >
                 <div class="column is-6 is-offset-3">
                     <div class="box" >
-                        <h1 class="title txtviolet">Permanences</h1>
+                        <h1 class="title txtviolet">Typologie des dossiers</h1>
+                        <p class="blockquote-footer txtviolet">Nombre de dossiers en détail</p>
+                        <hr class="login-hr">
                         <div class="field" style="height : 500px ;overflow : scroll">
                             {{ form_start(formDossier) }}
                             Communications électroniques : {{ form_row(formDossier.CommunicationsElectroniques) }}<br>
@@ -42,7 +44,6 @@
                             Défense des droits/ accès aux droits : {{ form_row(formDossier.DefenseDroitsAcces) }}<br>
                             Autres : {{ form_row(formDossier.NbAutre) }}<br>
                             Précisez les thèmes : {{ form_row(formDossier.AutreLibelle) }}<br>
-
                             <button type="submit" class="btn bgviolet">Suivant</button>
                             {{ form_end(formDossier) }}
                             <a href="{{ path('formulaire_presentation',{'idLieu':idLieu} ) }}"><button class="btn bgviolet" id="lien_precedent">Précedent</button></a>

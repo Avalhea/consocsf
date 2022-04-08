@@ -1,8 +1,7 @@
 body{
     font-family: 'Recursive', sans-serif;
-    background: url("../img/fadedlogo.gif") no-repeat;
-    background-size: 1250px 1100px;
-    min-height: 100vh;
+    background: url("../img/RosaceCSF.svg") no-repeat;
+    background-size: cover;
 }
 
 #logo1{

@@ -17,10 +17,19 @@ class PresentationType extends AbstractType
             ->add('UD', EntityType::class,
                 ["class"=>UD::class,
                     "choice_label"=>"libelle",
-                    'label' => "UD : "])
-            ->add('nom')
-            ->add('adresse')
-            ->add('joursEtHorairesOuverture')
+                    'label' => " "])
+            ->add('nom',null,['label'=>' ',  'attr' => [
+                'class' => 'input is-rounded', 'col-xs-2',
+                'type' => 'int'
+            ]])
+            ->add('adresse',null,['label'=>' ',  'attr' => [
+                'class' => 'input is-rounded', 'col-xs-2',
+                'type' => 'int'
+            ]])
+            ->add('joursEtHorairesOuverture',null,['label'=>' ',  'attr' => [
+                'class' => 'input is-rounded', 'col-xs-2',
+                'type' => 'int'
+            ]])
 ;    }
 
     public function configureOptions(OptionsResolver $resolver): void
