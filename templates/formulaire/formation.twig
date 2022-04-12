@@ -19,7 +19,7 @@
         <div class="container has-text-centered">
             <div class="column is-6 is-offset-3">
                 <div class="box">
-                    <h1 class="title txtorange">Permanences</h1>
+                    <h1 class="title txtorange">Formation</h1>
                     <hr class="login-hr">
                     <div class="field">
                         {{ form_start(formFormations) }}
@@ -28,7 +28,7 @@
 
                         <button type="submit" class="btn bgorange">Suivant</button>
                         {{ form_end(formFormations) }}
-                        <a href="{{ path('formulaire_presentation',{'id':'lieu.idLieu'} ) }}"><button class="btn bgorange" id="lien_precedent">Précedent</button></a>
+                        <a href="{{ path('formulaire_vieAssociative', {'idLieu': idLieu } ) }}"><button class="btn bgorange" id="lien_precedent">Précedent</button></a>
                         <style>#lien_precedent {text-decoration: none; color: #FFFFFF;font-family: 'Recursive', sans-serif}</style>
                     </div>
                 </div>

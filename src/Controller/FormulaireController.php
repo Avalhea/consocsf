@@ -2,12 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Communication;
 use App\Entity\Dossiers;
 use App\Entity\Evenement;
 use App\Entity\Formation;
 use App\Entity\Formations;
 use App\Entity\Lieu;
 use App\Entity\Permanence;
+use App\Form\CommunicationType;
 use App\Form\DossierType;
 use App\Form\FormationsType;
 use App\Form\PermanencesType;
@@ -16,6 +18,7 @@ use App\Form\PresentationType;
 use App\Form\VieAssociativeType;
 use App\Repository\LieuRepository;
 use App\Repository\StatutRepository;
+use App\Repository\TypeCommunicationRepository;
 use App\Repository\UDRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -180,7 +183,7 @@ class FormulaireController extends AbstractController
 
     #[Route('/formation/{idLieu}', name: '_formation', requirements: ['idLieu' => '\d+'])]
     public function formation(LieuRepository $lieuRepository, UDRepository $UDRepository, UserRepository $userRepository, StatutRepository $statutRepository, EntityManagerInterface $entityManager,
-                                   Request $request, $idLieu): Response
+                              Request $request, $idLieu): Response
     {
 
         $lieu = $lieuRepository->find($idLieu);
@@ -202,7 +205,7 @@ class FormulaireController extends AbstractController
             $entityManager->persist($Formations);
             $entityManager->flush();
 
-            return $this->redirectToRoute('home', array('idLieu'=>$idLieu));
+            return $this->redirectToRoute('formulaire_communication', array('idLieu'=>$idLieu));
         }
 
         return $this->renderForm('formulaire/formation.twig',
@@ -212,5 +215,54 @@ class FormulaireController extends AbstractController
 
 
 
+// 'state' permet simplement de se situer dans le controller ;
+// Si state = 0, j'arrive dans le controller depuis la page précédente et j'effectue la création des entités Communication
+// Si state = 'sub', je traite la donnée reçue depuis le form dans la vue
 
+    #[Route('/communication/{idLieu}/{state}', name: '_communication', requirements: ['idLieu' => '\d+'])]
+    public function communication(LieuRepository $lieuRepository, UDRepository $UDRepository, UserRepository $userRepository, StatutRepository $statutRepository, EntityManagerInterface $entityManager,
+                                  Request $request, $idLieu, TypeCommunicationRepository $typeCommunicationRepository, $state=0): Response
+    {
+
+        $lieu = $lieuRepository->find($idLieu);
+        $Communication = $lieu->getCommunication();
+
+        if($state == 0 ) {
+
+
+            if ($Communication->count() === 0) {
+
+                for ($i = 0; $i < count($typeCommunicationRepository->findAll()); $i++) {
+
+                    $com = new Communication();
+                    $com->setTypeCommunication($typeCommunicationRepository->find($i + 1));
+                    $lieu->addCommunication($com);
+                    $entityManager->persist($com);
+                    $entityManager->flush();
+
+                }
+
+                $entityManager->persist($lieu);
+                $entityManager->flush();
+            }
+        }
+
+        if($state=='sub') {
+
+            foreach($Communication as $com) {
+                $nombre = $request->request->get('Nb'. $com->getTypeCommunication()->getLibelle());
+                $sujets = $request->request->get('Sujet' . $com->getTypeCommunication()->getLibelle());
+
+                $com->setNombre($nombre);
+                $com->setSujets($sujets);
+                $entityManager->persist($com);
+                $entityManager->flush();
+            }
+        }
+
+
+
+        return $this->render('formulaire/communication.twig',
+            compact( 'Communication','idLieu'));
+    }
 }

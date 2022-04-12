@@ -14,7 +14,6 @@ class CommunicationType extends AbstractType
         $builder
             ->add('nombre')
             ->add('Sujets')
-//            ->add('typeCommunication')
         ;
     }
 

@@ -279,7 +279,6 @@ class Lieu
                 $communication->setLieu(null);
             }
         }
-
         return $this;
     }
 

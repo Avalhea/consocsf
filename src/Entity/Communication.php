@@ -16,7 +16,7 @@ class Communication
     #[ORM\Column(type: 'integer', nullable: true)]
     private $nombre;
 
-    #[ORM\Column(type: 'string', length: 200)]
+    #[ORM\Column(type: 'string', length: 200, nullable: true)]
     private $Sujets;
 
     #[ORM\ManyToOne(targetEntity: TypeCommunication::class)]
