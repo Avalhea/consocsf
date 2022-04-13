@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Atelier;
 use App\Entity\Communication;
 use App\Entity\Dossiers;
 use App\Entity\Evenement;
@@ -9,6 +10,7 @@ use App\Entity\Formation;
 use App\Entity\Formations;
 use App\Entity\Lieu;
 use App\Entity\Permanence;
+use App\Form\AteliersConsoType;
 use App\Form\CommunicationType;
 use App\Form\DossierType;
 use App\Form\FormationsType;
@@ -16,6 +18,7 @@ use App\Form\PermanencesType;
 use App\Form\PermanenceType;
 use App\Form\PresentationType;
 use App\Form\VieAssociativeType;
+use App\Repository\AtelierRepository;
 use App\Repository\LieuRepository;
 use App\Repository\StatutRepository;
 use App\Repository\TypeCommunicationRepository;
@@ -257,6 +260,8 @@ class FormulaireController extends AbstractController
                 $com->setSujets($sujets);
                 $entityManager->persist($com);
                 $entityManager->flush();
+
+                return $this->redirectToRoute('formulaire_atelier', array('idLieu'=>$idLieu));
             }
         }
 
@@ -265,4 +270,43 @@ class FormulaireController extends AbstractController
         return $this->render('formulaire/communication.twig',
             compact( 'Communication','idLieu'));
     }
+
+
+    #[Route('/atelier/{idLieu}/{idAtelier}', name: '_atelier', requirements: ['idLieu' => '\d+'])]
+    public function atelier(LieuRepository $lieuRepository, UDRepository $UDRepository, UserRepository $userRepository, AtelierRepository $atelierRepository, StatutRepository $statutRepository, EntityManagerInterface $entityManager,
+                              Request $request, $idLieu, $idAtelier=0): Response
+    {
+
+        $lieu = $lieuRepository->find($idLieu);
+        $ateliers = $lieu->getAtelier();
+       $atelier = new Atelier();
+
+
+        $formAteliers = $this->createForm(AteliersConsoType::class,$atelier);
+        $formAteliers->handleRequest($request);
+
+
+        if ($formAteliers->isSubmitted() && $formAteliers->isValid()) {
+
+            $lieu->addAtelier($atelier);
+            $entityManager->persist($atelier);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('formulaire_atelier', array('idLieu'=>$idLieu));
+        }
+
+        if ($idAtelier !== 0){
+            $atelier = $atelierRepository->find($idAtelier);
+            $lieu->removeAtelier($atelier);
+            $entityManager->persist($lieu);
+            $entityManager->flush();
+        }
+
+        return $this->renderForm('formulaire/ateliers.twig',
+            compact('formAteliers', 'ateliers',  'idLieu'));
+
+    }
+
+
+
 }

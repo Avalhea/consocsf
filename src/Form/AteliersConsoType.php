@@ -12,9 +12,18 @@ class AteliersConsoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('themeAtelier')
-            ->add('nbSeances')
-            ->add('nbPersonnesTotal')
+            ->add('themeAtelier',null,['label'=>' ',  'attr' => [
+                'class' => 'input is-rounded', 'col-xs-2',
+                'type' => 'int'
+            ]])
+            ->add('nbSeances',null,['label'=>' ',  'attr' => [
+                'class' => 'input is-rounded', 'col-xs-2',
+                'type' => 'int'
+            ]])
+            ->add('nbPersonnesTotal',null,['label'=>' ',  'attr' => [
+                'class' => 'input is-rounded', 'col-xs-2',
+                'type' => 'int'
+            ]])
         ;
     }
 

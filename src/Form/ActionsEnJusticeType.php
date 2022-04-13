@@ -12,8 +12,14 @@ class ActionsEnJusticeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nbActionConjointe')
-            ->add('nbAccompagnement')
+            ->add('nbActionConjointe',null,['label'=>' ',  'attr' => [
+                'class' => 'input is-rounded', 'col-xs-2',
+                'type' => 'int'
+            ]])
+            ->add('nbAccompagnement',null,['label'=>' ',  'attr' => [
+                'class' => 'input is-rounded', 'col-xs-2',
+                'type' => 'int'
+            ]])
         ;
     }
 

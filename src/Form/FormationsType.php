@@ -12,8 +12,14 @@ class FormationsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('NbFormationsAnnee')
-            ->add('ThemeFormationEtParticipants')
+            ->add('NbFormationsAnnee',null,['label'=>' ',  'attr' => [
+                'class' => 'input is-rounded', 'col-xs-2',
+                'type' => 'int'
+            ]])
+            ->add('ThemeFormationEtParticipants',null,['label'=>' ',  'attr' => [
+                'class' => 'input is-rounded', 'col-xs-2',
+                'type' => 'int'
+            ]])
         ;
     }
 

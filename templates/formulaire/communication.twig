@@ -20,20 +20,21 @@
         <div class="hero-body">
             <div class="container has-text-centered">
                 <div class="column is-6 is-offset-3">
-                    <div class="box">
+                    <div class="box" style="height: 670px; overflow: scroll ">
                         <h1 class="title txtbleu">Communication</h1>
                         <hr class="login-hr">
                         <div class="field">
                             <form method='post' action='{{ path('formulaire_communication', {'idLieu': idLieu, 'state':'sub'}) }}'>
                             {% for com in Communication %}
                                 <h1>{{ com.TypeCommunication.libelle }}</h1>
-                                <p>nombre : <input type="number" name="{{ 'Nb' ~ com.TypeCommunication.libelle }}" value="{{ com.nombre }}" required></p>
-                                <p>sujets :  <input type="text" name="{{ 'Sujet' ~ com.TypeCommunication.libelle }}" value="{{ com.sujets }}" required></p><br>
-
+                                <div class="form-group">
+                                <p>nombre : <input class="form-control is-rounded col-xs-2" type="number" name="{{ 'Nb' ~ com.TypeCommunication.libelle }}" value="{{ com.nombre }}" required></p>
+                                <p>sujets :  <input class="form-control is-rounded col-xs-2" type="text" name="{{ 'Sujet' ~ com.TypeCommunication.libelle }}" value="{{ com.sujets }}" required></p><br>
+                                </div>
                             {% endfor %}
                                 <button type="submit" class="btn bgviolet">Suivant</button>
                             </form>
-                            <a href="{{ path('formulaire_presentation',{'idLieu': idLieu} ) }}"><button class="btn bgviolet" id="lien_precedent">Précedent</button></a>
+                            <a href="{{ path('formulaire_formation',{'idLieu': idLieu} ) }}"><button class="btn bgviolet" id="lien_precedent">Précedent</button></a>
 
 
                         </div>

@@ -16,12 +16,23 @@ class TypologieDossierPageTrois extends AbstractType
     {
         $builder
 
-            ->add('nbSalaries')
-            ->add('nbBenevole')
-            ->add('nbConsomRensTel')
+            ->add('nbSalaries',null,['label'=>' ',  'attr' => [
+                'class' => 'input is-rounded', 'col-xs-2',
+                'type' => 'int'
+            ]])
+            ->add('nbBenevole',null,['label'=>' ',  'attr' => [
+                'class' => 'input is-rounded', 'col-xs-2',
+                'type' => 'int'
+            ]])
+            ->add('nbConsomRensTel',null,['label'=>' ',  'attr' => [
+                'class' => 'input is-rounded', 'col-xs-2',
+                'type' => 'int'
+            ]])
             ->add('detail_evenement', EntityType::class,
                 ["class"=>Evenement::class,
-                    'label' => " "])
+                    'label' => " ",  'attr' => [
+                    'class' => 'input is-rounded', 'col-xs-2',
+                    'type' => 'int']])
 
         ;
     }

@@ -15,9 +15,18 @@ class VieAssociativeType extends AbstractType
     {
         $builder
 
-            ->add('nbSalaries')
-            ->add('nbBenevole')
-            ->add('NbConsomRensTel')
+            ->add('nbSalaries',null,['label'=>' ',  'attr' => [
+                'class' => 'input is-rounded', 'col-xs-2',
+                'type' => 'int'
+            ]])
+            ->add('nbBenevole',null,['label'=>' ',  'attr' => [
+                'class' => 'input is-rounded', 'col-xs-2',
+                'type' => 'int'
+            ]])
+            ->add('NbConsomRensTel',null,['label'=>' ',  'attr' => [
+                'class' => 'input is-rounded', 'col-xs-2',
+                'type' => 'int'
+            ]])
             ->add('evenement',EvenementType::class, ['label'=>false])
         ;
     }
