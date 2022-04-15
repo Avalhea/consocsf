@@ -8,36 +8,25 @@
     <body>
     <section class="hero is-fullheight">
         <div class="hero-body">
-            <div class="container has-text-centered" >
+            <div class="container has-text-centered">
                 <div class="column is-6 is-offset-3">
-                    <div class="box" >
+                    <div class="box" style="max-height: 500px; overflow: scroll ">
                         <h1 class="title txtviolet">Typologie des dossiers</h1>
                         <p class="blockquote-footer txtviolet">Nombre de dossiers en détail</p>
                         <hr class="login-hr">
-                        <div class="field" style="height : 500px ;overflow : scroll">
-                            {{ form_start(formDossier) }}
-                            Communications électroniques : {{ form_row(formDossier.CommunicationsElectroniques) }}<br>
-                            Banque : {{ form_row(formDossier.Banque) }}<br>
-                            Surendettement : {{ form_row(formDossier.Surendettement) }}<br>
-                            Assurance : {{ form_row(formDossier.Assurance) }}<br>
-                            Santé : {{ form_row(formDossier.Sante) }}<br>
-                            Services (voyages, prestations...) : {{ form_row(formDossier.Services) }}<br>
-                            Energie : {{ form_row(formDossier.Energie) }}<br>
-                            Eau : {{ form_row(formDossier.Eau) }}<br>
-                            Automobile : {{ form_row(formDossier.Automobile) }}<br>
-                            Logement ; location (logement social) : {{ form_row(formDossier.LogementLocSocial) }}<br>
-                            Logement ; location (logement privé) : {{ form_row(formDossier.LogementLocPriv) }}<br>
-                            Logement : (co)propriétaire : {{ form_row(formDossier.LogementPropri) }}<br>
-                            Travaux : {{ form_row(formDossier.Travaux) }}<br>
-                            Pratiques commerciales déloyales : {{ form_row(formDossier.PratiquesComDeloyales) }}<br>
-                            Défense des droits/ accès aux droits : {{ form_row(formDossier.DefenseDroitsAcces) }}<br>
-                            Autres : {{ form_row(formDossier.NbAutre) }}<br>
-                            Précisez les thèmes : {{ form_row(formDossier.AutreLibelle) }}<br>
+                        <div class="field">
+                            <form method='post' action='{{ path('formulaire_typologieDossier', {'idLieu': idLieu, 'state':'sub'}) }}'>
+                                {% for dos in Dossier %}
+                                <h1>{{ dos.TypologieDossier.libelle }}</h1>
+                                <div class="form-group">
+                                    <p><input class="form-control is-rounded col-xs-2" type="number" name="{{ 'Nb' ~ dos.TypologieDossier.id }}" value="{{ dos.nbDossiers }}" required></p>
+                                </div>
+                                {% endfor %}
                             <button type="submit" class="btn bgviolet">Suivant</button>
-                            {{ form_end(formDossier) }}
+                            </form>
                             <a href="{{ path('formulaire_permanence',{'idLieu': idLieu} ) }}"><button class="btn bgviolet" id="lien_precedent">Précedent</button></a>
-                            <style>#lien_precedent {text-decoration: none; color: #FFFFFF;font-family: 'Recursive', sans-serif}</style>
                         </div>
+                    </div>
                     </div>
                 </div>
             </div>

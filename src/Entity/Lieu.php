@@ -42,15 +42,12 @@ class Lieu
     #[ORM\ManyToOne(targetEntity: UD::class, inversedBy: 'lieux')]
     private $UD;
 
-
     #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Atelier::class)]
     private $atelier;
 
     #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Communication::class)]
     private $communication;
 
-    #[ORM\OneToOne(targetEntity: Dossiers::class, cascade: ['persist', 'remove'])]
-    private $dossiers;
 
     #[ORM\OneToOne(targetEntity: Permanence::class, cascade: ['persist', 'remove'])]
     private $permanence;
@@ -61,12 +58,14 @@ class Lieu
     #[ORM\OneToOne(targetEntity: Formations::class, cascade: ['persist', 'remove'])]
     private $formations;
 
-
     #[ORM\OneToOne(targetEntity: ActionJustice::class, cascade: ['persist', 'remove'])]
     private $actionJustice;
 
     #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Representation::class)]
     private $representation;
+
+    #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Dossier::class)]
+    private $dossier;
 
     public function __construct()
     {
@@ -74,6 +73,7 @@ class Lieu
         $this->communication = new ArrayCollection();
         $this->formation = new ArrayCollection();
         $this->representation = new ArrayCollection();
+        $this->dossier = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -253,18 +253,6 @@ class Lieu
     }
 
 
-    public function getDossiers(): ?Dossiers
-    {
-        return $this->dossiers;
-    }
-
-    public function setDossiers(?Dossiers $dossiers): self
-    {
-        $this->dossiers = $dossiers;
-
-        return $this;
-    }
-
     public function getPermanence(): ?Permanence
     {
         return $this->permanence;
@@ -337,6 +325,36 @@ class Lieu
             // set the owning side to null (unless already changed)
             if ($representation->getLieu() === $this) {
                 $representation->setLieu(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Dossier>
+     */
+    public function getDossier(): Collection
+    {
+        return $this->dossier;
+    }
+
+    public function addDossier(Dossier $dossier): self
+    {
+        if (!$this->dossier->contains($dossier)) {
+            $this->dossier[] = $dossier;
+            $dossier->setLieu($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDossier(Dossier $dossier): self
+    {
+        if ($this->dossier->removeElement($dossier)) {
+            // set the owning side to null (unless already changed)
+            if ($dossier->getLieu() === $this) {
+                $dossier->setLieu(null);
             }
         }
 

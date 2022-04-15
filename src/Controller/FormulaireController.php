@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\ActionJustice;
 use App\Entity\Atelier;
 use App\Entity\Communication;
+use App\Entity\Dossier;
 use App\Entity\Dossiers;
 use App\Entity\Evenement;
 use App\Entity\Formation;
@@ -27,6 +28,7 @@ use App\Repository\CategorieRepRepository;
 use App\Repository\LieuRepository;
 use App\Repository\StatutRepository;
 use App\Repository\TypeCommunicationRepository;
+use App\Repository\TypologieDossierRepository;
 use App\Repository\UDRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -114,7 +116,7 @@ class FormulaireController extends AbstractController
             $entityManager->persist($permanence);
             $entityManager->flush();
 
-            return $this->redirectToRoute('formulaire_typologiedossier', array('idLieu'=>$idLieu));
+            return $this->redirectToRoute('formulaire_typologieDossier', array('idLieu'=>$idLieu));
         }
 
         return $this->renderForm('formulaire/permanence.html.twig',
@@ -122,34 +124,47 @@ class FormulaireController extends AbstractController
 
     }
 
-    #[Route('/typologiedossier/{idLieu}', name: '_typologiedossier', requirements: ['idLieu' => '\d+'])]
-    public function dossier(LieuRepository $lieuRepository, UDRepository $UDRepository, UserRepository $userRepository, StatutRepository $statutRepository, EntityManagerInterface $entityManager,
-                            Request $request, $idLieu): Response
+    #[Route('/typologieDossier/{idLieu}/{state}', name: '_typologieDossier', requirements: ['idLieu' => '\d+'])]
+    public function typologieDossier(LieuRepository $lieuRepository, UDRepository $UDRepository, UserRepository $userRepository, StatutRepository $statutRepository, EntityManagerInterface $entityManager,
+                                  Request $request, $idLieu, TypologieDossierRepository $typologieDossierRepository, $state=0): Response
     {
 
         $lieu = $lieuRepository->find($idLieu);
+        $Dossier = $lieu->getDossier();
 
-        if ($lieu->getDossiers() !== null) {
-            $TypologieDossier = $lieu->getDossiers();
+        if($state === 0 ) {
+
+
+            if ($Dossier->count() === 0) {
+
+                for ($i = 0; $i < count($typologieDossierRepository->findAll()); $i++) {
+
+                    $dos = new Dossier();
+                    $dos->setTypologieDossier($typologieDossierRepository->find($i + 1));
+                    $lieu->addDossier($dos);
+                    $entityManager->persist($dos);
+                    $entityManager->flush();
+
+                }
+
+                $entityManager->persist($lieu);
+                $entityManager->flush();
+            }
         }
-        else {
-            $TypologieDossier = new Dossiers();
-        }
 
-        $formDossier = $this->createForm(DossierType::class,$TypologieDossier);
-        $formDossier->handleRequest($request);
+        if($state==='sub') {
 
-        if ($formDossier->isSubmitted() && $formDossier->isValid()) {
-            $lieu->setDossiers($TypologieDossier);
-            $entityManager->persist($TypologieDossier);
-            $entityManager->flush();
-
+            foreach($Dossier as $dos) {
+                $nombre = $request->request->get('Nb'. $dos->getTypologieDossier()->getId());
+                $dos->setNbDossiers($nombre);
+                $entityManager->persist($dos);
+                $entityManager->flush();
+            }
             return $this->redirectToRoute('formulaire_vieAssociative', array('idLieu'=>$idLieu));
         }
 
-        return $this->renderForm('formulaire/typologiedossier.twig',
-            compact('formDossier',  'idLieu'));
-
+        return $this->render('formulaire/typologiedossier.twig',
+            compact( 'Dossier','idLieu'));
     }
 
 
