@@ -31,7 +31,7 @@
                                     Thème de l'atelier : {{ form_row(formAteliers.themeAtelier) }}<br>
                                     Nombre de séances :  {{ form_row(formAteliers.nbSeances) }}<br>
                                     Nombre de participants au total :  {{ form_row(formAteliers.nbPersonnesTotal) }}<br>
-                                    <button type="submit" class="btn bgviolet">Suivant</button>
+                                    <button type="submit" class="btn bgviolet">Valider l'atelier</button>
                                     {{ form_end(formAteliers) }}
                                     <style>#lien_precedent {text-decoration: none; color: #FFFFFF;font-family: 'Recursive', sans-serif}</style>
                                 </div>
@@ -58,7 +58,7 @@
                 </div>
 
                 <br><a href="{{ path('formulaire_communication',{'idLieu': idLieu} ) }}"><button class="btn bgviolet" id="lien_precedent">Précedent</button></a>
-                <a href="{{ path('home' ) }}"><button class="btn bgviolet" id="lien_precedent">Suivant</button></a>
+                <a href="{{ path('formulaire_representation',{'idLieu': idLieu} ) }}"><button class="btn bgviolet" id="lien_precedent">Suivant</button></a>
 
             </div>
         </div>

@@ -28,8 +28,8 @@
                             {% for com in Communication %}
                                 <h1>{{ com.TypeCommunication.libelle }}</h1>
                                 <div class="form-group">
-                                <p>nombre : <input class="form-control is-rounded col-xs-2" type="number" name="{{ 'Nb' ~ com.TypeCommunication.libelle }}" value="{{ com.nombre }}" required></p>
-                                <p>sujets :  <input class="form-control is-rounded col-xs-2" type="text" name="{{ 'Sujet' ~ com.TypeCommunication.libelle }}" value="{{ com.sujets }}" required></p><br>
+                                <p>nombre : <input class="form-control is-rounded col-xs-2" type="number" name="{{ 'Nb' ~ com.TypeCommunication.id }}" value="{{ com.nombre }}" required></p>
+                                <p>sujets :  <input class="form-control is-rounded col-xs-2" type="text" name="{{ 'Sujet' ~ com.TypeCommunication.id }}" value="{{ com.sujets }}" required></p><br>
                                 </div>
                             {% endfor %}
                                 <button type="submit" class="btn bgviolet">Suivant</button>

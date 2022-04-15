@@ -20,9 +20,18 @@ class HomeController extends AbstractController
 
     #[Route('/home', name: 'home')]
     public function home(
-        UserRepository $repository
+        UserRepository $userRepository
     ): Response {
-        return $this->render('home/index.html.twig');
+
+        $user = $userRepository->find($this->getUser()->getId());
+        if ($user->getLieux() !== null && $user->getEchelle()->getId() === 1) {
+            $stop = 'Stop';
+        }
+        else {
+            $stop = 'pasStop';
+        }
+
+        return $this->render('home/index.html.twig',compact('stop'));
     }
 
     #[Route('/miniaide', name: 'miniaide')]

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\ActionJustice;
 use App\Entity\Atelier;
 use App\Entity\Communication;
 use App\Entity\Dossiers;
@@ -10,6 +11,8 @@ use App\Entity\Formation;
 use App\Entity\Formations;
 use App\Entity\Lieu;
 use App\Entity\Permanence;
+use App\Entity\Representation;
+use App\Form\ActionsEnJusticeType;
 use App\Form\AteliersConsoType;
 use App\Form\CommunicationType;
 use App\Form\DossierType;
@@ -17,6 +20,7 @@ use App\Form\FormationsType;
 use App\Form\PermanencesType;
 use App\Form\PermanenceType;
 use App\Form\PresentationType;
+use App\Form\RepresentationType;
 use App\Form\VieAssociativeType;
 use App\Repository\AtelierRepository;
 use App\Repository\LieuRepository;
@@ -43,13 +47,13 @@ class FormulaireController extends AbstractController
         if ($idLieu == 0) {
 
             $lieu = new Lieu();
-            $formPresentation = $this->createForm(presentationType::class, $lieu);
+            $formPresentation = $this->createForm(PresentationType::class, $lieu);
             $formPresentation->handleRequest($request);
 
             if ($formPresentation->isSubmitted() && $formPresentation->isValid()) {
 
                 $user = $userRepository->find($this->getUser()->getId());
-                dump($user);
+//                dump($user);
                 $lieu->setUser($user);
                 $lieu->setStatut($statutRepository->find(1));
 
@@ -230,7 +234,7 @@ class FormulaireController extends AbstractController
         $lieu = $lieuRepository->find($idLieu);
         $Communication = $lieu->getCommunication();
 
-        if($state == 0 ) {
+        if($state === 0 ) {
 
 
             if ($Communication->count() === 0) {
@@ -250,19 +254,17 @@ class FormulaireController extends AbstractController
             }
         }
 
-        if($state=='sub') {
+        if($state==='sub') {
 
             foreach($Communication as $com) {
-                $nombre = $request->request->get('Nb'. $com->getTypeCommunication()->getLibelle());
-                $sujets = $request->request->get('Sujet' . $com->getTypeCommunication()->getLibelle());
-
+                $nombre = $request->request->get('Nb'. $com->getTypeCommunication()->getId());
+                $sujets = $request->request->get('Sujet' . $com->getTypeCommunication()->getId());
                 $com->setNombre($nombre);
                 $com->setSujets($sujets);
                 $entityManager->persist($com);
                 $entityManager->flush();
-
-                return $this->redirectToRoute('formulaire_atelier', array('idLieu'=>$idLieu));
             }
+            return $this->redirectToRoute('formulaire_atelier', array('idLieu'=>$idLieu));
         }
 
 
@@ -279,7 +281,7 @@ class FormulaireController extends AbstractController
 
         $lieu = $lieuRepository->find($idLieu);
         $ateliers = $lieu->getAtelier();
-       $atelier = new Atelier();
+        $atelier = new Atelier();
 
 
         $formAteliers = $this->createForm(AteliersConsoType::class,$atelier);
@@ -298,12 +300,77 @@ class FormulaireController extends AbstractController
         if ($idAtelier !== 0){
             $atelier = $atelierRepository->find($idAtelier);
             $lieu->removeAtelier($atelier);
+            $atelierRepository->remove($atelier);
             $entityManager->persist($lieu);
             $entityManager->flush();
         }
 
         return $this->renderForm('formulaire/ateliers.twig',
             compact('formAteliers', 'ateliers',  'idLieu'));
+
+    }
+
+
+
+    #[Route('/representation/{idLieu}', name: '_representation', requirements: ['idLieu' => '\d+'])]
+    public function representation(LieuRepository $lieuRepository, UDRepository $UDRepository, UserRepository $userRepository, StatutRepository $statutRepository, EntityManagerInterface $entityManager,
+                               Request $request, $idLieu): Response
+    {
+
+        $lieu = $lieuRepository->find($idLieu);
+
+        if ($lieu->getPermanence() !== null) {
+            $representation = $lieu->getRepresentations();
+        }
+        else {
+            $representation = new Representation();
+        }
+
+        $formRepresentation = $this->createForm(RepresentationType::class,$representation);
+        $formRepresentation->handleRequest($request);
+
+        if ($formRepresentation->isSubmitted() && $formRepresentation->isValid()) {
+            $lieu->setRepresentations($representation);
+            $entityManager->persist($representation);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('formulaire_actionJustice', array('idLieu'=>$idLieu));
+        }
+
+        return $this->renderForm('formulaire/representation.html.twig',
+            compact('formRepresentation',  'idLieu'));
+
+    }
+
+
+
+    #[Route('/actionJustice/{idLieu}', name: '_actionJustice', requirements: ['idLieu' => '\d+'])]
+    public function actionJustice(LieuRepository $lieuRepository, UDRepository $UDRepository, UserRepository $userRepository, StatutRepository $statutRepository, EntityManagerInterface $entityManager,
+                                   Request $request, $idLieu): Response
+    {
+
+        $lieu = $lieuRepository->find($idLieu);
+
+        if ($lieu->getActionJustice() !== null) {
+            $actionJustice = $lieu->getActionJustice();
+        }
+        else {
+            $actionJustice = new ActionJustice();
+        }
+
+        $formActionJustice = $this->createForm(ActionsEnJusticeType::class,$actionJustice);
+        $formActionJustice->handleRequest($request);
+
+        if ($formActionJustice->isSubmitted() && $formActionJustice->isValid()) {
+            $actionJustice->setLieu($lieu);
+            $entityManager->persist($actionJustice);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('home', array('idLieu'=>$idLieu));
+        }
+
+        return $this->renderForm('formulaire/actionJustice.html.twig',
+            compact('formActionJustice',  'idLieu'));
 
     }
 

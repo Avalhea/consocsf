@@ -42,18 +42,12 @@ class Lieu
     #[ORM\ManyToOne(targetEntity: UD::class, inversedBy: 'lieux')]
     private $UD;
 
-    #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Representation::class)]
-    private $representation;
 
     #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Atelier::class)]
     private $atelier;
 
     #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Communication::class)]
     private $communication;
-
-
-    #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: ActionJustice::class)]
-    private $actionJustice;
 
     #[ORM\OneToOne(targetEntity: Dossiers::class, cascade: ['persist', 'remove'])]
     private $dossiers;
@@ -67,13 +61,17 @@ class Lieu
     #[ORM\OneToOne(targetEntity: Formations::class, cascade: ['persist', 'remove'])]
     private $formations;
 
+    #[ORM\OneToOne(targetEntity: Representation::class, cascade: ['persist', 'remove'])]
+    private $representations;
+
+    #[ORM\OneToOne(targetEntity: ActionJustice::class, cascade: ['persist', 'remove'])]
+    private $actionJustice;
+
     public function __construct()
     {
-        $this->representation = new ArrayCollection();
         $this->atelier = new ArrayCollection();
         $this->communication = new ArrayCollection();
         $this->formation = new ArrayCollection();
-        $this->actionJustice = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -194,36 +192,6 @@ class Lieu
 
 
     /**
-     * @return Collection<int, Representation>
-     */
-    public function getRepresentation(): Collection
-    {
-        return $this->representation;
-    }
-
-    public function addRepresentation(Representation $representation): self
-    {
-        if (!$this->representation->contains($representation)) {
-            $this->representation[] = $representation;
-            $representation->setLieu($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRepresentation(Representation $representation): self
-    {
-        if ($this->representation->removeElement($representation)) {
-            // set the owning side to null (unless already changed)
-            if ($representation->getLieu() === $this) {
-                $representation->setLieu(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Atelier>
      */
     public function getAtelier(): Collection
@@ -283,36 +251,6 @@ class Lieu
     }
 
 
-    /**
-     * @return Collection<int, ActionJustice>
-     */
-    public function getActionJustice(): Collection
-    {
-        return $this->actionJustice;
-    }
-
-    public function addActionJustice(ActionJustice $actionJustice): self
-    {
-        if (!$this->actionJustice->contains($actionJustice)) {
-            $this->actionJustice[] = $actionJustice;
-            $actionJustice->setLieu($this);
-        }
-
-        return $this;
-    }
-
-    public function removeActionJustice(ActionJustice $actionJustice): self
-    {
-        if ($this->actionJustice->removeElement($actionJustice)) {
-            // set the owning side to null (unless already changed)
-            if ($actionJustice->getLieu() === $this) {
-                $actionJustice->setLieu(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getDossiers(): ?Dossiers
     {
         return $this->dossiers;
@@ -357,6 +295,30 @@ class Lieu
     public function setFormations(?Formations $formations): self
     {
         $this->formations = $formations;
+
+        return $this;
+    }
+
+    public function getRepresentations(): ?Representation
+    {
+        return $this->representations;
+    }
+
+    public function setRepresentations(?Representation $representations): self
+    {
+        $this->representations = $representations;
+
+        return $this;
+    }
+
+    public function getActionJustice(): ?ActionJustice
+    {
+        return $this->actionJustice;
+    }
+
+    public function setActionJustice(?ActionJustice $actionJustice): self
+    {
+        $this->actionJustice = $actionJustice;
 
         return $this;
     }
