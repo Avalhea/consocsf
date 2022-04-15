@@ -23,6 +23,7 @@ use App\Form\PresentationType;
 use App\Form\RepresentationType;
 use App\Form\VieAssociativeType;
 use App\Repository\AtelierRepository;
+use App\Repository\CategorieRepRepository;
 use App\Repository\LieuRepository;
 use App\Repository\StatutRepository;
 use App\Repository\TypeCommunicationRepository;
@@ -312,34 +313,49 @@ class FormulaireController extends AbstractController
 
 
 
-    #[Route('/representation/{idLieu}', name: '_representation', requirements: ['idLieu' => '\d+'])]
+    #[Route('/representation/{idLieu}/{state}', name: '_representation', requirements: ['idLieu' => '\d+'])]
     public function representation(LieuRepository $lieuRepository, UDRepository $UDRepository, UserRepository $userRepository, StatutRepository $statutRepository, EntityManagerInterface $entityManager,
-                               Request $request, $idLieu): Response
+                                  Request $request, $idLieu, CategorieRepRepository $categorieRepRepository, $state=0): Response
     {
 
         $lieu = $lieuRepository->find($idLieu);
+        $Representation = $lieu->getRepresentation();
 
-        if ($lieu->getPermanence() !== null) {
-            $representation = $lieu->getRepresentations();
+        if($state === 0 ) {
+
+
+            if ($Representation->count() === 0) {
+
+                for ($i = 0; $i < count($categorieRepRepository->findAll()); $i++) {
+
+                    $rep = new Representation();
+                    $rep->setCategorie($categorieRepRepository->find($i + 1));
+                    $lieu->addRepresentation($rep);
+                    $entityManager->persist($rep);
+                    $entityManager->flush();
+
+                }
+
+                $entityManager->persist($lieu);
+                $entityManager->flush();
+            }
         }
-        else {
-            $representation = new Representation();
-        }
 
-        $formRepresentation = $this->createForm(RepresentationType::class,$representation);
-        $formRepresentation->handleRequest($request);
+        if($state==='sub') {
 
-        if ($formRepresentation->isSubmitted() && $formRepresentation->isValid()) {
-            $lieu->setRepresentations($representation);
-            $entityManager->persist($representation);
-            $entityManager->flush();
-
+            foreach($Representation as $rep) {
+                $frequence = $request->request->get('frequence'. $rep->getCategorie()->getId());
+                $rep->setFrequence($frequence);
+                $entityManager->persist($rep);
+                $entityManager->flush();
+            }
             return $this->redirectToRoute('formulaire_actionJustice', array('idLieu'=>$idLieu));
         }
 
-        return $this->renderForm('formulaire/representation.html.twig',
-            compact('formRepresentation',  'idLieu'));
 
+
+        return $this->render('formulaire/representation.html.twig',
+            compact( 'Representation','idLieu'));
     }
 
 
@@ -362,9 +378,16 @@ class FormulaireController extends AbstractController
         $formActionJustice->handleRequest($request);
 
         if ($formActionJustice->isSubmitted() && $formActionJustice->isValid()) {
-            $actionJustice->setLieu($lieu);
+            $lieu->setActionJustice($actionJustice);
             $entityManager->persist($actionJustice);
             $entityManager->flush();
+
+            if($lieu->getActionJustice() !== null && $lieu->getAtelier() !== null && $lieu->getCommunication() !== null && $lieu->getDossiers() !== null && $lieu->getEvenement() !== null && $lieu->getFormations() !== null && $lieu->getPermanence() !== null && $lieu->getRepresentation() !== null ){
+                $lieu->setStatut($statutRepository->find(2));
+                $entityManager->persist($lieu);
+                $entityManager->flush();
+            }
+
 
             return $this->redirectToRoute('home', array('idLieu'=>$idLieu));
         }

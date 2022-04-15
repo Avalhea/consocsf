@@ -1,17 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block navbar %}
-    <div class="container" style="top: 0">
-        <nav class="navbar navbar-light bgviolet">
-            <div class="container-fluid">
-                <a class="navbar-brand"></a>
-                <form class="d-flex">
-                    <a href="{{ path('faq') }}"><button class="btn bgvertmenthe btn-default me-1" type="button" id="btnaide">Aide</button></a>
-                    <button class="btn bggris" type="button"><a href="{{ path('app_logout') }}" class="bggris">Se déconnecter</a></button>
-                </form>
-            </div>
-        </nav>
-    </div>
+{% block couleur %}
+    bgviolet
 {% endblock %}
 
 {% block body %}

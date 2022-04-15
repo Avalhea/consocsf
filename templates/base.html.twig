@@ -20,7 +20,7 @@
 
 {% block navbar %}
 <div class="container" style="top: 0">
-    <nav class="navbar navbar-light bg-light">
+    <nav class="navbar navbar-light {% block couleur %}{% endblock %}">
         <div class="container-fluid">
             <a class="navbar-brand"></a>
             <form class="d-flex">
@@ -31,6 +31,7 @@
     </nav>
 </div>
 {% endblock %}
+
 {% block body %}
 {% endblock %}
 

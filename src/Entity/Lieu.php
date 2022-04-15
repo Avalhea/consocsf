@@ -61,17 +61,19 @@ class Lieu
     #[ORM\OneToOne(targetEntity: Formations::class, cascade: ['persist', 'remove'])]
     private $formations;
 
-    #[ORM\OneToOne(targetEntity: Representation::class, cascade: ['persist', 'remove'])]
-    private $representations;
 
     #[ORM\OneToOne(targetEntity: ActionJustice::class, cascade: ['persist', 'remove'])]
     private $actionJustice;
+
+    #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Representation::class)]
+    private $representation;
 
     public function __construct()
     {
         $this->atelier = new ArrayCollection();
         $this->communication = new ArrayCollection();
         $this->formation = new ArrayCollection();
+        $this->representation = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -299,18 +301,6 @@ class Lieu
         return $this;
     }
 
-    public function getRepresentations(): ?Representation
-    {
-        return $this->representations;
-    }
-
-    public function setRepresentations(?Representation $representations): self
-    {
-        $this->representations = $representations;
-
-        return $this;
-    }
-
     public function getActionJustice(): ?ActionJustice
     {
         return $this->actionJustice;
@@ -322,4 +312,35 @@ class Lieu
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Representation>
+     */
+    public function getRepresentation(): Collection
+    {
+        return $this->representation;
+    }
+
+    public function addRepresentation(Representation $representation): self
+    {
+        if (!$this->representation->contains($representation)) {
+            $this->representation[] = $representation;
+            $representation->setLieu($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRepresentation(Representation $representation): self
+    {
+        if ($this->representation->removeElement($representation)) {
+            // set the owning side to null (unless already changed)
+            if ($representation->getLieu() === $this) {
+                $representation->setLieu(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

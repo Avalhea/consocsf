@@ -1,17 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block navbar %}
-    <div class="container" style="top: 0">
-        <nav class="navbar navbar-light bgviolet">
-            <div class="container-fluid">
-                <a class="navbar-brand"></a>
-                <form class="d-flex">
-                    <a href="{{ path('faq') }}"><button class="btn bgvertmenthe btn-default me-1" type="button" id="btnaide">Aide</button></a>
-                    <button class="btn bggris" type="button"><a href="{{ path('app_logout') }}" class="bggris">Se déconnecter</a></button>
-                </form>
-            </div>
-        </nav>
-    </div>
+{% block couleur %}
+    bgbleu
 {% endblock %}
 
 {% block body %}
@@ -21,7 +11,7 @@
 
             <div class="container has-text-centered">
 
-                <h1 class="title txtviolet">Ateliers</h1>
+                <h1 class="title txtbleu">Ateliers</h1>
                 <hr class="login-hr">
                 <div class="row">
                     <div class="column is-6">
@@ -31,7 +21,7 @@
                                     Thème de l'atelier : {{ form_row(formAteliers.themeAtelier) }}<br>
                                     Nombre de séances :  {{ form_row(formAteliers.nbSeances) }}<br>
                                     Nombre de participants au total :  {{ form_row(formAteliers.nbPersonnesTotal) }}<br>
-                                    <button type="submit" class="btn bgviolet">Valider l'atelier</button>
+                                    <button type="submit" class="btn bgbleu">Valider l'atelier</button>
                                     {{ form_end(formAteliers) }}
                                     <style>#lien_precedent {text-decoration: none; color: #FFFFFF;font-family: 'Recursive', sans-serif}</style>
                                 </div>
@@ -57,8 +47,8 @@
 
                 </div>
 
-                <br><a href="{{ path('formulaire_communication',{'idLieu': idLieu} ) }}"><button class="btn bgviolet" id="lien_precedent">Précedent</button></a>
-                <a href="{{ path('formulaire_representation',{'idLieu': idLieu} ) }}"><button class="btn bgviolet" id="lien_precedent">Suivant</button></a>
+                <br><a href="{{ path('formulaire_communication',{'idLieu': idLieu} ) }}"><button class="btn bgbleu" id="lien_precedent">Précedent</button></a>
+                <a href="{{ path('formulaire_representation',{'idLieu': idLieu} ) }}"><button class="btn bgbleu" id="lien_precedent">Suivant</button></a>
 
             </div>
         </div>

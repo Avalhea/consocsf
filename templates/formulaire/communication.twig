@@ -1,17 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block navbar %}
-    <div class="container" style="top: 0">
-        <nav class="navbar navbar-light bgbleu">
-            <div class="container-fluid">
-                <a class="navbar-brand"></a>
-                <form class="d-flex">
-                    <a href="{{ path('faq') }}"><button class="btn bgvertmenthe btn-default me-1" type="button" id="btnaide">Aide</button></a>
-                    <button class="btn bggris" type="button"><a href="{{ path('app_logout') }}" class="bggris">Se déconnecter</a></button>
-                </form>
-            </div>
-        </nav>
-    </div>
+{% block couleur %}
+    bgbrun
 {% endblock %}
 
 {% block body %}
@@ -21,7 +11,7 @@
             <div class="container has-text-centered">
                 <div class="column is-6 is-offset-3">
                     <div class="box" style="height: 670px; overflow: scroll ">
-                        <h1 class="title txtbleu">Communication</h1>
+                        <h1 class="title txtbrun">Communication</h1>
                         <hr class="login-hr">
                         <div class="field">
                             <form method='post' action='{{ path('formulaire_communication', {'idLieu': idLieu, 'state':'sub'}) }}'>
@@ -32,9 +22,9 @@
                                 <p>sujets :  <input class="form-control is-rounded col-xs-2" type="text" name="{{ 'Sujet' ~ com.TypeCommunication.id }}" value="{{ com.sujets }}" required></p><br>
                                 </div>
                             {% endfor %}
-                                <button type="submit" class="btn bgviolet">Suivant</button>
+                                <button type="submit" class="btn bgbrun">Suivant</button>
                             </form>
-                            <a href="{{ path('formulaire_formation',{'idLieu': idLieu} ) }}"><button class="btn bgviolet" id="lien_precedent">Précedent</button></a>
+                            <a href="{{ path('formulaire_formation',{'idLieu': idLieu} ) }}"><button class="btn bgbrun" id="lien_precedent">Précedent</button></a>
 
 
                         </div>

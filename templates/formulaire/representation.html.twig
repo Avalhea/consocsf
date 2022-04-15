@@ -1,17 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block navbar %}
-    <div class="container" style="top: 0">
-        <nav class="navbar navbar-light bgviolet">
-            <div class="container-fluid">
-                <a class="navbar-brand"></a>
-                <form class="d-flex">
-                    <a href="{{ path('faq') }}"><button class="btn bgvertmenthe btn-default me-1" type="button" id="btnaide">Aide</button></a>
-                    <button class="btn bggris" type="button"><a href="{{ path('app_logout') }}" class="bggris">Se déconnecter</a></button>
-                </form>
-            </div>
-        </nav>
-    </div>
+{% block couleur %}
+    bgorange
 {% endblock %}
 
 {% block body %}
@@ -20,16 +10,36 @@
             <div class="container has-text-centered">
                 <div class="column is-6 is-offset-3">
                     <div class="box">
-                        <h1 class="title txtviolet">Représentations</h1>
+                        <h1 class="title txtorange">Représentations</h1>
                         <hr class="login-hr">
                         <div class="field">
-                            {{ form_start(formRepresentation) }}
+                            <p>Liste à joindre de toutes les représentations assurée par votre UD (que ce soit au titre de l’UDAF, de France Assos Santé, du CTRC ou de La CSF directement)(joindre compte rendus ou, à défaut, convocation)(y compris les commissions de surendettement, les réunions avec les opérateurs type La Poste, Orange, Engie, GRDF, ERDF, les conseils citoyens, les CRUQPC, commissions taxis, les CCSPL, les ARS…) :</p>
 
-                            Catégorie :  {{ form_row(formRepresentation.categorie) }}<br>
-                            Fréquence : {{ form_row(formRepresentation.frequence) }}<br>
-                            <button type="submit" class="btn bgviolet">Suivant</button>
-                            {{ form_end(formRepresentation) }}
-                            <a href="{{ path('formulaire_atelier',{'idLieu': idLieu} ) }}"><button class="btn bgviolet" id="lien_precedent">Précedent</button></a>
+                            <hr class="login-hr">
+                            <br>
+                            <form method='post' action='{{ path('formulaire_representation', {'idLieu': idLieu, 'state':'sub'}) }}'>
+
+                                {% for rep in Representation %}
+
+                                    <div class="form-group">
+
+                                        <div class="row">
+
+                                            <h2 class="col-sm">{{ rep.Categorie .libelle }} : </h2>
+
+                                        <input class="form-control is-rounded col-sm" style="width: 5%; height: 100%" type="number" name="{{ 'frequence' ~ rep.Categorie.id }}" value="{{ rep.frequence }}" required>
+
+                                            <div class="col-sm"> par an </div>
+
+                                        </div>
+                                    </div>
+                                        <br><br>
+
+                                {% endfor %}
+
+                                <button type="submit" class="btn bgorange">Suivant</button>
+                            </form>
+                            <a href="{{ path('formulaire_atelier',{'idLieu': idLieu} ) }}"><button class="btn bgorange" id="lien_precedent">Précedent</button></a>
                             <style>#lien_precedent {text-decoration: none; color: #FFFFFF;font-family: 'Recursive', sans-serif}</style>
                         </div>
                 </div>
