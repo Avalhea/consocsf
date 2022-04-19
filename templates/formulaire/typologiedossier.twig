@@ -5,8 +5,7 @@
 {% endblock %}
 
 {% block body %}
-    <body>
-    <section class="hero is-fullheight">
+    <section class="section">
         <div class="hero-body">
             <div class="container has-text-centered">
                 <div class="column is-6 is-offset-3">
@@ -17,9 +16,9 @@
                         <div class="field">
                             <form method='post' action='{{ path('formulaire_typologieDossier', {'idLieu': idLieu, 'state':'sub'}) }}'>
                                 {% for dos in Dossier %}
-                                <h1>{{ dos.TypologieDossier.libelle }}</h1>
+                                <h4>{{ dos.TypologieDossier.libelle }}</h4>
                                 <div class="form-group">
-                                    <p><input class="form-control is-rounded col-xs-2" type="number" name="{{ 'Nb' ~ dos.TypologieDossier.id }}" value="{{ dos.nbDossiers }}" required></p>
+                                    <p><input class="input is-rounded" type="number" name="{{ 'Nb' ~ dos.TypologieDossier.id }}" value="{{ dos.nbDossiers }}" required></p>
                                 </div>
                                 {% endfor %}
                             <button type="submit" class="btn bgviolet">Suivant</button>
@@ -32,5 +31,4 @@
             </div>
         </div>
     </section>
-    </body>
 {% endblock %}

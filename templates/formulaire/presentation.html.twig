@@ -5,8 +5,8 @@
 {% endblock %}
 
 {% block body %}
-<body>
-<section class="hero is-fullheight">
+
+<section class="section">
     <div class="hero-body">
         <div class="container has-text-centered">
             <div class="column is-6 is-offset-3">
@@ -16,6 +16,7 @@
                     <div class="field">
                         {{ form_start(formPresentation) }}
                         UD : {{ form_row(formPresentation.UD) }}<br>
+                        Echelle : {{ form_row(formPresentation.echelle) }}
                         Section : {{ form_row(formPresentation.nom) }}<br>
                         Adresse : {{ form_row(formPresentation.adresse) }}<br>
                         Jours & horaires d'ouverture : {{ form_row(formPresentation.joursEtHorairesOuverture) }}<br>
@@ -28,5 +29,5 @@
     </div>
     </div>
 </section>
-</body>
+
 {% endblock %}

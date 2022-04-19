@@ -13,7 +13,7 @@ class ActionsEnJusticeType extends AbstractType
     {
         $builder
             ->add('nbActionConjointe',null,['label'=>' ',  'attr' => [
-                'class' => 'input is-rounded', 'col-xs-2',
+                'class' => 'input is-rounded is-focused', 'col-xs-2',
                 'type' => 'int'
             ]])
             ->add('nbAccompagnement',null,['label'=>' ',  'attr' => [

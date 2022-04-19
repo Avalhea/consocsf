@@ -1,4 +1,4 @@
-        {
+{
     "type": "project",
     "license": "proprietary",
     "minimum-stability": "stable",
@@ -29,6 +29,8 @@
         "twig/twig": "^3.3"
     },
     "require-dev": {
+        "roave/security-advisories": "dev-latest"
+        ,
         "symfony/debug-bundle": "6.0.*",
         "symfony/maker-bundle": "^1.38",
         "symfony/stopwatch": "6.0.*",

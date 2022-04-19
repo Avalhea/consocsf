@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-     <section class="hero is-fullheight">
+     <section class="section">
         <div class="hero-body">
             <div class="container has-text-centered">
                 <div class="column is-6 is-offset-3">
@@ -25,9 +25,9 @@
 
                                         <div class="row">
 
-                                            <h2 class="col-sm">{{ rep.Categorie .libelle }} : </h2>
+                                            <h4 class="col-sm">{{ rep.Categorie .libelle }} : </h4>
 
-                                        <input class="form-control is-rounded col-sm" style="width: 5%; height: 100%" type="number" name="{{ 'frequence' ~ rep.Categorie.id }}" value="{{ rep.frequence }}" required>
+                                        <input class="input is-rounded is-focused col-sm" style="width: 5%; height: 100%" type="number" name="{{ 'frequence' ~ rep.Categorie.id }}" value="{{ rep.frequence }}" required>
 
                                             <div class="col-sm"> par an </div>
 

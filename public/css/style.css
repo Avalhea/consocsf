@@ -1,7 +1,12 @@
 body{
     font-family: 'Recursive', sans-serif;
-    background: url("../img/RosaceCSF.svg") no-repeat;
-    background-size: cover;
+    background: url("../img/RosaceCS.png") no-repeat;
+    background-size: 1000px 1200px;
+    background-position-x: center;
+}
+
+.section{
+    height: 757px;
 }
 
 #logo1{
@@ -14,7 +19,6 @@ body{
 #miniaide_txt{
     font-weight: bold;
 }
-
 
 .preambule{
     text-align: center;

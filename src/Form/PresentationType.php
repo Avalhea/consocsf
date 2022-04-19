@@ -2,8 +2,10 @@
 
 namespace App\Form;
 
+use App\Entity\Echelle;
 use App\Entity\Lieu;
 use App\Entity\UD;
+use Doctrine\ORM\Mapping\Entity;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -17,9 +19,15 @@ class PresentationType extends AbstractType
             ->add('UD', EntityType::class,
                 ["class"=>UD::class,
                     "choice_label"=>"libelle",
-                    'label' => " "])
+                    'label' => " "
+                    ])
+            ->add('echelle', EntityType::class,
+                ["class"=>Echelle::class,
+                    "choice_label"=>"libelle",
+                    'label' => " "
+                ])
             ->add('nom',null,['label'=>' ',  'attr' => [
-                'class' => 'input is-rounded', 'col-xs-2',
+                'class' => 'input is-rounded is-focused', 'col-xs-2',
                 'type' => 'int'
             ]])
             ->add('adresse',null,['label'=>' ',  'attr' => [

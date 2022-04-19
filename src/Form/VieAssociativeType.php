@@ -19,15 +19,17 @@ class VieAssociativeType extends AbstractType
                 'class' => 'input is-rounded', 'col-xs-2',
                 'type' => 'int'
             ]])
-            ->add('nbBenevole',null,['label'=>' ',  'attr' => [
+            ->add('nbBenevole',null,['label'=>' ', 'attr' => [
                 'class' => 'input is-rounded', 'col-xs-2',
                 'type' => 'int'
             ]])
-            ->add('NbConsomRensTel',null,['label'=>' ',  'attr' => [
+            ->add('NbConsomRensTel',null,['label'=>' ', 'attr' => [
                 'class' => 'input is-rounded', 'col-xs-2',
                 'type' => 'int'
             ]])
-            ->add('evenement',EvenementType::class, ['label'=>false])
+            ->add('evenement',EvenementType::class, ['label'=>false, 'attr'=>[
+                'type' => 'text'
+            ]])
         ;
     }
 

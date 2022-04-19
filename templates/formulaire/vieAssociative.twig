@@ -6,7 +6,7 @@
 
 {% block body %}
     <body>
-    <section class="hero is-fullheight">
+    <section class="section">
         <div class="hero-body">
             <div class="container has-text-centered">
                 <div class="column is-6 is-offset-3">
@@ -18,7 +18,7 @@
                             Nombre de bénévoles :  {{ form_row(formVieAssociative.nbBenevole) }}<br>
                             Nombre de consommateurs renseignés par téléphone :  {{ form_row(formVieAssociative.NbConsomRensTel) }}<br>
                             Action/activité vie quotidienne / conso significative de l'UD que vous souhaitez valoriser. Merci de préciser les sujets :
-                            <br>  {{ form_row(formVieAssociative.evenement) }}<br>
+                            {{ form_row(formVieAssociative.evenement) }}<br>
                             <button type="submit" class="btn bgviolet">Suivant</button>
                             {{ form_end(formVieAssociative) }}
                             <a href="{{ path('formulaire_typologieDossier',{'idLieu': idLieu} ) }}"><button class="btn bgviolet" id="lien_precedent">Précedent</button></a>
