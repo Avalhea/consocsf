@@ -71,7 +71,7 @@ class LoginController extends AbstractController
             $user->setPassword($vraiMdp);
             $entityManager->persist($user);
             $entityManager->flush();
-            return $this->render('home/index.html.twig');
+            return $this->redirectToRoute('home');
         }
 
         $this->addFlash('error', ' Les deux mots de passes ne correspondent pas !');

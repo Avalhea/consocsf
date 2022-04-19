@@ -25,6 +25,7 @@ use App\Form\RepresentationType;
 use App\Form\VieAssociativeType;
 use App\Repository\AtelierRepository;
 use App\Repository\CategorieRepRepository;
+use App\Repository\EchelleRepository;
 use App\Repository\LieuRepository;
 use App\Repository\StatutRepository;
 use App\Repository\TypeCommunicationRepository;
@@ -41,7 +42,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class FormulaireController extends AbstractController
 {
     #[Route('/presentation/{idLieu}', name: '_presentation', requirements: ['idLieu' => '\d+'])]
-    public function presentation(LieuRepository $lieuRepository, UDRepository $UDRepository, UserRepository $userRepository, StatutRepository $statutRepository, EntityManagerInterface $entityManager,
+    public function presentation(LieuRepository $lieuRepository, UDRepository $UDRepository, UserRepository $userRepository, EchelleRepository $echelleRepository, StatutRepository $statutRepository, EntityManagerInterface $entityManager,
                                  Request        $request, $idLieu = 0): Response
     {
 
@@ -56,9 +57,9 @@ class FormulaireController extends AbstractController
             if ($formPresentation->isSubmitted() && $formPresentation->isValid()) {
 
                 $user = $userRepository->find($this->getUser()->getId());
-//                dump($user);
                 $lieu->setUser($user);
                 $lieu->setStatut($statutRepository->find(1));
+                $lieu->setEchelle($echelleRepository->find(1));
 
                 $entityManager->persist($lieu);
                 $entityManager->flush();
@@ -397,14 +398,14 @@ class FormulaireController extends AbstractController
             $entityManager->persist($actionJustice);
             $entityManager->flush();
 
-            if($lieu->getActionJustice() !== null && $lieu->getAtelier() !== null && $lieu->getCommunication() !== null && $lieu->getDossiers() !== null && $lieu->getEvenement() !== null && $lieu->getFormations() !== null && $lieu->getPermanence() !== null && $lieu->getRepresentation() !== null ){
+            if($lieu->getActionJustice() !== null && $lieu->getAtelier() !== null && $lieu->getCommunication() !== null && $lieu->getDossier() !== null && $lieu->getEvenement() !== null && $lieu->getFormations() !== null && $lieu->getPermanence() !== null && $lieu->getRepresentation() !== null ){
                 $lieu->setStatut($statutRepository->find(2));
                 $entityManager->persist($lieu);
                 $entityManager->flush();
             }
 
 
-            return $this->redirectToRoute('home', array('idLieu'=>$idLieu));
+            return $this->redirectToRoute('gestion_formulaire_ud');
         }
 
         return $this->renderForm('formulaire/actionJustice.html.twig',

@@ -67,6 +67,12 @@ class Lieu
     #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Dossier::class)]
     private $dossier;
 
+    #[ORM\ManyToOne(targetEntity: Echelle::class, inversedBy: 'lieux')]
+    private $echelle;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private $nbAteliers;
+
     public function __construct()
     {
         $this->atelier = new ArrayCollection();
@@ -357,6 +363,30 @@ class Lieu
                 $dossier->setLieu(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEchelle(): ?Echelle
+    {
+        return $this->echelle;
+    }
+
+    public function setEchelle(?Echelle $echelle): self
+    {
+        $this->echelle = $echelle;
+
+        return $this;
+    }
+
+    public function getNbAteliers(): ?int
+    {
+        return $this->nbAteliers;
+    }
+
+    public function setNbAteliers(?int $nbAteliers): self
+    {
+        $this->nbActionsJustice = $nbAteliers;
 
         return $this;
     }
