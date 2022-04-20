@@ -21,7 +21,9 @@ class GestionFormulaireController extends AbstractController
     public function index(EntityManagerInterface $entityManager, UserRepository $userRepository, LieuRepository $lieuRepository, EchelleRepository $echelleRepository, UDRepository $UDRepository): Response
     {
         if (count($lieuRepository->findBy(['echelle' => '2'])) < count($UDRepository->findAll())) {
-            for ($i = 1; $i < count($UDRepository->findAll())+1; $i++) {
+
+        for ($i = 1; $i < count($UDRepository->findAll()) + 1; $i++) {
+            if (count($lieuRepository->findBy(['echelle' => '2', 'UD' => $i])) == 0) {
                 $ud = new Lieu();
                 $ud->setEchelle($echelleRepository->find(2));
                 $ud->setUD($UDRepository->find($i));
@@ -29,7 +31,8 @@ class GestionFormulaireController extends AbstractController
                 $entityManager->persist($ud);
                 $entityManager->flush();
             }
-
+        }
+    }
             $UDs = $lieuRepository->findBy(['echelle' => '2']);
 
 
@@ -89,7 +92,7 @@ class GestionFormulaireController extends AbstractController
 
 
 
-        }
+
         return $this->render('gestion_formulaire/gestionform.html.twig', [
             'controller_name' => 'GestionFormulaireController',
         ]);
