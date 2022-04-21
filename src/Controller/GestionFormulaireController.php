@@ -67,6 +67,7 @@ class GestionFormulaireController extends AbstractController
                 $nbBenevoles=0;
                 $nbConsoTel=0;
 
+
 //
                 foreach($sections as $section) {
 
@@ -89,6 +90,12 @@ class GestionFormulaireController extends AbstractController
 
                     //          Communication
                     for ($i=1; $i < count($typeCommunicationRepository->findAll())+1; $i++) {
+                        $nb=0;
+
+                        foreach($sections as $sec) {
+                            $com = $communicationRepository->findOneBy( ['lieu'=>$sec, 'typeCommunication'=>$typeCommunicationRepository->find($i)]);
+                            $nb=$nb+$com->getNombre();
+                        }
 
                         if(!$communicationRepository->findOneBy(['lieu'=>$UD,'typeCommunication'=>$typeCommunicationRepository->find($i)])) {
                             $communication = new Communication();
@@ -98,11 +105,7 @@ class GestionFormulaireController extends AbstractController
                         }
 
                         $communication->setTypeCommunication($typeCommunicationRepository->find($i));
-
-
-                        $communication->setNombre( $communicationRepository->findOneBy((['lieu'=>$section, 'typeCommunication'=>$typeCommunicationRepository->find($i)]))->getNombre());
-//  TODO Revoir Communication/Dossier/Represe
-
+                        $communication->setNombre( $nb);
                         $communication->setLieu($UD);
                         $entityManager->persist($communication);
                         $entityManager->flush();
@@ -111,6 +114,12 @@ class GestionFormulaireController extends AbstractController
 
                     //          Dossier
                     for ($i=1; $i < count($typologieDossierRepository->findAll())+1; $i++) {
+                        $nb=0;
+
+                        foreach($sections as $sec) {
+                            $dos = $dossierRepository->findOneBy( ['lieu'=>$sec, 'typologieDossier'=>$typologieDossierRepository->find($i)]);
+                            $nb=$nb+$dos->getNbDossiers();
+                        }
 
                         if(!$dossierRepository->findOneBy(['lieu'=>$UD,'typologieDossier'=>$typologieDossierRepository->find($i)])) {
                             $dossier = new Dossier();
@@ -118,9 +127,11 @@ class GestionFormulaireController extends AbstractController
                         else {
                             $dossier = $dossierRepository->findOneBy(['lieu'=>$UD,'typologieDossier'=>$typologieDossierRepository->find($i)]);
                         }
+
                         $dossier->setTypologieDossier($typologieDossierRepository->find($i));
-                        $dossier->setNbDossiers( $dossierRepository->findOneBy((['lieu'=>$section->getId(), 'typologieDossier'=>$i]))->getNbDossiers());
+                        $dossier->setNbDossiers($nb);
                         $dossier->setLieu($UD);
+
                         $entityManager->persist($dossier);
                         $entityManager->flush();
                     }
@@ -142,7 +153,14 @@ class GestionFormulaireController extends AbstractController
 
 
                     //          Representation
+
                     for ($i=1; $i < count($categorieRepRepository->findAll())+1; $i++) {
+                        $nb=0;
+                        foreach($sections as $sec) {
+                            $repi = $representationRepository->findOneBy( ['lieu'=>$sec, 'categorie'=>$categorieRepRepository->find($i)]);
+                            $nb=$nb+$repi->getFrequence();
+                        }
+
                         if(!$representationRepository->findOneBy(['lieu'=>$UD,'categorie'=>$categorieRepRepository->find($i)])) {
                             $representation = new Representation();
                         }
@@ -150,7 +168,7 @@ class GestionFormulaireController extends AbstractController
                             $representation = $representationRepository->findOneBy(['lieu'=>$UD,'categorie'=>$categorieRepRepository->find($i)]);
                         }
                         $representation->setCategorie($categorieRepRepository->find($i));
-                        $representation->setFrequence( $representationRepository->findOneBy((['lieu'=>$section->getId(), 'categorie'=>$i]))->getFrequence());
+                        $representation->setFrequence( $nb);
                         $representation->setLieu($UD);
                         $entityManager->persist($representation);
                         $entityManager->flush();
@@ -166,8 +184,6 @@ class GestionFormulaireController extends AbstractController
                 $UD->setActionJustice($actionJustice);
 
 //          Ateliers
-                dump('nb ateliers'. $nbAteliers);
-
                 $UD->setNbAteliers($nbAteliers)->setNbPartiAteliers($nbParti);
 
 //          Communication  ok
