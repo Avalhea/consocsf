@@ -26,11 +26,11 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-#[Route('/gestion/formulaire', name: 'gestion_formulaire')]
+#[Route('/gestion/formulaire', name: 'ud')]
 class GestionFormulaireController extends AbstractController
 {
-    #[Route('/ud', name: '_ud')]
-    public function index(EntityManagerInterface $entityManager, UserRepository $userRepository,StatutRepository $statutRepository,RepresentationRepository $representationRepository , CategorieRepRepository $categorieRepRepository ,TypologieDossierRepository $typologieDossierRepository, DossierRepository $dossierRepository , CommunicationRepository $communicationRepository , TypeCommunicationRepository $typeCommunicationRepository, LieuRepository $lieuRepository, EchelleRepository $echelleRepository, UDRepository $UDRepository): Response
+    #[Route('/ud/{idUD}', name: '_ud', requirements: ['idUD' => '\d+'])]
+    public function index(EntityManagerInterface $entityManager, UserRepository $userRepository,StatutRepository $statutRepository,RepresentationRepository $representationRepository , CategorieRepRepository $categorieRepRepository ,TypologieDossierRepository $typologieDossierRepository, DossierRepository $dossierRepository , CommunicationRepository $communicationRepository , TypeCommunicationRepository $typeCommunicationRepository, LieuRepository $lieuRepository, EchelleRepository $echelleRepository, UDRepository $UDRepository, $idUD = 0): Response
     {
         if (count($lieuRepository->findBy(['echelle' => '2'])) < count($UDRepository->findAll())) {
             for ($i = 1; $i < count($UDRepository->findAll()) + 1; $i++) {
@@ -228,9 +228,22 @@ class GestionFormulaireController extends AbstractController
             $entityManager->flush();
 
             }
+                $user = $userRepository->find($this->getUser()->getId());
 
-        return $this->render('gestion_formulaire/gestionform.html.twig', [
-            'controller_name' => 'GestionFormulaireController',
-        ]);
+            if($idUD == 0) {
+                $UD = $lieuRepository->findOneBy(['echelle'=>$echelleRepository->find(2),'UD'=>$user->getUd()]);
+            }
+
+            else {
+                $UD = $lieuRepository->find($idUD);
+                if ($user->getEchelle() !== $echelleRepository->find(3)) {
+                    if ($user->getUd() !== $UD->getUD()) {
+                        return $this->redirectToRoute('home');
+                    }
+                }
+            }
+
+        return $this->render('ud/ud.html.twig',
+            compact( 'UD'));
     }
 }

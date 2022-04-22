@@ -3,6 +3,7 @@ body{
     background: url("../img/RosaceCS.png") no-repeat;
     background-size: 1000px 1200px;
     background-position-x: center;
+    height: 100vh;
 }
 
 .section{
