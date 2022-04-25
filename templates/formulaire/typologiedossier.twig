@@ -19,6 +19,12 @@
                                 <h4>{{ dos.TypologieDossier.libelle }}</h4>
                                 <div class="form-group">
                                     <p><input class="input is-rounded" type="number" name="{{ 'Nb' ~ dos.TypologieDossier.id }}" value="{{ dos.nbDossiers }}" required></p>
+
+                                    {% if dos.TypologieDossier.libelle == 'AUTRES' %}
+                                        Précisez :
+                                        <p><input class="input is-rounded" type="text" name="{{ 'AUTRES' }}" value="{{ dossiersAutres.nbDossiers }}" required></p>
+                                    {% endif %}
+
                                 </div>
                                 {% endfor %}
                                 <div class="row-12">

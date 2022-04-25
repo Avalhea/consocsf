@@ -1,10 +1,74 @@
 {% extends 'base.html.twig' %}
 
+{% block couleur %}
+    bgbleu
+{% endblock %}
+
+
 {% block body %}
 
+<h1>Mon bilan {% UD.echelle.libelle %}</h1>
+
+    <p>UD : {% UD.ud.libelle %}</p>
+
+    <div class="Permanence">
+    <p><b>I) Permanences</b></p>
+
+    <p>Nombre de lieux de permanences : {% Sections|length %}</p>
+    <p>Nombre de jours de permanences : {% UD.permanence.nbJours %}</p>
+    <p>Nombre d'heures de permanences : {% UD.permanence.nbHeures %}</p>
+    <p>Lieux horaires et jours d'ouverture des permanences : {# TODO -> #} CF Horaires.PDF</p>
+    <p>Nombre de dossiers consommation/vie quotidienne simples suivis : {% UD.permanence.nbDossierSimple %}</p>
+    <p>Nombre de dossiers consommation/vie quotidienne difficiles suivis (+ de trois courriers ou + de deux visites) {% UD.permanence.nbDossierDiffficile %}</p>
+    <p>Total global du nombre de dossiers consommation : {% UD.permanence.nbDossierSimple + UD.permanence.nbDossierDiffficile %} </p>
+
+
+    <p><i>Typologie dossiers (nombre de dossiers en détails)</i></p>
+
+    {% for UD.dossier as dossier %}
+    {% dossier.typologiedossier.libelle%} : {%dossier.nbDossiers %}
+    {% endfor %}
+    <p>Nombre de consommateurs renseignés par téléphone (orientés vers d'autres structures ou informations générales) : {% UD.NbConsomRensTel %}</p>
+    <p>Nombre de <b>salariés</b> participant aux activités consommation (perm/représentations/organisation ou participation à des actions) : {% UD.nbSalaries %}</p>
+    <p>Nombre de <b>bénévoles</b> qui font de l'activité consommation (permanences, représentations, organisation ou participations à des actions...) : {% UD.nbBenevoles %}</p>
+    <p>Total global de toutes les personnes faisant de l'activité consommation dans le département : {% UD.nbSalaries + UD.nbBenevoles %}</p>
+    </div>
+
+
+    <div class="Formation">
+        <h1>II) Formations menées :</h1>
+        <p>Nombre de formations menées sur l'année : {% UD.formation.NbFormationsAnnee %}</p>
+        <p>Thèmes des formations et nombre de participants : {% UD.formation.theme %}</p>
+    </div>
+
+    <div class="Communication">
+        <h1>III) Communications</h1>
+        {% for UD.communication as com %}
+            {% com.typeCommunication.libelle%} :
+            <br>Nombre : {%com.nombre %}
+            <br>Sujets : {% com.sujets %}
+        {% endfor %}
+    </div>
+
+    <div class="AteliersConso">
+        <h1>IV) Ateliers consommation et éducation des consommateurs</h1>
+        Nombre d'ateliers : {% UD.nbAteliers %}
+        Nombre de participants total : {% UD.nbPartiAteliers %}
+    </div>
+
+    <div class="representation">
+        <h1>V) Représentations</h1>
+        {% for UD.representation as rep %}
+            {% rep.typeCommunication.libelle%} :
+            <br>Fréquence des réunions : {%rep.frequence %}
+        {% endfor %}
+    </div>
+
+    <div class="actionJustice">
+        Nombre d'actions en justice en représentation conjointe : {% UD.actionJustice %}
+    </div>
+
 {% endblock %}
 
-{% block title %}
 
-{% endblock %}
 
