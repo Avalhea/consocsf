@@ -25,12 +25,10 @@
                         <button type="submit" class="btn bgbleu">Suivant</button>
                         {{ form_end(formPresentation) }}
                     </div>
-                    <button type="button" class="btn btn-primary" data-trigger="focus" data-toggle="popover" data-bs-placement="right" title="Popover on right" data-content="Popover">
-                        Popover
-                    </button>
+                    <button type="button" data-bs-toggle="popover" title="Popover title" data-bs-content="Here's some amazing content.">Click to toggle popover</button>
                     <script>
-                        $(document).ready(function () {
-                            $('[data-toggle="popover"]').popover();
+                        $(document).ready(function(){
+                            $('[data-bs-toggle="popover"]').popover();
                         });
                     </script>
                 </div>
@@ -42,13 +40,21 @@
 </body>
 {% endblock %}
 {% block javascripts %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+    <script>
+        type="text/javascript">
+            function verif(evt) {
+                var keyCode = evt.which ? evt.which : evt.keyCode;
+                var accept = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+                if (accept.indexOf(String.fromCharCode(keyCode)) >= 0) {
+                    return true;
+                } else {
+                    return false;
+                }}
+
         var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
         var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
             return new bootstrap.Popover(popoverTriggerEl)
-        })
-        var popover = new bootstrap.Popover(document.querySelector('.example-popover'), {
-            container: 'body'
         })
     </script>
 
