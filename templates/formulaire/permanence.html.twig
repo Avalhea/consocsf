@@ -18,9 +18,11 @@
                             Nombre d’heures de permanences par an :  {{ form_row(formPermanence.nbHeures) }}<br>
                             Nombre de dossiers consommation/ vie quotidienne simples :  {{ form_row(formPermanence.nbDossierSimple) }}<br>
                             Nombre de dossiers consommation/ vie quotidienne difficiles :  {{ form_row(formPermanence.nbDossierDifficile) }}<br>
-                            <button type="submit" class="btn bgviolet">Suivant</button>
-                            {{ form_end(formPermanence) }}
-                            <a href="{{ path('formulaire_presentation',{'idLieu': idLieu} ) }}"><button class="btn bgviolet" id="lien_precedent">Précedent</button></a>
+                            <div class="row-12">
+                                <span class=""row-6><a href="{{ path('formulaire_presentation',{'idLieu': idLieu} ) }}"><button type="button" class="btn bgviolet" id="lien_precedent">Précedent</button></a></span>
+                                <span class="row-6"><button type="submit" class="btn bgviolet">Suivant</button></span>
+                                {{ form_end(formPermanence) }}
+                            </div>
                             <style>#lien_precedent {text-decoration: none; color: #FFFFFF;font-family: 'Recursive', sans-serif}</style>
                         </div>
                 </div>

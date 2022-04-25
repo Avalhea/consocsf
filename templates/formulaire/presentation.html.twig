@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-
+<body>
 <section class="section">
     <div class="hero-body">
         <div class="container has-text-centered">
@@ -15,19 +15,42 @@
                     <hr class="login-hr">
                     <div class="field">
                         {{ form_start(formPresentation) }}
-                        UD : {{ form_row(formPresentation.UD) }}<br>
-                        Echelle : {{ form_row(formPresentation.echelle) }}
-                        Section : {{ form_row(formPresentation.nom) }}<br>
-                        Adresse : {{ form_row(formPresentation.adresse) }}<br>
-                        Jours & horaires d'ouverture : {{ form_row(formPresentation.joursEtHorairesOuverture) }}<br>
+                        <i data-bs-toggle="tooltip" data-bs-placement="top" title="Veuillez indiquer le département à laquelle votre section est rattaché" class="fa-solid fa-circle-question "></i> UD : {{ form_row(formPresentation.UD) }}<br>
+
+                        <i class="fa-solid fa-circle-question " data-bs-toggle="popover" title="Popover title" data-bs-content="And here's some amazing content. It's very engaging. Right?"></i> Echelle : {{ form_row(formPresentation.echelle) }}
+                        <i class="fa-solid fa-circle-question "></i>Section : {{ form_row(formPresentation.nom) }}<br>
+                        <i class="fa-solid fa-circle-question "></i>Adresse : {{ form_row(formPresentation.adresse) }}<br>
+                       Jours & horaires d'ouverture : {{ form_row(formPresentation.joursEtHorairesOuverture) }}<br>
+
                         <button type="submit" class="btn bgbleu">Suivant</button>
                         {{ form_end(formPresentation) }}
                     </div>
+                    <button type="button" class="btn btn-primary" data-trigger="focus" data-toggle="popover" data-bs-placement="right" title="Popover on right" data-content="Popover">
+                        Popover
+                    </button>
+                    <script>
+                        $(document).ready(function () {
+                            $('[data-toggle="popover"]').popover();
+                        });
+                    </script>
                 </div>
             </div>
         </div>
     </div>
     </div>
 </section>
+</body>
+{% endblock %}
+{% block javascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js">
+        var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+        var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+            return new bootstrap.Popover(popoverTriggerEl)
+        })
+        var popover = new bootstrap.Popover(document.querySelector('.example-popover'), {
+            container: 'body'
+        })
+    </script>
 
+    </script>
 {% endblock %}

@@ -20,9 +20,11 @@
                                 <p>sujets :  <input class="input is-rounded" type="text" name="{{ 'Sujet' ~ com.TypeCommunication.id }}" value="{{ com.sujets }}" required></p><br>
                                 </div>
                             {% endfor %}
-                                <button type="submit" class="btn bgbrun">Suivant</button>
+                                <div class="row-12">
+                                    <span class=""row-6><a href="{{ path('formulaire_formation',{'idLieu': idLieu} ) }}"><button class="btn bgbrun" id="lien_precedent">Précedent</button></a></span>
+                                    <span class=""row-6><button type="submit" class="btn bgbrun">Suivant</button></span>
+                                </div>
                             </form>
-                            <a href="{{ path('formulaire_formation',{'idLieu': idLieu} ) }}"><button class="btn bgbrun" id="lien_precedent">Précedent</button></a>
                         </div>
                     </div>
                 </div>

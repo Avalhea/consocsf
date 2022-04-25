@@ -19,10 +19,16 @@
 
                                 <p>Merci de préparer au préalable les pièces constituants <br> votre dossier conso dont vous avez reçu la liste.</p>
                                 <p>Si votre section n’a pas participé à certaine des rubriques,<br> <b>merci de le préciser en inscrivant le chiffre: “ 0 ”.</b></p>
-                                <p>Des bulles d'aide <i class="fa-solid fa-circle-question fa-2xl"></i> s'affichent pour vous expliquer
-                                    <br> les informations à saisir. Survoler le pour y accéder.</p>&nbsp;
+                                <p>Afin de vous aider à completer le dossier, des "?" <br> <b>comme celui qui suit : <br> <button onclick="myFunction()"><i class="fa-solid fa-circle-question fa-2xl"></i></button></b>
+                                    <br>sont placé à côté de chaque item. <br>Survolez-le pour y accéder à l'aide.<br>
+                                    Si celle-ci ne suffit pas, consultez la rubrique<br> <b>"FAQ"</b> en haut de l'écran</p>&nbsp;
                             </div>
                         </div>
+                        <script>
+                            function myFunction() {
+                                document.getElementById("demo").innerHTML = "Hello World";
+                            }
+                        </script>
                         <div class="field">
                             <button class="btn is-round btn-lg" id="btn_href"><a href="{{ path('formulaire_presentation') }}" id="lien_href">Commencer</a></button>
                             <style>#btn_href {background-color: #005AA1}</style><style>#lien_href {text-decoration: none; color: #FFFFFF}</style>

@@ -7,55 +7,46 @@
 
 {% block body %}
     <style>
-
         @import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
         .Explications {
-        overflow-y: scroll;
-        max-height: 70vh;
-        background-color: rgba(175, 175, 175, 0.15);
-    }
-
+            overflow-y: scroll;
+            max-height: 70vh;
+            background-color: rgba(175, 175, 175, 0.15);
+        }
         .Explications:hover {
             background-color: rgba(175, 175, 175, 0.6);
             transition: 1s;
         }
-    .row {
-        margin-top: 12vh;
-    }
-
+        .row {
+            margin-top: 12vh;
+        }
         a {
             text-decoration: none;
             color: #58b4aa;
         }
-
         a:hover {
             color: #424242;
         }
-
         /*.container {*/
         /*    min-height: 100%;*/
         /*}*/
-
-    .spacer
-    {clear: both; margin-top: 4vh }
-
-    .spacer:hover {
-    transform: scale(110%) translate(20px); transition: 400ms;
-    }
-
-    .CategoriesFormulaire {
-        font-family: 'Staatliches', cursive;
-        font-size: 35px;
-        text-decoration: none;
-    }
-
-    .carrhey {
-        height: 70vh;
-        width: 11vw;
-        background-color: #dcdcdc;
-        position: absolute;
-        margin: 13vh 0 0 5vh;
-    }
+        .spacer
+        {clear: both; margin-top: 4vh }
+        .spacer:hover {
+            transform: scale(110%) translate(20px); transition: 400ms;
+        }
+        .CategoriesFormulaire {
+            font-family: 'Staatliches', cursive;
+            font-size: 35px;
+            text-decoration: none;
+        }
+        .carrhey {
+            height: 70vh;
+            width: 11vw;
+            background-color: #dcdcdc;
+            position: absolute;
+            margin: 13vh 0 0 5vh;
+        }
     </style>
 
     <div class="carrhey"></div>
@@ -111,7 +102,7 @@
             </div>
             <div class="col-5"></div>
                 <div class="col-7">
-                <button class="btn is-round btn-lg" id="btn_href"><a href="{{ path('formulaire_presentation') }}" id="lien_href">retour au formulaire</a></button>
+                <button class="btn is-round btn-lg" id="btn_href"><a href="{{ path('home') }}" id="lien_href">retour au formulaire</a></button>
                 <style>#btn_href {background-color: #005AA1}</style><style>#lien_href {text-decoration: none; color: #FFFFFF}</style>
                 </div>
             </div>
