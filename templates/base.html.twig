@@ -26,7 +26,7 @@
             <div class="container-fluid">
                 <a class="navbar-brand"></a>
                 <form class="d-flex">
-                    <a href="{{ path('faq') }}"><button class="btn bgvertmenthe btn-default me-1" type="button" id="btnaide">Aide</button></a>
+                <a href="{{ path('faq') }}"><button class="btn bgvertmenthe btn-default me-1" type="button" id="btnaide">FAQ</button></a>
                     <button class="btn bggris"> <a style="text-decoration: none; color:white" href="{{ path('app_logout') }}">Se déconnecter</a></button>
                 </form>
             </div>
@@ -41,22 +41,21 @@
 </body>
 
 {% block javascripts %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js">
-    {#<script src="{{ asset('js/creationsortie.js') }}"></script>#}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+<script>
     type="text/javascript">
         function verif(evt) {
-        var keyCode = evt.which ? evt.which : evt.keyCode;
-        var accept = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        if (accept.indexOf(String.fromCharCode(keyCode)) >= 0) {
-        return true;
-    } else {
-        return false;
-    }}
+            var keyCode = evt.which ? evt.which : evt.keyCode;
+            var accept = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            if (accept.indexOf(String.fromCharCode(keyCode)) >= 0) {
+                return true;
+            } else {
+                return false;
+            }}
 
     var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
     var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
         return new bootstrap.Popover(popoverTriggerEl)
     })
-
 </script>
 {% endblock %}
