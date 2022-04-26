@@ -27,11 +27,11 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-#[Route('/gestion/formulaire', name: 'ud')]
+#[Route('/gestion/formulaire', name: 'gestion_formulaire')]
 class GestionFormulaireController extends AbstractController
 {
-    #[Route('/ud/{idUD}', name: '_ud', requirements: ['idUD' => '\d+'])]
-    public function index(EntityManagerInterface $entityManager, UserRepository $userRepository, StatutRepository $statutRepository, RepresentationRepository $representationRepository, CategorieRepRepository $categorieRepRepository, TypologieDossierRepository $typologieDossierRepository, DossierRepository $dossierRepository, CommunicationRepository $communicationRepository, TypeCommunicationRepository $typeCommunicationRepository, LieuRepository $lieuRepository, EchelleRepository $echelleRepository, UDRepository $UDRepository, $idUD = 0): Response
+    #[Route('/{idLieu}', name: '_ud', requirements: ['idLieu' => '\d+'])]
+    public function index(EntityManagerInterface $entityManager, UserRepository $userRepository, StatutRepository $statutRepository, RepresentationRepository $representationRepository, CategorieRepRepository $categorieRepRepository, TypologieDossierRepository $typologieDossierRepository, DossierRepository $dossierRepository, CommunicationRepository $communicationRepository, TypeCommunicationRepository $typeCommunicationRepository, LieuRepository $lieuRepository, EchelleRepository $echelleRepository, UDRepository $UDRepository, $idLieu = 0): Response
     {
         if (count($lieuRepository->findBy(['echelle' => '2'])) < count($UDRepository->findAll())) {
             for ($i = 1; $i < count($UDRepository->findAll()) + 1; $i++) {
@@ -227,37 +227,36 @@ class GestionFormulaireController extends AbstractController
         }
         $user = $userRepository->find($this->getUser()->getId());
 
-        if ($idUD == 0) {
+        if ($idLieu == 0) {
             $UD = $lieuRepository->findOneBy(['echelle' => $echelleRepository->find(2), 'UD' => $user->getUd()]);
         } else {
-            $UD = $lieuRepository->find($idUD);
+            $UD = $lieuRepository->find($idLieu);
             if ($user->getEchelle() !== $echelleRepository->find(3)) {
                 if ($user->getUd() !== $UD->getUD()) {
                     return $this->redirectToRoute('home');
                 }
             }
         }
+        dump($UD);
+        $Sections = $lieuRepository->findBy(['echelle' => $echelleRepository->find(1), 'UD' => $UD->getUD(), 'statut' => $statutRepository->find(2)]);
 
-        $sections = $lieuRepository->findBy(['echelle' => $echelleRepository->find(1), 'UD' => $UD->getUD(), 'statut' => $statutRepository->find(2)]);
-
-
-        return $this->render('ud/ud.html.twig',
-            compact('UD', 'sections'));
+            return $this->render('ud/ud.html.twig',
+                compact('UD', 'Sections'));
     }
 
-    #[Route('/pdf/{id}', name: 'detailBilan.pdf', requirements: ['idUD' => '\d+'])]
-    public function generatePdfRecap(Lieu $lieu = null, PdfService $pdf, EchelleRepository $echelleRepository)
+    #[Route('/pdf/{id}', name: 'detailBilanPdf', requirements: ['idUD' => '\d+'])]
+    public function generatePdfRecap(LieuRepository $lieuRepository, EchelleRepository $echelleRepository,$id = 0)
     {
-        if ($lieu->getEchelle() == $echelleRepository->find(1)){
-            $html = $this->render('section/section.html.twig', ['lieu' => $lieu]);
+        $lieu = $lieuRepository->find($id);
+        if ($lieu->getEchelle() === $echelleRepository->find(1)){
+            $html = $this->render('section/section.html.twig', ['id' => $lieuRepository->find($id)->getId()]);
         }
-        else if ($lieu->getEchelle() == $echelleRepository->find(2)) {
-            $html = $this->render('ud/ud.html.twig', ['lieu' => $lieu]);
+        else if ($lieu->getEchelle() === $echelleRepository->find(2)) {
+            $html = $this->render('ud/ud.html.twig', ['id' => $lieuRepository->find($id)->getId()]);
         }
-        else if ($lieu->getEchelle() == $echelleRepository->find(3)) {
-            $html = $this->render('national/national.html.twig', ['lieu' => $lieu]);
+        else if ($lieu->getEchelle() === $echelleRepository->find(3)) {
+            $html = $this->render('national/national.html.twig', ['id' => $lieuRepository->find($id)->getId()]);
         }
-
-        $pdf->showPdfFile($html);
+//        $pdf->showPdfFile($html);
     }
 }
