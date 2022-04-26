@@ -9,7 +9,7 @@
             <div class="container has-text-centered">
                 <div class="column is-6 is-offset-3">
                     <div class="box" style="height: 670px; overflow: scroll ">
-                        <h1 class="title txtbrun">Communication</h1>
+                        <h1 class="title txtbrun">Communication <button type="button" class="btn bgbrun" data-bs-toggle="modal" data-bs-target="#exampleModal">Aide</button></h1>
                         <hr class="login-hr">
                         <div class="field">
                             <form method='post' action='{{ path('formulaire_communication', {'idLieu': idLieu, 'state':'sub'}) }}'>
@@ -25,6 +25,28 @@
                                     <span class=""row-6><button type="submit" class="btn bgbrun">Suivant</button></span>
                                 </div>
                             </form>
+                        </div>
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Aide</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <i class="fa-regular fa-hand-point-right"></i> <b> Presse :</b> Toutes les items suivants sont à indiquer dans cette catégorie : <br>
+                                        - communiqués de presse, articles, tracts livrets et outils de communications réalisée par votre section <br>
+                                        - Articles parlant de la CSF parus dans presse interne, journaux locaux ou communiqués de presse élaborée par la CSF <br>
+                                        - Passages télé et radio local <br>
+                                        <i class="fa-regular fa-hand-point-right"></i> <b> Outil d'animation :</b> jeux, expositions, modules,... réalisés par votre section pour animer des rencontres, des groupes, ou réunions. <br>
+                                        <i class="fa-regular fa-hand-point-right"></i> <b> Évènements organisés par la CSF :</b> Réunions publiques ou conférences de presse organisées par la CSF. <br>
+                                        <i class="fa-regular fa-hand-point-right"></i> <b> Forums :</b> Intervention de la CSF local à la demande d'un partenaire ou colloque/forum auxquels à participé la CSF. <br>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

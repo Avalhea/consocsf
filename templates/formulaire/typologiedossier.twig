@@ -10,11 +10,12 @@
             <div class="container has-text-centered">
                 <div class="column is-6 is-offset-3">
                     <div class="box" style="max-height: 500px; overflow: scroll ">
-                        <h1 class="title txtviolet">Typologie des dossiers</h1>
+                        <h1 class="title txtviolet">Typologie des dossiers <button type="button" class="btn bgviolet" data-bs-toggle="modal" data-bs-target="#exampleModal">Aide</button></h1>
                         <p class="blockquote-footer txtviolet">Nombre de dossiers en détail</p>
                         <hr class="login-hr">
                         <div class="field">
                             <form method='post' action='{{ path('formulaire_typologieDossier', {'idLieu': idLieu, 'state':'sub'}) }}'>
+
                                 {% for dos in Dossier %}
                                 <h4>{{ dos.TypologieDossier.libelle }}</h4>
                                 <div class="form-group">
@@ -33,6 +34,34 @@
                                 </div>
                             </form>
                         </div>
+
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Aide</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <i class="fa-solid fa-exclamation"></i><b> Pour qu'un litige soit pris en compte, il doit y avoir ouverture d'un dossier ou d'une fiche litige ainsi qu'un conseil donné au consommateur avec une trace écrite.</b> <br><br>
+                                        <i class="fa-regular fa-hand-point-right"></i> <b> Communications électroniques :</b> Peut faire référence aux dossiers relatifs à la téléphonie, à l'Internet... <br>
+                                        <i class="fa-regular fa-hand-point-right"></i> <b> Banque :</b> Peut faire référence à tout dossier lié au milieu bancaire sauf surrendettement... <br>
+                                        <i class="fa-regular fa-hand-point-right"></i> <b> Surrendettement :</b> Indiquez exclusivement les dossiers lié au surrendettement. <br>
+                                        <i class="fa-regular fa-hand-point-right"></i> <b> Energies :</b> Peut faire référence aux dossiers relatifs à l'énergie tels que le gaz, l'électricité, problemes de factures et réclamations sur ce thème. <br>
+                                        <i class="fa-regular fa-hand-point-right"></i> <b> Eau :</b> Peut faire référence aux dossiers relatifs à l'eau dont les problèmes de factures, réclamations sur ce thème. <br>
+                                        <i class="fa-regular fa-hand-point-right"></i> <b> Automobile :</b> Peut faire référence à tous dossiers relatifs à l'automobile. <br><br>
+                                        <i class="fa-solid fa-exclamation"></i><b> Logement : Les litiges logement qui ne porte pas sur un contrat ne peuvent pas être comptabilisés (bruit, problème de voisinage, élection HLM,...). Il en va de même pour les questions sociales (divorces, demande de logement, demande de papiers,...). Les litiges sur l'exercice d'un droit économique sont bien pris en compte (versement des APL, allocations familiales,...).</b><br>
+                                        <i class="fa-regular fa-hand-point-right"></i> <b> Travaux :</b> Peut faire référence à tous dossiers relatifs aux travaux <br>
+                                        <i class="fa-regular fa-hand-point-right"></i> <b> Pratiques commerciales déloyales :</b> Peut faire référence à tous dossiers relatifs à du démarchage, à du vice caché, vente forcée,... <br>
+                                        <i class="fa-regular fa-hand-point-right"></i> <b> Autres :</b> Précisez obligatoirement la nature des dossiers litigieux. <br>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                     </div>
                 </div>
