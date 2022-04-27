@@ -66,6 +66,7 @@ class LoginController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user = $this->getUser();
             $mdpSimple = $user->GetPassword();
             $vraiMdp = $passwordHasher->hashPassword($user,$mdpSimple);
             $user->setPassword($vraiMdp);
@@ -75,7 +76,7 @@ class LoginController extends AbstractController
         }
 
         $this->addFlash('error', ' Les deux mots de passes ne correspondent pas !');
-        return $this->renderForm('home/mdp.html.twig', compact('form'));
+        return $this->renderForm('home/mdp.html.twig', compact('form', 'user'));
     }
 
 }
