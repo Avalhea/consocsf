@@ -5,13 +5,10 @@
 {% endblock %}
 
 {% block body %}
-    <section class="hero is-fullheight">
+    <section class="section">
         <div class="hero-body">
-
-
             <div class="container has-text-centered">
-
-                <h1 class="title txtbleu">Ateliers</h1>
+                <h1 class="title txtbleu">Ateliers <button type="button" class="btn bgbleu" data-bs-toggle="modal" data-bs-target="#exampleModal">Aide</button></h1>
                 <hr class="login-hr">
                 <div class="row">
                     <div class="column is-6">
@@ -51,6 +48,26 @@
                 <a href="{{ path('formulaire_representation',{'idLieu': idLieu} ) }}"><button class="btn bgbleu" id="lien_precedent">Suivant</button></a>
 
             </div>
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Aide</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <b> Le nombre de participants est extrêmement important pour chiffrer le nombre de personnes sensibilisé ; sans cela, l'atelier ne pourra pas être comptabilisé.</b> <br><br>
+                            <i class="fa-regular fa-hand-point-right"></i> Ne sont comptabilisés que les ateliers organisés au tire de la CSF en tant que tel (UDAF et CTRC non inclus). <br>
+                            <i class="fa-regular fa-hand-point-right"></i> Les interventions scolaires et réunissant des publics particuliers sont comptabilisés. En revanche, les formations pour des professionnels ne le sont pas tout comme les interventions de la CSF au nom d'une autre structure.  <br>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 

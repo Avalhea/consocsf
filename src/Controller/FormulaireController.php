@@ -7,6 +7,7 @@ use App\Entity\Atelier;
 use App\Entity\Communication;
 use App\Entity\Dossier;
 use App\Entity\Dossiers;
+use App\Entity\DossiersAutre;
 use App\Entity\Evenement;
 use App\Entity\Formation;
 use App\Entity\Formations;
@@ -25,8 +26,10 @@ use App\Form\RepresentationType;
 use App\Form\VieAssociativeType;
 use App\Repository\AtelierRepository;
 use App\Repository\CategorieRepRepository;
+use App\Repository\DossiersAutreRepository;
 use App\Repository\EchelleRepository;
 use App\Repository\LieuRepository;
+use App\Repository\PermanenceRepository;
 use App\Repository\StatutRepository;
 use App\Repository\TypeCommunicationRepository;
 use App\Repository\TypologieDossierRepository;
@@ -95,7 +98,7 @@ class FormulaireController extends AbstractController
     }
 
     #[Route('/permanence/{idLieu}', name: '_permanence', requirements: ['idLieu' => '\d+'])]
-    public function permanence(LieuRepository $lieuRepository, UDRepository $UDRepository, UserRepository $userRepository, StatutRepository $statutRepository, EntityManagerInterface $entityManager,
+    public function permanence(LieuRepository $lieuRepository, UDRepository $UDRepository, PermanenceRepository $permanenceRepository, UserRepository $userRepository, StatutRepository $statutRepository, EntityManagerInterface $entityManager,
                                Request $request, $idLieu): Response
     {
 
@@ -106,15 +109,16 @@ class FormulaireController extends AbstractController
         }
         else {
             $permanence = new Permanence();
+
         }
 
         $formPermanence = $this->createForm(PermanenceType::class,$permanence);
         $formPermanence->handleRequest($request);
 
         if ($formPermanence->isSubmitted() && $formPermanence->isValid()) {
-            dump($permanence);
             $lieu->setPermanence($permanence);
             $entityManager->persist($permanence);
+
             $entityManager->flush();
 
             return $this->redirectToRoute('formulaire_typologieDossier', array('idLieu'=>$idLieu));
@@ -126,12 +130,13 @@ class FormulaireController extends AbstractController
     }
 
     #[Route('/typologieDossier/{idLieu}/{state}', name: '_typologieDossier', requirements: ['idLieu' => '\d+'])]
-    public function typologieDossier(LieuRepository $lieuRepository, UDRepository $UDRepository, UserRepository $userRepository, StatutRepository $statutRepository, EntityManagerInterface $entityManager,
+    public function typologieDossier(LieuRepository $lieuRepository, UDRepository $UDRepository, DossiersAutreRepository $dossiersAutreRepository , UserRepository $userRepository, StatutRepository $statutRepository, EntityManagerInterface $entityManager,
                                   Request $request, $idLieu, TypologieDossierRepository $typologieDossierRepository, $state=0): Response
     {
 
         $lieu = $lieuRepository->find($idLieu);
         $Dossier = $lieu->getDossier();
+
 
         if($state === 0 ) {
 
@@ -147,6 +152,10 @@ class FormulaireController extends AbstractController
                     $entityManager->flush();
 
                 }
+                    $dossiersAutres = new DossiersAutre();
+                    $dossiersAutres->setLieu($lieu);
+                    $entityManager->persist($dossiersAutres);
+                    $entityManager->flush();
 
                 $entityManager->persist($lieu);
                 $entityManager->flush();
@@ -155,8 +164,18 @@ class FormulaireController extends AbstractController
 
         if($state==='sub') {
 
+            $dossiersAutres = $dossiersAutreRepository->findOneBy(['lieu'=>$lieu]) ;
+
             foreach($Dossier as $dos) {
+
+
                 $nombre = $request->request->get('Nb'. $dos->getTypologieDossier()->getId());
+
+                if($dos->getTypologieDossier() === $typologieDossierRepository->findOneBy(['libelle'=>'AUTRES'])) {
+                    $dossiersAutres->setLibelle($request->request->get('AUTRES'));
+                    $dossiersAutres->setNbDossiers($nombre);
+                }
+
                 $dos->setNbDossiers($nombre);
                 $entityManager->persist($dos);
                 $entityManager->flush();
@@ -164,8 +183,10 @@ class FormulaireController extends AbstractController
             return $this->redirectToRoute('formulaire_vieAssociative', array('idLieu'=>$idLieu));
         }
 
+        $dossiersAutres = $dossiersAutreRepository->findOneBy(['lieu'=>$lieu]) ;
+
         return $this->render('formulaire/typologiedossier.twig',
-            compact( 'Dossier','idLieu'));
+            compact( 'Dossier', 'dossiersAutres', 'idLieu'));
     }
 
 
@@ -403,8 +424,6 @@ class FormulaireController extends AbstractController
                 $entityManager->persist($lieu);
                 $entityManager->flush();
             }
-
-
             return $this->redirectToRoute('gestion_formulaire_ud');
         }
 

@@ -6,21 +6,43 @@
 
 {% block body %}
 <body>
-<section class="hero is-fullheight">
+<section class="section">
     <div class="hero-body">
         <div class="container has-text-centered">
             <div class="column is-6 is-offset-3">
                 <div class="box">
-                    <h1 class="title txtbleu">Présentations</h1>
+                    <h1 class="title txtbleu">Présentation <button type="button" class="btn bgbleu" data-bs-toggle="modal" data-bs-target="#exampleModal">Aide</button></h1>
                     <hr class="login-hr">
                     <div class="field">
                         {{ form_start(formPresentation) }}
-                        UD : {{ form_row(formPresentation.UD) }}<br>
-                        Section : {{ form_row(formPresentation.nom) }}<br>
-                        Adresse : {{ form_row(formPresentation.adresse) }}<br>
+                        UD : {{ form_row(formPresentation.UD) }}
+                        Echelle : {{ form_row(formPresentation.echelle) }}
+                        Section : {{ form_row(formPresentation.nom) }}
+                        Adresse : {{ form_row(formPresentation.adresse) }}
                         Jours & horaires d'ouverture : {{ form_row(formPresentation.joursEtHorairesOuverture) }}<br>
+
                         <button type="submit" class="btn bgbleu">Suivant</button>
                         {{ form_end(formPresentation) }}
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Aide</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <i class="fa-regular fa-hand-point-right"></i> <b>UD :</b> Veuillez indiquer le département à laquelle votre section est rattachée. <br>
+                            <i class="fa-regular fa-hand-point-right"></i> <b>Echelle :</b> Indiquez si vous remplissez ce bilan en tant que section ou si vous le completez en tant que l'Union Départementale. <br>
+                            <i class="fa-regular fa-hand-point-right"></i> <b>Section :</b> Indiquez le nom de votre section tel que défini par LA CSF. <br>
+                            <i class="fa-regular fa-hand-point-right"></i> <b>Adresse :</b> Indiquez l'adresse de votre/vos lieux de permanences. <br>
+                            <i class="fa-regular fa-hand-point-right"></i> <b>Jours et horaires d'ouvertures :</b> Indiquez l'adresse, les jours et horaires d'ouvertures pour chaque lieu où votre section fait de la permanence.
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -29,4 +51,23 @@
     </div>
 </section>
 </body>
+{% endblock %}
+{% block javascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+    <script>
+        type="text/javascript">
+            function verif(evt) {
+                var keyCode = evt.which ? evt.which : evt.keyCode;
+                var accept = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+                if (accept.indexOf(String.fromCharCode(keyCode)) >= 0) {
+                    return true;
+                } else {
+                    return false;
+                }}
+
+        var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+        var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+            return new bootstrap.Popover(popoverTriggerEl)
+        })
+    </script>
 {% endblock %}

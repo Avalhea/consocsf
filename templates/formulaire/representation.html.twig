@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-     <section class="hero is-fullheight">
+     <section class="section">
         <div class="hero-body">
             <div class="container has-text-centered">
                 <div class="column is-6 is-offset-3">
@@ -21,26 +21,23 @@
 
                                 {% for rep in Representation %}
 
-                                    <div class="form-group">
-
                                         <div class="row">
 
-                                            <h2 class="col-sm">{{ rep.Categorie .libelle }} : </h2>
+                                            <h5 class="column is-5" >{{ rep.Categorie .libelle }} : </h5>
 
-                                        <input class="form-control is-rounded col-sm" style="width: 5%; height: 100%" type="number" name="{{ 'frequence' ~ rep.Categorie.id }}" value="{{ rep.frequence }}" required>
+                                       <input class="input is-rounded column is-5" style="height: 100%" type="number" name="{{ 'frequence' ~ rep.Categorie.id }}" value="{{ rep.frequence }}" required>
 
-                                            <div class="col-sm"> par an </div>
-
+                                            <div class="column is-2"> par an </div>
                                         </div>
-                                    </div>
                                         <br><br>
 
                                 {% endfor %}
-
-                                <button type="submit" class="btn bgorange">Suivant</button>
+                                <div class="row-12">
+                                    <span class=""row-6><a href="{{ path('formulaire_atelier',{'idLieu': idLieu} ) }}"><button class="btn bgorange" id="lien_precedent">Précedent</button></a></span>
+                                    <span class=""row-6><button type="submit" class="btn bgorange">Suivant</button></span>
+                                </div>
+                                <style>#lien_precedent {text-decoration: none; color: #FFFFFF;font-family: 'Recursive', sans-serif}</style>
                             </form>
-                            <a href="{{ path('formulaire_atelier',{'idLieu': idLieu} ) }}"><button class="btn bgorange" id="lien_precedent">Précedent</button></a>
-                            <style>#lien_precedent {text-decoration: none; color: #FFFFFF;font-family: 'Recursive', sans-serif}</style>
                         </div>
                 </div>
                 </div>

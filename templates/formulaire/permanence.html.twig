@@ -5,12 +5,12 @@
 {% endblock %}
 
 {% block body %}
-     <section class="hero is-fullheight">
+     <section class="section">
         <div class="hero-body">
             <div class="container has-text-centered">
                 <div class="column is-6 is-offset-3">
                     <div class="box">
-                        <h1 class="title txtviolet">Permanences</h1>
+                        <h1 class="title txtviolet">Permanences <button type="button" class="btn bgviolet" data-bs-toggle="modal" data-bs-target="#exampleModal">Aide</button></h1>
                         <hr class="login-hr">
                         <div class="field">
                             {{ form_start(formPermanence) }}
@@ -18,13 +18,36 @@
                             Nombre d’heures de permanences par an :  {{ form_row(formPermanence.nbHeures) }}<br>
                             Nombre de dossiers consommation/ vie quotidienne simples :  {{ form_row(formPermanence.nbDossierSimple) }}<br>
                             Nombre de dossiers consommation/ vie quotidienne difficiles :  {{ form_row(formPermanence.nbDossierDifficile) }}<br>
-                            <button type="submit" class="btn bgviolet">Suivant</button>
-                            {{ form_end(formPermanence) }}
-                            <a href="{{ path('formulaire_presentation',{'idLieu': idLieu} ) }}"><button class="btn bgviolet" id="lien_precedent">Précedent</button></a>
+                            <div class="row-12">
+                                <span class=""row-6><a href="{{ path('formulaire_presentation',{'idLieu': idLieu} ) }}"><button type="button" class="btn bgviolet" id="lien_precedent">Précedent</button></a></span>
+                                <span class="row-6"><button type="submit" class="btn bgviolet">Suivant</button></span>
+                                {{ form_end(formPermanence) }}
+                            </div>
                             <style>#lien_precedent {text-decoration: none; color: #FFFFFF;font-family: 'Recursive', sans-serif}</style>
                         </div>
                 </div>
                 </div>
+
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Aide</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <i class="fa-regular fa-hand-point-right"></i> <b> Nombre de jours de permanence par an :</b> Indiquer le nombre exact de jours de permanences que fait votre section à l'année. <br>
+                                <i class="fa-regular fa-hand-point-right"></i> <b> Nombre d’heures de permanences par an :</b> Indiquer le nombre exact d'heures de permanences que fait votre section à l'année. <br>
+                                <i class="fa-regular fa-hand-point-right"></i><b> Nombre de dossiers consommation/ vie quotidienne simples :</b> Sont considérés dossiers simples, les dossiers ayant nécéssité moins de 3 courriers et/ou moins de 2 visites. <br>
+                                <i class="fa-regular fa-hand-point-right"></i> <b> Nombre de dossiers consommation/ vie quotidienne difficiles :</b> Sont considérés dossiers difficiles, les dossiers ayant nécéssité au moins 3 courriers et/ou 2 visites. <br>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
          </div>

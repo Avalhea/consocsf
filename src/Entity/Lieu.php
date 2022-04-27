@@ -73,6 +73,9 @@ class Lieu
     #[ORM\Column(type: 'integer', nullable: true)]
     private $nbAteliers;
 
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private $nbPartiAteliers;
+
     public function __construct()
     {
         $this->atelier = new ArrayCollection();
@@ -386,7 +389,19 @@ class Lieu
 
     public function setNbAteliers(?int $nbAteliers): self
     {
-        $this->nbActionsJustice = $nbAteliers;
+        $this->nbAteliers = $nbAteliers;
+
+        return $this;
+    }
+
+    public function getNbPartiAteliers(): ?int
+    {
+        return $this->nbPartiAteliers;
+    }
+
+    public function setNbPartiAteliers(?int $nbPartiAteliers): self
+    {
+        $this->nbPartiAteliers = $nbPartiAteliers;
 
         return $this;
     }

@@ -1,56 +1,52 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <body><style>
+{% block couleur %}
+    bgbleu
+{% endblock %}
 
+
+{% block body %}
+    <style>
         @import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
         .Explications {
-        overflow-y: scroll;
-        max-height: 70vh;
-        background-color: rgba(175, 175, 175, 0.15);
-    }
-
+            overflow-y: scroll;
+            max-height: 70vh;
+            background-color: rgba(175, 175, 175, 0.15);
+        }
         .Explications:hover {
             background-color: rgba(175, 175, 175, 0.6);
             transition: 1s;
         }
-    .row {
-        margin-top: 12vh;
-    }
-
+        .row {
+            margin-top: 12vh;
+        }
         a {
             text-decoration: none;
             color: #58b4aa;
         }
-
         a:hover {
             color: #424242;
         }
-
         /*.container {*/
         /*    min-height: 100%;*/
         /*}*/
-
-    .spacer
-    {clear: both; margin-top: 4vh }
-
-    .spacer:hover {
-    transform: scale(110%) translate(20px); transition: 400ms;
-    }
-
-    .CategoriesFormulaire {
-        font-family: 'Staatliches', cursive;
-        font-size: 35px;
-        text-decoration: none;
-    }
-
-    .carrhey {
-        height: 69vh;
-        width: 11vw;
-        background-color: #dcdcdc;
-        position: absolute;
-        margin: 13vh 0 0 15vw;
-    }
+        .spacer
+        {clear: both; margin-top: 4vh }
+        .spacer:hover {
+            transform: scale(110%) translate(20px); transition: 400ms;
+        }
+        .CategoriesFormulaire {
+            font-family: 'Staatliches', cursive;
+            font-size: 35px;
+            text-decoration: none;
+        }
+        .carrhey {
+            height: 70vh;
+            width: 11vw;
+            background-color: #dcdcdc;
+            position: absolute;
+            margin: 13vh 0 0 5vh;
+        }
     </style>
 
     <div class="carrhey"></div>
@@ -58,30 +54,45 @@
     <div class="container">
         <div class="row">
             <div class="CategoriesFormulaire col-3">
-               <a href="#Permanence">Permanence</a>
-               <div class="spacer"> <a href="#TypologieDossier">Typologie Dossier</a></div>
+                <div class="spacer"> <a href="#Permanence">Permanence</a></div>
+                <div class="spacer"> <a href="#TypologieDossier">Typologie Dossier</a></div>
                 <div class="spacer"><a href="#Formation">Formation</a></div>
-               <div class="spacer"> <a href="#Communications">Communications</a></div>
+                <div class="spacer"> <a href="#Communications">Communications</a></div>
                 <div class="spacer"><a href="#Ateliers">Ateliers</a></div>
                 <div class="spacer"><a href="#Representations">Représentations</a></div>
                 <div class="spacer"><a href="#ActionsEnJustice">Actions en Justice</a></div>
             </div>
             <div class="Explications col-9">
                 <div id="Permanence">
+                    <h1>Avant-propos :</h1>
+                    De façon générale, relève de la consommation Auxances large les thèmes suivants : consommation entre parenthèses assurance, banque, communication électronique…), santé entre parenthèses prévention primaire, litige avec des professionnels de Soin, organisation sanitaire régionale…), environnement entre parenthèses déchets, OGM, santé environnemental, bruit…), Relation bailleur/locataire entre parenthèses contrôle des charges, loyer, caution), copropriété entre parenthèses relation avec le syndic, droits des copropriétaires…), Coût de la scolarité.
                     <h1>Permanence</h1>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet aperiam aspernatur blanditiis dignissimos dolorem ea earum enim error esse facere ipsam natus, nemo nulla, quidem quisquam sapiente sed tempore, veritatis.
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet aperiam aspernatur blanditiis dignissimos dolorem ea earum enim error esse facere ipsam natus, nemo nulla, quidem quisquam sapiente sed tempore, veritatis.
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet aperiam aspernatur blanditiis dignissimos dolorem ea earum enim error esse facere ipsam natus, nemo nulla, quidem quisquam sapiente sed tempore, veritatis.
-                </div>   <div id="TypologieDossier">
-                    <h1>Typologie Dossiers</h1>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet aperiam aspernatur blanditiis dignissimos dolorem ea earum enim error esse facere ipsam natus, nemo nulla, quidem quisquam sapiente sed tempore, veritatis.
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet aperiam aspernatur blanditiis dignissimos dolorem ea earum enim error esse facere ipsam natus, nemo nulla, quidem quisquam sapiente sed tempore, veritatis.
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet aperiam aspernatur blanditiis dignissimos dolorem ea earum enim error esse facere ipsam natus, nemo nulla, quidem quisquam sapiente sed tempore, veritatis.
+                    <b>Heure de permanences</b><br>
+
+                    Sont considérés comme des permanences toutes les permanences de la CSF à partir du moment où :<br>
+                    – elles sont annoncées publiquement soit par voie d'affichage, soit par insertion dans des journaux locaux, bulletins municipaux, soit par distribution de tracts ;<br>
+                    – la permanence doit annoncer que des litiges relevant de la consommation peuvent être traité, <b>un panneau ou un papier doit indiquer de façon claire à l'entrée de la permanence qu'il y a une permanence consommation ainsi que les horaires d'ouverture.</b><br><br>
+
+                    La plupart des permanences sont des permanences vie quotidienne ou l'ensemble des litiges peuvent être traité. Cependant seuls les permanences qui sont identifiés comme traitant de litiges consommation ou logement peuvent être prise en compte, même si d'autres litiges peuvent être traités.<br>
+                    Par exemples, une permanence qui ne traiterait que d'accompagnement scolaire, d'éducation ou de droit familial ne pourrait pas être prise en compte. Par contre un espace accueil famille qui traite les litiges consommation/logement pourra être pris en compte comme permanence consommation.<br><br>
+                    <b>Les permanences traitant des litiges consommations doivent avoir un cahier de permanence tenue à jour et des fiches/dossier pour chaque consommateur conseiller.</b><br>
+                    Attention ; vous pouvez faire apparaître le nombre de renseignements donnés par téléphone avec un petit topo du renseignement donné, cela donnera une indication aux pouvoirs publics du nombre de personnes que la CSF accueille dans ses différents lieux d'accueil.<br> <br>
+                </div><div id="TypologieDossier">
+                    <h1>Litiges</h1>
+                    Les litiges qui sont pris en compte sont ce qui porte sur un contrat écrit ou réputé écrit, signé ou non, entre un consommateur et un professionnel. Cela englobe les achats au supermarché entre parenthèses contrat non écrit et non signé), les contrats de location immobilière entre parenthèses logement social ou privée), les consultations médicales, hospitalisation… <br> <br>
+                    <b>Attention, nous continuons cette année à prendre en compte tous les dossiers ayant trait à l'énergie entre parenthèses eau, gaz, électricité ; problème de facture, de réclamation lié à ces thèmes), merci donc de bien remplir cette case et de s'inspirer de la dernière fiche de synthèse jointe à ce dossier !</b><br> <br>
+                    <b>En matière de logement :</b><br>Peuvent être pris en compte les litiges portant sur le contrat, y compris les prestations de services qui en découlent entre parenthèses nettoyage des parties communes, éclairage des parties communes ou des espaces privés extérieur…). <b>Les litiges logement qui ne porte pas sur un contrat ne peuvent pas être comptabilisés</b> : problème de bruit, conflit de voisinage, demande de logement, activité autour des élections HLM… <br> <br>
+                    De façon plus globale, <b>les questions sociales ne peuvent pas t'être prise en compte</b> (divorces, demande de logement, demande de papiers) sauf s'il y a un litige sur l'exercice d'un droit économique (non versement de l'APL, des allocations familiales, litiges sur le montant de l'APL…).
+                    Les litiges liés à l'emploi ne sont pas pris en compte (litige avec employeur, reconstitution de carrière pour la retraite, désaccord avec les ASSEDIC).<br> <br>
+                    <b>Les dossiers de surendettement sont pris en compte. Les activités liées au coût de la scolarité (conférence de presse, article…) Sont pris en compte.</b><br> <br>
+                    Pour qu'un litige soit pris en compte, il doit y avoir ouverture d'un dossier/fiche litige est un conseil donnée aux consommateurs (avec trace dans le cahier des permanences). Ce conseil doit être tracé dans le dossier et/ou faire l'objet d'une confirmation écrite le cas échéant.<br> <br>
+                    Un litige difficile nécessite l'envoi de trois courriers par la CSF ou deux visites du consommateur ou d'un militant. Tous les autres litiges qui ne rentre pas dans cette catégorie sont considérés comme des litiges simples.<br> <br>
+                    Toutes les informations données aux consommateurs (réorientation vers des services ou structure autre que CSF, informations générales, appels téléphoniques) doivent être indiqué dans la case « nombre de consommateurs renseigné par téléphone ». <br> <br>
+                    <b>Attention, à partir du moment où vous prenez le dossier, l'adhésion de la famille est obligatoire ! Si elle n'est pas prise, l'association se met hors-la-loi et risque des sanctions en cas de contrôle des autorités.</b> Il faut donc bien demander dans tous les cas l'adhésion de la famille avant de se plonger dans le dossier, sinon, on considère que l'on fait de la concurrence déloyale aux avocats qui risque donc de nous attaquer.<br> <br>
                 </div>   <div id="Formation">
                     <h1>Formation</h1>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet aperiam aspernatur blanditiis dignissimos dolorem ea earum enim error esse facere ipsam natus, nemo nulla, quidem quisquam sapiente sed tempore, veritatis.
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet aperiam aspernatur blanditiis dignissimos dolorem ea earum enim error esse facere ipsam natus, nemo nulla, quidem quisquam sapiente sed tempore, veritatis.
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet aperiam aspernatur blanditiis dignissimos dolorem ea earum enim error esse facere ipsam natus, nemo nulla, quidem quisquam sapiente sed tempore, veritatis.
+                    Pour les formations, ne <b>sont comptabilisés que celle que vous avez organisé vous-même à destination des militants et/ou salariés de la CSF et des AAFP/CSF</b> le cas échéant, que ce soit pour la tenue des permanences, les ateliers de consommation ou des actions particulières (contrôle des charges). <b>Les formations organisées dans le cadre ou sous l’égide du CTRC ne sont pas comptabilisés. De la même façon les formations suivi par des militants et/ou salariés mais organisées par d'autres (dont l’IFED) ne sont pas comptabilisées.</b> Les formations à destination des familles sont à faire apparaître dans la partie atelier de la consommation, éducation des consommateurs.<br> <br>
+                    <b>Attention, merci de mettre sur la fiche de synthèse du rapport d'activité les thèmes détaillé des formations et le nombre de participants ; sans cela, la formation ne pourra pas être prise en compte.</b><br> <br>
                 </div>   <div id="Communications">
                     <h1>Communications</h1>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet aperiam aspernatur blanditiis dignissimos dolorem ea earum enim error esse facere ipsam natus, nemo nulla, quidem quisquam sapiente sed tempore, veritatis.
@@ -103,10 +114,13 @@
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet aperiam aspernatur blanditiis dignissimos dolorem ea earum enim error esse facere ipsam natus, nemo nulla, quidem quisquam sapiente sed tempore, veritatis.
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet aperiam aspernatur blanditiis dignissimos dolorem ea earum enim error esse facere ipsam natus, nemo nulla, quidem quisquam sapiente sed tempore, veritatis.
                 </div>
-
             </div>
-        </div>
+            <div class="col-5"></div>
+                <div class="col-7">
+                <button class="btn is-round btn-lg" id="btn_href"><a href="{{ path('home') }}" id="lien_href">retour au formulaire</a></button>
+                <style>#btn_href {background-color: #005AA1}</style><style>#lien_href {text-decoration: none; color: #FFFFFF}</style>
+                </div>
+            </div>
     </div>
-    </body>
 
 {% endblock %}

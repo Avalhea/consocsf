@@ -6,23 +6,44 @@
 
 {% block body %}
     <body>
-    <section class="hero is-fullheight">
+    <section class="section">
         <div class="hero-body">
             <div class="container has-text-centered">
                 <div class="column is-6 is-offset-3">
                     <div class="box">
-                        <h1 class="title txtviolet">Vie Associative</h1>
+                        <h1 class="title txtviolet">Vie Associative <button type="button" class="btn bgviolet" data-bs-toggle="modal" data-bs-target="#exampleModal">Aide</button></h1>
                         <div class="field">
                             {{ form_start(formVieAssociative) }}
                             Nombre de salariés : {{ form_row(formVieAssociative.nbSalaries) }}<br>
                             Nombre de bénévoles :  {{ form_row(formVieAssociative.nbBenevole) }}<br>
                             Nombre de consommateurs renseignés par téléphone :  {{ form_row(formVieAssociative.NbConsomRensTel) }}<br>
                             Action/activité vie quotidienne / conso significative de l'UD que vous souhaitez valoriser. Merci de préciser les sujets :
-                            <br>  {{ form_row(formVieAssociative.evenement) }}<br>
-                            <button type="submit" class="btn bgviolet">Suivant</button>
+                            {{ form_row(formVieAssociative.evenement) }}<br>
+                            <div class="row-12">
+                                <span class=""row-6><a href="{{ path('formulaire_typologieDossier',{'idLieu': idLieu} ) }}"><button type="button" class="btn bgviolet" id="lien_precedent">Précedent</button></a></span>
+                                    <span class=""row-6><button type="submit" class="btn bgviolet">Suivant</button></span>
+                            </div>
                             {{ form_end(formVieAssociative) }}
-                            <a href="{{ path('formulaire_typologieDossier',{'idLieu': idLieu} ) }}"><button class="btn bgviolet" id="lien_precedent">Précedent</button></a>
                             <style>#lien_precedent {text-decoration: none; color: #FFFFFF;font-family: 'Recursive', sans-serif}</style>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Aide</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <i class="fa-regular fa-hand-point-right"></i> <b> Nombre de salariés :</b> Indiquez le nombre de salariés participant aux activités de consommation (permanences, représentations, organisation, participation aux actions,...). <br>
+                                    <i class="fa-regular fa-hand-point-right"></i> <b> Nombre de bénévoles :</b> Indiquez le nombre de bénévoles participant aux activités de consommation (permanences, représentations, organisation, participation aux actions,...). <br>
+                                    <i class="fa-regular fa-hand-point-right"></i> <b> Nombre de consommateurs renseignés par téléphone :</b> Toutes les informations données au consommateur doivent être indiquées (réorientation vers des services ou structures autre que La CSF, informations générales, appels,...). <br>
+                                    <i class="fa-regular fa-hand-point-right"></i> <b> Action/activité vie quotidienne / conso significative :</b> Actions que vous souhaitez valoriser : action coup de poing contre un fournisseur dans un quartier, création d'une AMAP, point conseil budget, ateliers cuisine, jardins partagés, pass surendettement, composteurs collectifs d'immeubles, partenariat d'accompagnement aux démarches numériques,... <br>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

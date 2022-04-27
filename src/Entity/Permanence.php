@@ -25,9 +25,6 @@ class Permanence
     #[ORM\Column(type: 'integer', nullable: true)]
     private $nbDossierDifficile;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $nbTotalDossiers;
-
 
 
     public function getId(): ?int
@@ -79,18 +76,6 @@ class Permanence
     public function setNbDossierDifficile(?int $nbDossierDifficile): self
     {
         $this->nbDossierDifficile = $nbDossierDifficile;
-
-        return $this;
-    }
-
-    public function getNbTotalDossiers(): ?int
-    {
-        return $this->nbTotalDossiers;
-    }
-
-    public function setNbTotalDossiers(?int $nbTotalDossiers): self
-    {
-        $this->nbTotalDossiers = $nbTotalDossiers;
 
         return $this;
     }

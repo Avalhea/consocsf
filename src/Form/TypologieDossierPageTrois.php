@@ -17,7 +17,7 @@ class TypologieDossierPageTrois extends AbstractType
         $builder
 
             ->add('nbSalaries',null,['label'=>' ',  'attr' => [
-                'class' => 'input is-rounded', 'col-xs-2',
+                'class' => 'is-rounded is-focused', 'col-xs-2',
                 'type' => 'int'
             ]])
             ->add('nbBenevole',null,['label'=>' ',  'attr' => [

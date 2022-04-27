@@ -4,24 +4,45 @@
 {% endblock %}
 
 {% block body %}
-<section class="hero is-fullheight">
+<section class="section">
     <div class="hero-body">
         <div class="container has-text-centered">
             <div class="column is-6 is-offset-3">
                 <div class="box">
-                    <h1 class="title txtorange">Formation</h1>
+                    <h1 class="title txtorange">Formation <button type="button" class="btn bgorange" data-bs-toggle="modal" data-bs-target="#exampleModal">Aide</button></h1>
                     <hr class="login-hr">
                     <div class="field">
                         {{ form_start(formFormations) }}
                         Nombre de formations dans l'année : {{ form_row(formFormations.NbFormationsAnnee) }}<br>
                         Thème & nombre de participants à chaque formation :  {{ form_row(formFormations.ThemeFormationEtParticipants) }}<br>
-
-                        <button type="submit" class="btn bgorange">Suivant</button>
+                        <p><i class="fa-solid fa-exclamation"></i><b> Merci de conserver les convocations et feuilles d'émargement <i class="fa-solid fa-exclamation"></i></b></p>
+                        <div class="row-12">
+                            <span class=""row-6><a href="{{ path('formulaire_vieAssociative', {'idLieu': idLieu } ) }}"><button type="button" class="btn bgorange" id="lien_precedent">Précedent</button></a></span>
+                            <span class=""row-6><button type="submit" class="btn bgorange">Suivant</button></span>
                         {{ form_end(formFormations) }}
-                        <a href="{{ path('formulaire_vieAssociative', {'idLieu': idLieu } ) }}"><button class="btn bgorange" id="lien_precedent">Précedent</button></a>
                         <style>#lien_precedent {text-decoration: none; color: #FFFFFF;font-family: 'Recursive', sans-serif}</style>
                     </div>
                 </div>
+
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Aide</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <i class="fa-regular fa-hand-point-right"></i> Ne sont comptabilisées que celle que vous avez organisées à destination des militants et/ou salariés de la CSF et des AAFP/CSF. <br>
+                                    <i class="fa-regular fa-hand-point-right"></i> Les formations organisées ou dans le cadre/sous l'égide du CTRC ne sont donc pas comptabilisées. De même, les formations même suivis par des militants et/ou salariés, mais organisées par d'autres, y compris l'IFED, ne sont pas comptabilisées.  <br>
+                                    <i class="fa-regular fa-hand-point-right"></i> Pour que la formation soit prise en compte, elle doit obligatoirement indiquer le nombre de participants. <br>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
             </div>
         </div>
     </div>
