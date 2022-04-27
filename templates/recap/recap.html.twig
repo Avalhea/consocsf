@@ -1,12 +1,44 @@
 {% extends 'base.html.twig' %}
 
-{#{% block couleur %}#}
-{#    bgbleu#}
-{#{% endblock %}#}
+{% block couleur %}
+    bgbleu
+{% endblock %}
 
+{% block navbar %}
+{% endblock %}
 
 {% block body %}
+    <style>
+    header {
+    position: fixed;
+    top: -60px;
+    left: 0px;
+    right: 0px;
+    height: 50px;
+
+    /** Extra personal styles **/
+    background-color: #03a9f4;
+    color: white;
+    text-align: center;
+    line-height: 35px;
+    }
+
+    footer {
+    position: fixed;
+    bottom: -60px;
+    left: 0px;
+    right: 0px;
+    height: 50px;
+
+    /** Extra personal styles **/
+    background-color: #03a9f4;
+    color: white;
+    text-align: center;
+    line-height: 35px;
+    }
+    </style>
 <body>
+<header></header>
 <section class="section">
 
         <div class="container has-text-centered">
@@ -19,7 +51,8 @@
                     </div>
                         <div class="Permanence">
                             <h3><b>I) Permanences</b></h3>
-
+                            {% set idLieu = UD.id %}
+                            <a href="{{ path('gestion_formulairedetailBilanPdf', {'id': idLieu}) }}">PDF</a>
                             <p>Nombre de lieux de permanences : {{  Sections|length }}</p>
                             <p>Nombre de jours de permanences : {{  UD.permanence.nbJours }}</p>
                             <p>Nombre d'heures de permanences : {{ UD.permanence.nbHeures }}</p>
@@ -50,8 +83,8 @@
                         <div class="Communication">
                             <h3><b>III) Communications</b></h3>
                             {%  for com in UD.communication %}
-                                {{ com.typeCommunication.libelle}} :
-                                <br>Nombre : {{com.nombre }}
+                               <h5 > {{ com.typeCommunication.libelle}} :</h5>
+                                Nombre : {{com.nombre }}
                                 {% if UD.echelle.libelle == 'Section' %}
                                 <br>Sujets : {{com.sujets }}
                                 {% endif %}
@@ -85,8 +118,10 @@
 
 
 </section>
+<footer></footer>
 </body>
 {% endblock %}
+
 
 
 

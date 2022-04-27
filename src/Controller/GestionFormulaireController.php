@@ -22,11 +22,11 @@ use App\Repository\TypologieDossierRepository;
 use App\Repository\UDRepository;
 use App\Repository\UserRepository;
 use App\Service\PdfService;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+
 #[Route('/gestion/formulaire', name: 'gestion_formulaire')]
 class GestionFormulaireController extends AbstractController
 {
@@ -237,7 +237,6 @@ class GestionFormulaireController extends AbstractController
                 }
             }
         }
-        dump($UD);
         $Sections = $lieuRepository->findBy(['echelle' => $echelleRepository->find(1), 'UD' => $UD->getUD(), 'statut' => $statutRepository->find(2)]);
 
             return $this->render('recap/recap.html.twig',
@@ -249,8 +248,9 @@ class GestionFormulaireController extends AbstractController
     {
         $UD = $lieuRepository->find($id);
         $Sections = $lieuRepository->findBy(['echelle' => $echelleRepository->find(1), 'UD' => $UD->getUD(), 'statut' => $statutRepository->find(2)]);
-
-        $html = $this->render('recap/recap.html.twig', ['UD','Sections']);
+        $html = $this->render('recap/recap.html.twig', compact('UD','Sections'));
         $pdf->showPdfFile($html);
+
+
     }
 }

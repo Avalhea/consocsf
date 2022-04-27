@@ -14,8 +14,8 @@
                         <hr class="login-hr">
                         <div class="field">
                             {{ form_start(formActionJustice) }}
-                            Nombre de jours de permanence par an : {{ form_row(formActionJustice.nbActionConjointe) }}<br>
-                            Nombre d’heures de permanences par an :  {{ form_row(formActionJustice.nbAccompagnement) }}<br>
+                            Nombre d'actions en justice conjointe : {{ form_row(formActionJustice.nbActionConjointe) }}<br>
+                            Nombre d'actions de simple accompagnement du consommateur :  {{ form_row(formActionJustice.nbAccompagnement) }}<br>
                             <button type="submit" class="btn bgviolet">Suivant</button>
                             {{ form_end(formActionJustice) }}
                             <a href="{{ path('formulaire_representation',{'idLieu': idLieu} ) }}"><button class="btn bgviolet" id="lien_precedent">Précedent</button></a>
