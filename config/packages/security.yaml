@@ -44,7 +44,7 @@ security:
         ROLE_ADMIN: ROLE_NATIONAL
 
     access_control:
-         - { path: ^/ud, roles: ROLE_UD }
+         - { path: ^/recap, roles: ROLE_UD }
          - { path: ^/national, roles: ROLE_NATIONAL }
          - { path: ^/admin, roles: ROLE_ADMIN }
 

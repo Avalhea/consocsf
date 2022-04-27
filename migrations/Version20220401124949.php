@@ -20,7 +20,7 @@ final class Version20220401124949 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE user ADD CONSTRAINT FK_8D93D649DA54E4D4 FOREIGN KEY (ud_id) REFERENCES ud (id)');
+        $this->addSql('ALTER TABLE user ADD CONSTRAINT FK_8D93D649DA54E4D4 FOREIGN KEY (ud_id) REFERENCES recap (id)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D649DA54E4D4 ON user (ud_id)');
     }
 

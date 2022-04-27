@@ -18,7 +18,7 @@ class UD
     #[ORM\Column(type: 'string', length: 20)]
     private $libelle;
 
-    #[ORM\OneToMany(mappedBy: 'ud',targetEntity: Lieu::class)]
+    #[ORM\OneToMany(mappedBy: 'recap',targetEntity: Lieu::class)]
     private $lieus;
 
     #[ORM\OneToMany(mappedBy: 'UD', targetEntity: Lieu::class)]
