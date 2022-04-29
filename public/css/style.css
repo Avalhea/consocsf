@@ -7,6 +7,12 @@ body{
     height: 100vh;
 }
 
+@media  {
+    .no-print {
+        display: none; !important;
+    }
+}
+
 .section{
     height: 757px;
 }

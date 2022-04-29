@@ -1,11 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block couleur %}
-    bgbleu
-{% endblock %}
-
-{% block navbar %}
-{% endblock %}
+{#{% block couleur %}#}
+{#    bgbleu#}
+{#{% endblock %}#}
 
 {% block body %}
     <style>
@@ -38,54 +35,59 @@
     }
     </style>
 <body>
-<header></header>
+
 <section class="section">
 
         <div class="container has-text-centered">
                 <div class="box" style="background-color: rgba(255,255,255,0.64); height: 80vh; overflow: scroll">
-                    <h1 class="title txtbleu">Mon bilan {{ UD.echelle.libelle }}</h1>
+                    <h1 class="title txtbleu">Mon bilan {{ lieu.echelle.libelle }}</h1>
                     <hr class="login-hr">
                     <div class="field" style="text-align: left">
                         <div class="center" style="text-align: center">
-                        <h3> {{ UD.ud.libelle }} </h3>
+                            {% if lieu.echelle.id != 3 %}
+                        <h3> {{ lieu.ud.libelle }} </h3>
+                            {% endif %}
                     </div>
                         <div class="Permanence">
                             <h3><b>I) Permanences</b></h3>
-                            {% set idLieu = UD.id %}
+                            {% set idLieu = lieu.id %}
                             <a href="{{ path('gestion_formulairedetailBilanPdf', {'id': idLieu}) }}">PDF</a>
                             <p>Nombre de lieux de permanences : {{  Sections|length }}</p>
-                            <p>Nombre de jours de permanences : {{  UD.permanence.nbJours }}</p>
-                            <p>Nombre d'heures de permanences : {{ UD.permanence.nbHeures }}</p>
+                            <p>Nombre de jours de permanences : {{  lieu.permanence.nbJours }}</p>
+                            <p>Nombre d'heures de permanences : {{ lieu.permanence.nbHeures }}</p>
                             <p>Lieux horaires et jours d'ouverture des permanences : <a href="">CF Horaires.PDF</a></p>
-                            <p>Nombre de dossiers consommation/vie quotidienne simples suivis : {{ UD.permanence.nbDossierSimple }}</p>
-                            <p>Nombre de dossiers consommation/vie quotidienne difficiles suivis (+ de trois courriers ou + de deux visites) {{ UD.permanence.nbDossierDifficile }}</p>
-                            <p>Total global du nombre de dossiers consommation : {{ UD.permanence.nbDossierSimple + UD.permanence.nbDossierDifficile }} </p>
+                            <p>Nombre de dossiers consommation/vie quotidienne simples suivis : {{ lieu.permanence.nbDossierSimple }}</p>
+                            <p>Nombre de dossiers consommation/vie quotidienne difficiles suivis (+ de trois courriers ou + de deux visites) {{ lieu.permanence.nbDossierDifficile }}</p>
+                            <p>Total global du nombre de dossiers consommation : {{ lieu.permanence.nbDossierSimple + lieu.permanence.nbDossierDifficile }} </p>
 
 
                             <p><i><b>Typologie dossiers (nombre de dossiers en détails)</b></i></p>
 
-                            {% for dossier in UD.dossier %}
-                                {{ dossier.typologiedossier.libelle}} : {{dossier.nbDossiers }}
+                            {% for dossier in lieu.dossier %}
+                                <b> {{ dossier.typologiedossier.libelle}} </b>: {{dossier.nbDossiers }}
+                                <br>
+
                             {% endfor %}
-                            <p>Nombre de consommateurs renseignés par téléphone (orientés vers d'autres structures ou informations générales) : {{ UD.NbConsomRensTel }}</p>
-                            <p>Nombre de <b>salariés</b> participant aux activités consommation (perm/représentations/organisation ou participation à des actions) : {{ UD.nbSalaries }}</p>
-                            <p>Nombre de <b>bénévoles</b> qui font de l'activité consommation (permanences, représentations, organisation ou participations à des actions...) : {{ UD.nbBenevole }}</p>
-                            <p>Total global de toutes les personnes faisant de l'activité consommation dans le département : {{ UD.nbSalaries + UD.nbBenevole }}</p>
+                            <p>Nombre de consommateurs renseignés par téléphone <br> (orientés vers d'autres structures ou informations générales) : {{ lieu.NbConsomRensTel }}</p>
+                            <p>Nombre de <b>salariés</b> participant aux activités consommation <br> (perm/représentations/organisation ou participation à des actions) : {{ lieu.nbSalaries }}</p>
+                            <p>Nombre de <b>bénévoles</b> qui font de l'activité consommation (permanences, représentations, organisation ou participations à des actions...) : {{ lieu.nbBenevole }}</p>
+                            <p>Total global de toutes les personnes faisant de l'activité consommation dans le département : {{ lieu.nbSalaries + lieu.nbBenevole }}</p>
                         </div>
 
                         <br>
                         <div class="Formation">
                             <h3><b>II) Formations menées :</b></h3>
-                            <p>Nombre de formations menées sur l'année : {{ UD.formations.NbFormationsAnnee }}</p>
-                            <p>Thèmes des formations et nombre de participants : {{ UD.formations.ThemeFormationEtParticipants }}</p>
+                            <p>Nombre de formations menées sur l'année : {{ lieu.formations.NbFormationsAnnee }}</p>
+                            <p>Thèmes des formations et nombre de participants : {{ lieu.formations.ThemeFormationEtParticipants }}</p>
                         </div>
                         <br>
                         <div class="Communication">
                             <h3><b>III) Communications</b></h3>
-                            {%  for com in UD.communication %}
-                               <h5 > {{ com.typeCommunication.libelle}} :</h5>
+                            {%  for com in lieu.communication %}
+                               <b>{{ com.typeCommunication.libelle}} :</b>
+                                <br>
                                 Nombre : {{com.nombre }}
-                                {% if UD.echelle.libelle == 'Section' %}
+                                {% if lieu.echelle.libelle == 'Section' %}
                                 <br>Sujets : {{com.sujets }}
                                 {% endif %}
 
@@ -95,29 +97,28 @@
                         <br>
                         <div class="AteliersConso">
                             <h3><b>IV) Ateliers consommation et éducation des consommateurs</b></h3>
-                            Nombre d'ateliers : {{ UD.nbAteliers }}
-                            Nombre de participants total : {{ UD.nbPartiAteliers }}
+                            Nombre d'ateliers : {{ lieu.nbAteliers }}
+                            Nombre de participants total : {{ lieu.nbPartiAteliers }}
                         </div>
                         <br>
                         <div class="representation">
                             <h3><b>V) Représentations</b></h3>
-                            {% for rep in UD.representation  %}
-                                {{ rep.categorie.libelle }} :
+                            {% for rep in lieu.representation  %}
+                                <b>{{ rep.categorie.libelle }} :</b>
                                 <br>Fréquence des réunions : {{ rep.frequence }}
                                 <br>
                             {% endfor %}
                         </div>
 
                         <div class="actionJustice">
-                            Nombre d'actions en justice en représentation conjointe : {{ UD.actionJustice.nbActionConjointe }}
-                            Nombre d'actions de simple accompagnement du consommateur : {{ UD.actionJustice.nbAccompagnement }}
+                            Nombre d'actions en justice en représentation conjointe : {{ lieu.actionJustice.nbActionConjointe }}
+                            Nombre d'actions de simple accompagnement du consommateur : {{ lieu.actionJustice.nbAccompagnement }}
                         </div>
                 </div>
             </div>
         </div>
 
 </section>
-<footer></footer>
 </body>
 {% endblock %}
 

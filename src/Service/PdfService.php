@@ -19,10 +19,10 @@ class PdfService
         $this->domPdf->setOptions($pdfOptions);
     }
 
-    public function showPdfFile($html) {
+    public function showPdfFile($html, $nom) {
         $this->domPdf->loadHtml($html);
         $this->domPdf->render();
-        $this->domPdf->stream("detailBilan.pdf", [
+        $this->domPdf->stream($nom, [
             'Attachement' => true
         ]);
     }
