@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+{#    <h3 class="has-text-centered is-size-3"> Gestionnaire de réprésentation </h3>
+    <div class="box m-6">
+        <p class="has-text-centered"> Filtrer les villes </p>
+        <div class="field">
+            <label class="label"> Le nom contient : </label>
+            <div class="columns">
+                <div class="column is-one-third">
+                    <input type="text" class="input">
+                </div>
+                <div class="column is-on-fifth">
+                    <button class="button"> Rechercher</button>
+                    <button class="button is-link is-info" name="return" value="Retour"><a href="{{ path('home') }}" style="color:white;text-decoration:none">Retour à l'accueil</a></button>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column">
+                    <div class="table-container">
+                        <table class="table is-striped is-fullwidth">
+                            <tr>
+                                <th> Nom</th>
+                                <th> code postal</th>
+                                <th> Action</th>
+                            </tr>
+                            {% for representation in listeRep %}
+                                <tr>
+                                    <td>{{ representation.libelle }}</td>
+                                    <td>
+                                        #}{#                 MODAL DETAIL--------START             #}{#
+                                        <button class="button is-small button is-link js-modal-trigger"
+                                                data-target="modal-js-example{{ representation.libelle }}">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <div id="modal-js-example{{ representation.libelle }}" class="modal ">
+                                            <div class="modal-background"></div>
+                                            <div class="modal-content modal-lg ">
+                                                <div class="box">
+                                                    #}{# ####    FAIRE DU JOLIE ICI   ##### #}{#
+                                                    <div class="has-text-centered">
+                                                            <label for="nom">Nom</label>
+                                                            <input class="input is-link" type="text"
+                                                                   value="{{ representation.libelle }}" name="nom">
+                                                            <br>
+                                                        </form>
+                                                    </div>
+                                                    #}{# #####            JUSQU'A LA          ##### #}{#
+                                                </div>
+                                            </div>
+                                            <button class="modal-close is-large" aria-label="close"></button>
+                                        </div>
+                                        #}{#                     MODAL-------END           #}{#
+                                </tr>
+                            {% endfor %}
+                            <tr>
+                                {{ form_start(ajoutRep) }}
+                                <td>{{ form_row(ajoutRep.libelle) }}</td>
+                                <td>
+                                    <button class="button is-small button is-success" type="submit"><i class="fa-solid fa-plus"></i></button>
+                                </td>
+                                {{ form_end(ajoutRep) }}
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="column">
+                </div>
+            </div>
+        </div>
+    </div>#}
+{% endblock %}

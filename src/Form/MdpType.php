@@ -9,6 +9,8 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class MdpType extends AbstractType
 {
@@ -21,7 +23,10 @@ class MdpType extends AbstractType
             'required' => true,
             'first_options'  => ['label' => ' '],
             'second_options' => ['label' => ' '],
-        ]);
+            'constraints' => [
+                new NotBlank(),
+                new Regex('#^\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])\S*$#', 'mot de passe trop faible')
+        ]]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -13,7 +13,7 @@ class CategorieRep
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 30)]
+    #[ORM\Column(type: 'string', length: 50)]
     private $libelle;
 
     public function getId(): ?int

@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block couleur %}
+    bgbleu
+{% endblock %}
+
+{% block body %}
+    <section class="section">
+        <div class="hero-body">
+            <div class="box m-6">
+                <h3 class="has-text-centered is-size-2">Gestionnaire de types de communication</h3>
+                <hr class="login-hr">
+                <div class="field">
+                </div>
+                <div class="column">
+                    <div class="table-container">
+                        <table class="table table-striped">
+                            <tr>
+                                <th> Nom</th>
+                                <th> Action</th>
+                            </tr>
+                            {% for typecom in listetypecom %}
+                                <tr>
+                                    <td>{{ typecom.libelle }}</td>
+                                    <td>
+                                        <div id="modal-js-example{{ typecom.libelle }}" class="modal ">
+                                            <div class="modal-background"></div>
+                                            <div class="modal-content modal-lg ">
+                                                <div class="box">
+                                                    <div class="has-text-centered">
+                                                        <label for="nom">Nom</label>
+                                                        <input class="input is-link" type="text"
+                                                               value="{{ typecom.libelle }}" name="nom">
+                                                        <br>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button class="modal-close is-large" aria-label="close"></button>
+                                        </div>
+                                        <a class="button is-small button is-danger" href="{{ path('admin_supprimertypecom', {'id': typecom.id }) }}"> <i class="fa-solid fa-trash"></i> </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            <tr>
+                                {{ form_start(ajouttypecom) }}
+                                <td>{{ form_row(ajouttypecom.libelle) }}</td>
+                                <td>
+                                    <button class="button is-small button is-success" type="submit"><i class="fa-solid fa-plus"></i></button>
+                                </td>
+                                {{ form_end(ajouttypecom) }}
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <button class="btn is-round btn-lg" id="btn_href"><a href="{{ path('home') }}" id="lien_href">retour au formulaire</a></button>
+                        <style>#btn_href {background-color: #005AA1}</style><style>#lien_href {text-decoration: none; color: #FFFFFF}</style>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        </div>
+    </section>
+{% endblock %}

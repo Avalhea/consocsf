@@ -21,12 +21,10 @@ security:
             lazy: true
             provider: app_user_provider
             custom_authenticator: App\Security\UserAuthenticator
-
             logout:
                 path: app_logout
                 # where to redirect after logout
                 target: app_login
-
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -44,10 +42,10 @@ security:
         ROLE_ADMIN: ROLE_NATIONAL
 
     access_control:
-         - { path: ^/recap, roles: ROLE_UD }
-         - { path: ^/national, roles: ROLE_NATIONAL }
-         - { path: ^/admin, roles: ROLE_ADMIN }
-
+        - { path: ^/check, roles: ROLE_USER }
+        - { path: ^/recap, roles: ROLE_UD }
+        - { path: ^/national, roles: ROLE_NATIONAL }
+        - { path: ^/admin, roles: ROLE_ADMIN }
 
 when@test:
     security:

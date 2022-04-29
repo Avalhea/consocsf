@@ -24,7 +24,6 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'json')]
     private $roles = [];
 
-    #[Assert\Regex('#^\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])\S*$#', message: 'Mot de passe trop faible')]
     #[ORM\Column(type:'string')]
     private $password;
 

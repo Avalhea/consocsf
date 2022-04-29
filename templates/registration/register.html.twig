@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block couleur %}
+    bgbleu
+{% endblock %}
+
+{% block body %}
+
+    <section class="section">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <div class="column is-6 is-offset-3">
+                    <div class="box">
+                        <h1 class="title txtviolet">Ajouter un compte</h1>
+                        <hr class="login-hr">
+                        <div class="field">
+
+                            {{ form_start(registrationForm) }}
+                            {{ form_row(registrationForm.email) }}
+                            <br>
+                            Echelle : {{ form_row(registrationForm.echelle) }}
+                            <br>
+                            UD : {{ form_row(registrationForm.UD) }}
+                            <br>
+                            <button type="submit" class="button bgbleu">Créer</button>
+                            <button class="button bgbleu" name="return" value="Retour"><a href="{{ path('home') }}" id="retour">Retour à l'accueil</a></button>
+                            <style>#retour  {text-decoration: none; color: #FFFFFF;font-family: 'Recursive', sans-serif}</style>
+
+
+                    {{ form_end(registrationForm) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+{% endblock %}
