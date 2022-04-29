@@ -51,7 +51,7 @@
                         <div class="Permanence">
                             <h3><b>I) Permanences</b></h3>
                             {% set idLieu = lieu.id %}
-                            <a href="{{ path('gestion_formulairedetailBilanPdf', {'id': idLieu}) }}">PDF</a>
+                            <a href="{{ path('gestion_formulaire_detailBilanPdf', {'id': idLieu}) }}">PDF</a>
                             <p>Nombre de lieux de permanences : {{  Sections|length }}</p>
                             <p>Nombre de jours de permanences : {{  lieu.permanence.nbJours }}</p>
                             <p>Nombre d'heures de permanences : {{ lieu.permanence.nbHeures }}</p>

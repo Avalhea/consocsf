@@ -424,7 +424,7 @@ class FormulaireController extends AbstractController
                 $entityManager->persist($lieu);
                 $entityManager->flush();
             }
-            return $this->redirectToRoute('gestion_formulaire_ud');
+            return $this->redirectToRoute('gestion_formulaire_recap', array('idLieu'=>$idLieu));
         }
 
         return $this->renderForm('formulaire/actionJustice.html.twig',
