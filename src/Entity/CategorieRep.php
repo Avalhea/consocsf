@@ -32,4 +32,5 @@ class CategorieRep
 
         return $this;
     }
+
 }

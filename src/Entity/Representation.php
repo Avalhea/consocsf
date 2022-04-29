@@ -65,5 +65,4 @@ class Representation
 
         return $this;
     }
-
 }
