@@ -24,6 +24,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 
+
 #[Route('/admin', name: 'admin_')]
 class RegistrationController extends AbstractController
 {
@@ -45,13 +46,24 @@ class RegistrationController extends AbstractController
 
         // validation du formulaire, set du mot de passe par defaut et envoi à la BDD
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setPassword('1234');
-                $userPasswordHasher->hashPassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-            );
+
+
+                $user->setPassword($userPasswordHasher->hashPassword(
+                    $user, '1234'));
+                if($user->getEchelle()->getId()== 1) {
+                    $user->setRoles(["ROLE_SECTION"]);
+                }
+                if($user->getEchelle()->getId()== 2) {
+                    $user->setRoles(["ROLE_UD"]);
+                }
+                if($user->getEchelle()->getId()== 3) {
+                    $user->setRoles(["ROLE_NATIONAL"]);
+                }
+
+
             $entityManager->persist($user);
             $entityManager->flush();
+
         }
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),

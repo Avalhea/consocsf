@@ -68,8 +68,7 @@ class LoginController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $this->getUser();
             $mdpSimple = $user->GetPassword();
-            $vraiMdp = $passwordHasher->hashPassword($user,$mdpSimple);
-            $user->setPassword($vraiMdp);
+            $user->setPassword($passwordHasher->hashPassword($user,$mdpSimple));
             $entityManager->persist($user);
             $entityManager->flush();
             return $this->redirectToRoute('home');

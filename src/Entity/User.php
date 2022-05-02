@@ -31,12 +31,13 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn(nullable: false)]
     private $echelle;
 
-    #[ORM\OneToOne(targetEntity: UD::class, cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: true)]
-    private $ud;
+
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Lieu::class)]
     private $lieux;
+
+    #[ORM\ManyToOne(targetEntity: UD::class, inversedBy: 'users')]
+    private $ud;
 
     public function __construct()
     {
@@ -126,17 +127,6 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getUd(): ?UD
-    {
-        return $this->ud;
-    }
-
-    public function setUd(UD $ud): self
-    {
-        $this->ud = $ud;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Lieu>
@@ -164,6 +154,18 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface
                 $lieux->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUd(): ?UD
+    {
+        return $this->ud;
+    }
+
+    public function setUd(?UD $ud): self
+    {
+        $this->ud = $ud;
 
         return $this;
     }
