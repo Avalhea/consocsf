@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block couleur %}
+    bgbleu
+{% endblock %}
+
+{% block navbar %}
+
+{% endblock %}
+
+{% block body %}
+    <body>
+    <section class="section">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <div class="column is-6 is-offset-3">
+                    <div class="box" style="text-align: left">
+
+                        <h1 style="text-align: center;">Horaires des sections :</h1>
+                        <br>
+
+                        {% for ud in uds %}
+                            <h4>UD {{ ud.UD.libelle }}</h4>
+                            {% for section in sections %}
+                                {% if section.UD is same as ud.UD %}
+                                    <b>{{ section.nom }}</b> : {{ section.joursEtHorairesOuverture }}
+                                    <br>
+                                {% endif %}
+                            {% endfor %}
+                            <br>
+                            <br>
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    </body>
+{% endblock %}

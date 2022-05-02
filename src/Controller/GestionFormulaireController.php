@@ -301,6 +301,15 @@ class GestionFormulaireController extends AbstractController
 
     }
 
+    #[Route('/horaires/ouverture', name: '_horairesOuverture')]
+    public function horaires(PdfService $pdf,LieuRepository $lieuRepository,StatutRepository $statutRepository, EchelleRepository $echelleRepository,$id = 0)
+    {
+    $sections = $lieuRepository->findBy(['echelle'=>$echelleRepository->find(1)]);
+    $uds = $lieuRepository->findBy(['echelle'=>$echelleRepository->find(2)]);
+    return $this->render('recap/horaires.html.twig',
+        compact('sections','uds'));
+    }
+
 
     #[Route('/pdf/{id}', name: '_detailBilanPdf', requirements: ['id' => '\d+'])]
     public function generatePdfRecap(PdfService $pdf,LieuRepository $lieuRepository,StatutRepository $statutRepository, EchelleRepository $echelleRepository,$id = 0)
@@ -319,7 +328,8 @@ class GestionFormulaireController extends AbstractController
         $name = 'Recapitulatif_dossier_conso_' . $lieu->getEchelle()->getLibelle() . '_' . $lieu->getNom() .'.PDF';
 
         $pdf->showPdfFile($html, $name);
-
-
     }
+
+
+
 }
