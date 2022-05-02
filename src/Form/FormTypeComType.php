@@ -22,5 +22,4 @@ class FormTypeComType extends AbstractType
             'data_class' => TypeCommunication::class,
         ]);
     }
-
 }

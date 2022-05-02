@@ -24,8 +24,7 @@ class HomeController extends AbstractController
     ): Response {
 
         $user = $userRepository->find($this->getUser()->getId());
-        if (count($user->getLieux())>0 && $user->getEchelle()->getId() === 1) {
-
+        if (count($user->getLieux()) >0 && $user->getEchelle()->getId() === 1) {
             $stop = 'Stop';
         }
         else {

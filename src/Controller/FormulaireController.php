@@ -431,7 +431,4 @@ class FormulaireController extends AbstractController
             compact('formActionJustice',  'idLieu'));
 
     }
-
-
-
 }

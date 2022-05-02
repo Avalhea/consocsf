@@ -78,5 +78,4 @@ class LoginController extends AbstractController
         $this->addFlash('error', ' Les deux mots de passes ne correspondent pas !');
         return $this->renderForm('home/mdp.html.twig', compact('form', 'user'));
     }
-
 }

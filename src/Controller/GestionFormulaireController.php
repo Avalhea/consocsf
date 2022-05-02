@@ -92,21 +92,21 @@ class GestionFormulaireController extends AbstractController
 //
                 foreach ($sousLieux as $sousLieu) {
 
-                    $nbSalaries = $nbSalaries + $sousLieu->getNbSalaries();
-                    $nbBenevoles = $nbBenevoles + $sousLieu->getNbBenevole();
-                    $nbConsoTel = $nbConsoTel + $sousLieu->getNbConsomRensTel();
+                    $nbSalaries += $sousLieu->getNbSalaries();
+                    $nbBenevoles += $sousLieu->getNbBenevole();
+                    $nbConsoTel += $sousLieu->getNbConsomRensTel();
 
 
                     //          Action en Justice
-                    $nbAcc = $nbAcc + $sousLieu->getActionJustice()->getNbAccompagnement();
-                    $actionConjointes = $actionConjointes + $sousLieu->getActionJustice()->getNbActionConjointe();
+                    $nbAcc += $sousLieu->getActionJustice()->getNbAccompagnement();
+                    $actionConjointes += $sousLieu->getActionJustice()->getNbActionConjointe();
 
                     //          Ateliers
-                    $nbAteliers = $nbAteliers + count($sousLieu->getAtelier());
+                    $nbAteliers += count($sousLieu->getAtelier());
                     $ateliers = $sousLieu->getAtelier();
 
                     foreach ($ateliers as $atelier) {
-                        $nbParti = $nbParti + $atelier->getNbPersonnesTotal();
+                        $nbParti += $atelier->getNbPersonnesTotal();
                     }
 
                     //          Communication
@@ -122,7 +122,7 @@ class GestionFormulaireController extends AbstractController
                         foreach ($sousLieux as $sousL) {
                             $com = $communicationRepository->findOneBy(['lieu' => $sousL, 'typeCommunication' => $typeCommunicationRepository->find($i)]);
                             if ($com) {
-                                $nb = $nb + $com->getNombre();
+                                $nb += $com->getNombre();
                             }
                         }
 
@@ -148,7 +148,7 @@ class GestionFormulaireController extends AbstractController
                         foreach ($sousLieux as $sousL) {
                             $dos = $dossierRepository->findOneBy(['lieu' => $sousL, 'typologieDossier' => $typologieDossierRepository->find($i)]);
                             if($dos){
-                            $nb = $nb + $dos->getNbDossiers();
+                            $nb += $dos->getNbDossiers();
                             }
                         }
 
@@ -162,18 +162,18 @@ class GestionFormulaireController extends AbstractController
                     }
 
                     //          Formations
-                    $nbFormationsAnnee = $nbFormationsAnnee + $sousLieu->getFormations()->getNbFormationsAnnee();
-                    $themesFormation = $themesFormation . ', ' . $sousLieu->getFormations()->getThemeFormationEtParticipants();
+                    $nbFormationsAnnee += $sousLieu->getFormations()->getNbFormationsAnnee();
+                    $themesFormation .= ', ' . $sousLieu->getFormations()->getThemeFormationEtParticipants();
 
 
                     //          Evenements
-                    $events = $events . ', ' . $sousLieu->getEvenement()->getDetailEvenement();
+                    $events .= ', ' . $sousLieu->getEvenement()->getDetailEvenement();
 
                     //          Permanence
-                    $nbHeures = $nbHeures + $sousLieu->getPermanence()->getNbHeures();
-                    $nbJours = $nbJours + $sousLieu->getPermanence()->getNbJours();
-                    $nbDossierSimple = $nbDossierSimple + $sousLieu->getPermanence()->getNbDossierSimple();
-                    $nbDossierDiff = $nbDossierDiff + $sousLieu->getPermanence()->getNbDossierDifficile();
+                    $nbHeures += $sousLieu->getPermanence()->getNbHeures();
+                    $nbJours += $sousLieu->getPermanence()->getNbJours();
+                    $nbDossierSimple += $sousLieu->getPermanence()->getNbDossierSimple();
+                    $nbDossierDiff += $sousLieu->getPermanence()->getNbDossierDifficile();
 
 
                     //          Representation
@@ -190,7 +190,7 @@ class GestionFormulaireController extends AbstractController
                         foreach ($sousLieux as $sousL) {
                             $repi = $representationRepository->findOneBy(['lieu' => $sousL, 'categorie' => $categorieRepRepository->find($i)]);
                             if($repi) {
-                                $nb = $nb + $repi->getFrequence();
+                                $nb += $repi->getFrequence();
                             }
                         }
 
