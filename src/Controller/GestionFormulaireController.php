@@ -310,6 +310,21 @@ class GestionFormulaireController extends AbstractController
         compact('sections','uds'));
     }
 
+    #[Route('/horaires/pdf', name: '_horairesPDF', requirements: ['id' => '\d+'])]
+    public function generatePdfHoraires(PdfService $pdf,LieuRepository $lieuRepository,StatutRepository $statutRepository, EchelleRepository $echelleRepository,$id = 0)
+    {
+        $sections = $lieuRepository->findBy(['echelle'=>$echelleRepository->find(1)]);
+        $uds = $lieuRepository->findBy(['echelle'=>$echelleRepository->find(2)]);
+
+        $html = $this->render('recap/horaires.html.twig',
+            compact('sections','uds'));;
+
+
+        $name = 'HorairesJoursOuvertureSections.PDF';
+
+        $pdf->showPdfFile($html, $name);
+    }
+
 
     #[Route('/pdf/{id}', name: '_detailBilanPdf', requirements: ['id' => '\d+'])]
     public function generatePdfRecap(PdfService $pdf,LieuRepository $lieuRepository,StatutRepository $statutRepository, EchelleRepository $echelleRepository,$id = 0)

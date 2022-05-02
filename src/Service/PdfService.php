@@ -14,8 +14,6 @@ class PdfService
 
         $pdfOptions = new Options();
 
-        $pdfOptions->set('defaultFont', 'Garamond');
-
         $this->domPdf->setOptions($pdfOptions);
     }
 
