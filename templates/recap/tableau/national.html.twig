@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+{% block couleur %}
+    bgbleu
+{% endblock %}
+
+{% block body %}
+
+    <style>
+        .detailBtn {
+            color: #9b9b9b;
+        }
+
+        .detailBtn:hover {
+            color: #000000;
+            transition: 300ms;
+        }
+    </style>
+
+
+    <section class="section">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                    <div class="box overflow-scroll" style="height: 70vh">
+
+
+                        <div class="container" style="border: solid #000000; padding: 10px ">
+
+                                <div class="row">
+                                <div class="col fw-bold" ><a href="{{ path('gestion_formulaire_recap',{'idLieu':National.id}) }}" target="_blank" >Dossier Consommation Confédéral</a> : </div>
+                                <div class="col fw-bold"><a href="">Detail_Hoaires_Ouverture_Sections</a></div>
+                                <div class="col fw-bold text-end"><a href="{{ path('gestion_formulaire_detailBilanPdf', {'id': National.id })  }}">Recapitulatif_dossier_conso_National.pdf</a></div>
+                                </div>
+                            </div>
+                        <br>
+                            {% for UD in UDs %}
+                                <div class="container" style="border: solid #464646; padding: 10px ">
+                                <div class="row">
+                                <div class="col fw-bold"><a href="{{ path('gestion_formulaire_recap',{'idLieu':UD.id}) }}" target="_blank" >{{ UD.echelle.libelle }} {{ UD.nom }}</a> : </div>
+                                    <div class="col fw-bold detailBtn" onclick="change({{'sections' ~ UD.nom }})">Cliquer pour afficher/cacher le détail de l'UD</div>
+                                <div class="col fw-bold text-end"><a href="{{ path('gestion_formulaire_detailBilanPdf', {'id': UD.id })  }}">Recapitulatif_dossier_conso_{{ UD.echelle.libelle }}_{{ UD.nom }}.pdf</a></div>
+                                </div>
+                                </div>
+                        <div class="container"  id="{{'sections' ~ UD.nom}}" style="border: solid #464646; border-top: none ; padding: 10px; display: none;">
+                            {% for Section in Sections %}
+                                    {% if Section.ud is same as UD.ud %}
+                                <div class="row">
+                                    <div class="col fw-bold"><a href="{{ path('gestion_formulaire_recap',{'idLieu':UD.id}) }}" target="_blank" >{{ Section.echelle.libelle }} {{ Section.nom }}</a> : </div>
+                                    <div class="col fw-bold"><a style="color: #4aa482; " href="{{ path('formulaire_presentation',{'idLieu':Section.id}) }}" target="_blank">modifier la section</a></div>
+                                    <div class="col fw-bold text-end"><a href="{{ path('gestion_formulaire_detailBilanPdf', {'id': Section.id })  }}">Recapitulatif_dossier_conso_{{ Section.echelle.libelle }}_{{ Section.nom }}.pdf</a></div>
+                                </div>
+                                    {% endif %}
+                            {% endfor %}
+                        </div>
+                                <br>
+                            {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+    </section>
+
+
+
+
+    <script>
+
+
+        function change(nom) {
+
+            if (nom.style.display === 'none') {
+                nom.style.display = "block";
+            }
+            else{
+                nom.style.display = "none";
+            }
+        }
+    </script>
+
+{% endblock %}
+

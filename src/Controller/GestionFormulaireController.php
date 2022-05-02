@@ -280,7 +280,29 @@ class GestionFormulaireController extends AbstractController
                 compact('lieu', 'Sections'));
     }
 
-    #[Route('/pdf/{id}', name: 'detailBilanPdf', requirements: ['idUD' => '\d+'])]
+    #[Route('/recapitulatif/{id}', name: 'recap', requirements: ['id' => '\d+'])]
+    public function recapitulatif(LieuRepository $lieuRepository, UserRepository $userRepository ,StatutRepository $statutRepository, EchelleRepository $echelleRepository,$id = 0)
+    {
+        $user = $userRepository->find($id);
+        if($user->getEchelle()->getId() == 2){
+            $UD = $lieuRepository->findOneBy(['echelle'=>$echelleRepository->find(2),'UD'=>$user->getUd()]);
+            $Sections = $lieuRepository->findBy(['echelle'=>$echelleRepository->find(1),'UD'=>$UD->getUD()]);
+            return $this->render('recap/tableau/ud.html.twig',
+                compact('UD', 'Sections'));
+        }
+
+        if($user->getEchelle()->getId() == 3){
+            $National = $lieuRepository->findOneBy(['echelle'=>$echelleRepository->find(3)]);
+            $UDs = $lieuRepository->findBy(['echelle'=>$echelleRepository->find(2)]);
+            $Sections = $lieuRepository->findBy(['echelle'=>$echelleRepository->find(1)]);
+            return $this->render('recap/tableau/national.html.twig',
+                compact('National','UDs', 'Sections'));
+        }
+
+    }
+
+
+    #[Route('/pdf/{id}', name: '_detailBilanPdf', requirements: ['id' => '\d+'])]
     public function generatePdfRecap(PdfService $pdf,LieuRepository $lieuRepository,StatutRepository $statutRepository, EchelleRepository $echelleRepository,$id = 0)
     {
         $lieu = $lieuRepository->find($id);
