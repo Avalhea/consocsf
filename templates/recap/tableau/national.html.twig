@@ -20,20 +20,19 @@
     <section class="section">
         <div class="hero-body">
             <div class="container has-text-centered">
-                    <div class="box overflow-scroll" style="height: 70vh">
+                    <div class="box overflow-scroll" style="max-height: 70vh;">
 
 
-                        <div class="container" style="border: solid #000000; padding: 10px ">
-
+                        <div class="container" style="border: solid #000000; padding: 10px; background-color: #afafaf">
                                 <div class="row">
                                 <div class="col fw-bold" ><a href="{{ path('gestion_formulaire_recap',{'idLieu':National.id}) }}" target="_blank" >Dossier Consommation Confédéral</a> : </div>
-                                <div class="col fw-bold"><a href="">Detail_Hoaires_Ouverture_Sections</a></div>
+                                <div class="col fw-bold"><a href="{{ path('gestion_formulaire_horairesPDF') }}">Detail_Horaires_Ouverture_Sections</a></div>
                                 <div class="col fw-bold text-end"><a href="{{ path('gestion_formulaire_detailBilanPdf', {'id': National.id })  }}">Recapitulatif_dossier_conso_National.pdf</a></div>
                                 </div>
                             </div>
                         <br>
                             {% for UD in UDs %}
-                                <div class="container" style="border: solid #464646; padding: 10px ">
+                                <div class="container" style="border: solid #464646; padding: 10px ; background-color: #d3d3d3">
                                 <div class="row">
                                 <div class="col fw-bold"><a href="{{ path('gestion_formulaire_recap',{'idLieu':UD.id}) }}" target="_blank" >{{ UD.echelle.libelle }} {{ UD.nom }}</a> : </div>
                                     <div class="col fw-bold detailBtn" onclick="change({{'sections' ~ UD.nom }})">Cliquer pour afficher/cacher le détail de l'UD</div>

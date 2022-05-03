@@ -30,8 +30,8 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/gestion/formulaire', name: 'gestion_formulaire')]
 class GestionFormulaireController extends AbstractController
 {
-    #[Route('/recap/{idLieu}', name: '_recap', requirements: ['idLieu' => '\d+'])]
-    public function index(EntityManagerInterface $entityManager, UserRepository $userRepository, StatutRepository $statutRepository, RepresentationRepository $representationRepository, CategorieRepRepository $categorieRepRepository, TypologieDossierRepository $typologieDossierRepository, DossierRepository $dossierRepository, CommunicationRepository $communicationRepository, TypeCommunicationRepository $typeCommunicationRepository, LieuRepository $lieuRepository, EchelleRepository $echelleRepository, UDRepository $UDRepository, $idLieu = 0): Response
+    #[Route('/recap/{idLieu}/{Redirection}', name: '_recap', requirements: ['idLieu' => '\d+'])]
+    public function index(EntityManagerInterface $entityManager, UserRepository $userRepository, StatutRepository $statutRepository, RepresentationRepository $representationRepository, CategorieRepRepository $categorieRepRepository, TypologieDossierRepository $typologieDossierRepository, DossierRepository $dossierRepository, CommunicationRepository $communicationRepository, TypeCommunicationRepository $typeCommunicationRepository, LieuRepository $lieuRepository, EchelleRepository $echelleRepository, UDRepository $UDRepository, $idLieu = 0, $Redirection = 0): Response
     {
         if (count($lieuRepository->findBy(['echelle' => '2'])) < count($UDRepository->findAll())) {
             for ($i = 1; $i < count($UDRepository->findAll()) + 1; $i++) {
@@ -276,14 +276,19 @@ class GestionFormulaireController extends AbstractController
                 $Sections = $lieuRepository->findBy(['echelle' => $echelleRepository->find(1), 'statut' => $statutRepository->find(2)]);
             }
 
+            if($Redirection == 'yes') {
+
+                return $this->redirectToRoute('gestion_formulaire_recap');
+            }
+
             return $this->render('recap/recap.html.twig',
                 compact('lieu', 'Sections'));
     }
 
-    #[Route('/recapitulatif/{id}', name: 'recap', requirements: ['id' => '\d+'])]
+    #[Route('/recapitulatif', name: '_recap', requirements: ['id' => '\d+'])]
     public function recapitulatif(LieuRepository $lieuRepository, UserRepository $userRepository ,StatutRepository $statutRepository, EchelleRepository $echelleRepository,$id = 0)
     {
-        $user = $userRepository->find($id);
+        $user = $userRepository->find($this->getUser()->getId());
         if($user->getEchelle()->getId() == 2){
             $UD = $lieuRepository->findOneBy(['echelle'=>$echelleRepository->find(2),'UD'=>$user->getUd()]);
             $Sections = $lieuRepository->findBy(['echelle'=>$echelleRepository->find(1),'UD'=>$UD->getUD()]);
@@ -310,7 +315,7 @@ class GestionFormulaireController extends AbstractController
         compact('sections','uds'));
     }
 
-    #[Route('/horaires/pdf', name: '_horairesPDF', requirements: ['id' => '\d+'])]
+    #[Route('/horaires/pdf', name: '_horairesPDF')]
     public function generatePdfHoraires(PdfService $pdf,LieuRepository $lieuRepository,StatutRepository $statutRepository, EchelleRepository $echelleRepository,$id = 0)
     {
         $sections = $lieuRepository->findBy(['echelle'=>$echelleRepository->find(1)]);
@@ -320,9 +325,8 @@ class GestionFormulaireController extends AbstractController
             compact('sections','uds'));;
 
 
-        $name = 'HorairesJoursOuvertureSections.PDF';
-
-        $pdf->showPdfFile($html, $name);
+        $nom = 'HorairesJoursOuvertureSections.PDF';
+        $pdf->showPdfFile($html, $nom);
     }
 
 
@@ -344,7 +348,5 @@ class GestionFormulaireController extends AbstractController
 
         $pdf->showPdfFile($html, $name);
     }
-
-
 
 }

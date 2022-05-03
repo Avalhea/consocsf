@@ -24,6 +24,12 @@
     <div class="container sticky-top">
         <nav class="navbar navbar-light {% block couleur %}{% endblock %}">
             <div class="container-fluid">
+
+
+                {% if app.user.echelle.id == 2 or app.user.echelle.id == 3 %}
+                    <a href="{{ path('gestion_formulaire_recap', {'redirection': 'yes'}) }}" style="color: #ffffff" class="nav-link btn bgvertmenthe">Mon espace {{ app.user.echelle.libelle }}</a>
+                {% endif %}
+
                 {% if 'ROLE_ADMIN' in app.user.roles %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle is-rounded bg-white" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Administer</a>
@@ -35,6 +41,7 @@
                         </ul>
                     </li>
                 {% endif %}
+
                 <a class="navbar-brand"></a>
                 <form class="d-flex">
 

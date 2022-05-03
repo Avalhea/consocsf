@@ -4,7 +4,7 @@ namespace App\Service;
 
 use Dompdf\Dompdf;
 use Dompdf\Options;
-
+//require_once 'dompdf/autoload.inc.php';
 class PdfService
 {
     private $domPdf;
@@ -12,9 +12,10 @@ class PdfService
     public function __construct() {
         $this->domPdf = new DomPdf();
 
-        $pdfOptions = new Options();
-
-        $this->domPdf->setOptions($pdfOptions);
+//        $pdfOptions = new Options();
+//
+//        $pdfOptions->set('header','');
+//        $this->domPdf->setOptions($pdfOptions);
     }
 
     public function showPdfFile($html, $nom) {
