@@ -33,8 +33,8 @@
 
                                 {% endfor %}
                                 <div class="row-12">
-                                    <span class=""row-6><a href="{{ path('formulaire_atelier',{'idLieu': idLieu} ) }}"><button class="btn bgorange" id="lien_precedent">Précedent</button></a></span>
-                                    <span class=""row-6><button type="submit" class="btn bgorange">Suivant</button></span>
+                                    <span class="row-6"><a href="{{ path('formulaire_atelier',{'idLieu': idLieu} ) }}"><button class="btn bgorange" type="button" id="lien_precedent">Précedent</button></a></span>
+                                    <span class="row-6"><button type="submit" class="btn bgorange">Suivant</button></span>
                                 </div>
                                 <style>#lien_precedent {text-decoration: none; color: #FFFFFF;font-family: 'Recursive', sans-serif}</style>
                             </form>

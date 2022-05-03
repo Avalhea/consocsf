@@ -17,8 +17,8 @@
                             Nombre d'actions en justice conjointe : {{ form_row(formActionJustice.nbActionConjointe) }}<br>
                             Nombre d'actions de simple accompagnement du consommateur :  {{ form_row(formActionJustice.nbAccompagnement) }}<br>
                             <div class="row-12">
-                                <span class=""row-6><a href="{{ path('formulaire_representation',{'idLieu': idLieu} ) }}"><button type="button" class="btn bgviolet" id="lien_precedent">Précedent</button></a></span>
-                                <span class=""row-6><button type="submit" class="btn bgviolet">Suivant</button></span>
+                                <span class="row-6"><a href="{{ path('formulaire_representation',{'idLieu': idLieu} ) }}"><button type="button" class="btn bgviolet" id="lien_precedent">Précedent</button></a></span>
+                                <span class="row-6"><button type="submit" class="btn bgviolet">Suivant</button></span>
                             </div>
                             {{ form_end(formActionJustice) }}
                             <style>#lien_precedent {text-decoration: none; color: #FFFFFF;font-family: 'Recursive', sans-serif}</style>
