@@ -19,12 +19,10 @@ class AteliersConsoType extends AbstractType
             ]])
             ->add('nbSeances',null,['label'=>' ',  'attr' => [
                 'class' => 'input is-rounded', 'col-xs-2',
-                'constraints' => [new Positive()],
                 'type' => 'int'
             ]])
             ->add('nbPersonnesTotal',null,['label'=>' ',  'attr' => [
                 'class' => 'input is-rounded', 'col-xs-2',
-                'constraints' => [new Positive()],
                 'type' => 'int'
             ]])
         ;

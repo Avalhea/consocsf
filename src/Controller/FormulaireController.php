@@ -351,11 +351,9 @@ class FormulaireController extends AbstractController
         }
 
         return $this->renderForm('formulaire/ateliers.twig',
-            compact('formAteliers', 'ateliers',  'idLieu'));
+            compact('formAteliers', 'ateliers', 'idLieu'));
 
     }
-
-
 
     #[Route('/representation/{idLieu}/{state}', name: '_representation', requirements: ['idLieu' => '\d+'])]
     public function representation(LieuRepository $lieuRepository, UDRepository $UDRepository, UserRepository $userRepository, StatutRepository $statutRepository, EntityManagerInterface $entityManager,
@@ -697,6 +695,5 @@ class FormulaireController extends AbstractController
 
         return $this->render('formulaire/transmission.html.twig',compact('idLieu'));
     }
-
 
 }

@@ -20,38 +20,32 @@
 
 <body>
 {% block navbar %}
- <section class="hero-head">
     <div class="container sticky-top">
         <nav class="navbar navbar-light {% block couleur %}{% endblock %}">
             <div class="container-fluid">
-
-
                 {% if app.user.echelle.id == 2 or app.user.echelle.id == 3 %}
                     <a href="{{ path('gestion_formulaire_recap', {'redirection': 'yes'}) }}" style="color: #ffffff" class="nav-link btn bgvertmenthe">Mon espace {{ app.user.echelle.libelle }}</a>
                 {% endif %}
 
-                {% if 'ROLE_ADMIN' in app.user.roles %}
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle is-rounded bg-white" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Administer</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{{ path('admin_register') }}">Gérer les comptes</a></li>
-                            <li><a class="dropdown-item" href="{{ path('admin_ajouterrep') }}">Ajouter une représentation</a></li>
-                            <li><a class="dropdown-item" href="{{ path('admin_ajouttypodossier') }}">Ajouter une typologie dossier</a></li>
-                            <li><a class="dropdown-item" href="{{ path('admin_ajoutertypecom') }}">Ajouter un type de communication</a></li>
-                        </ul>
-                    </li>
-                {% endif %}
-
                 <a class="navbar-brand"></a>
                 <form class="d-flex">
-
+                    {% if 'ROLE_ADMIN' in app.user.roles %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle is-rounded btn-default me-1 bg-white" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Administer</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{ path('admin_register') }}">Gérer les comptes</a></li>
+                                <li><a class="dropdown-item" href="{{ path('admin_ajouterrep') }}">Ajouter une représentation</a></li>
+                                <li><a class="dropdown-item" href="{{ path('admin_ajouttypodossier') }}">Ajouter une typologie dossier</a></li>
+                                <li><a class="dropdown-item" href="{{ path('admin_ajoutertypecom') }}">Ajouter un type de communication</a></li>
+                            </ul>
+                        </li>
+                    {% endif %}
                     <a href="{{ path('faq') }}"><button class="btn bgvertmenthe btn-default me-1" type="button" id="btnaide">FAQ</button></a>
                     <button class="btn bggris"> <a style="text-decoration: none; color:white" href="{{ path('app_logout') }}">Se déconnecter</a></button>
                 </form>
             </div>
         </nav>
     </div>
- </section>
 {% endblock %}
 
 {% block body %}
