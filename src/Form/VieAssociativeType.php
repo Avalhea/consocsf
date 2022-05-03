@@ -28,7 +28,7 @@ class VieAssociativeType extends AbstractType
                 'type' => 'int'
             ]])
             ->add('evenement',EvenementType::class, ['label'=>false, 'attr'=>[
-                'type' => 'text'
+                'type' => 'String'
             ]])
         ;
     }

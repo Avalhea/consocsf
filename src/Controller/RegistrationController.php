@@ -11,6 +11,7 @@ use App\Form\FormTypeComType;
 use App\Form\FormTypoDossierType;
 use App\Form\RegistrationFormType;
 use App\Repository\CategorieRepRepository;
+use App\Repository\LieuRepository;
 use App\Repository\RepresentationRepository;
 use App\Repository\TypeCommunicationRepository;
 use App\Repository\TypologieDossierRepository;
@@ -23,11 +24,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
-
-
+/**
+ * @IsGranted("ROLE_ADMIN")
+ */
 #[Route('/admin', name: 'admin_')]
 class RegistrationController extends AbstractController
 {
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     */
     #[Route('/register', name: 'register')]
     public function register(
                             Request                     $request,
@@ -44,9 +49,8 @@ class RegistrationController extends AbstractController
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
-        // validation du formulaire, set du mot de passe par defaut et envoi à la BDD
+        // validation du formulaire, set du mot de passe par défaut et envoi à la BDD
         if ($form->isSubmitted() && $form->isValid()) {
-
 
                 $user->setPassword($userPasswordHasher->hashPassword(
                     $user, '1234'));
@@ -60,16 +64,73 @@ class RegistrationController extends AbstractController
                     $user->setRoles(["ROLE_NATIONAL"]);
                 }
 
+            $this->addFlash('success', 'Le compte a bien été créé !');
 
             $entityManager->persist($user);
             $entityManager->flush();
 
+            return $this->redirectToRoute('admin_register');
         }
-        return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form->createView(),
-        ]);
+        return $this->renderForm('registration/register.html.twig',
+            compact('listeUser', 'form'),
+        );
     }
 
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     */
+    #[Route('/supprimeruser/{id}', name: 'supprimeruser')]
+    public function supprimeruser(
+        Request                         $request,
+        EntityManagerInterface          $em,
+        LieuRepository                  $lieuRepo,
+        UserRepository                  $userRepo,
+                                        $id
+
+    ): Response
+
+    {
+        // Récupération de la représentation à supprimer
+        $userasupprimer = $userRepo->find($id)->getLieux();
+        if($userasupprimer === null) {
+            $this->addFlash('stop', 'Le user a bien été supprimé !');
+            $em->remove($userasupprimer);
+            $em->flush();
+        }
+        else {
+            $this->addFlash('else', 'Le user a un dossier en cours et ne peut être supprimé. ');
+        }
+        return $this->redirectToRoute('admin_register');
+    }
+
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     */
+    #[Route('/reinitialiserpassword/{id}', name: 'resetpassword')]
+    public function resetpassword(
+        Request                         $request,
+        UserPasswordHasherInterface     $userPasswordHasher,
+        EntityManagerInterface          $em,
+        UserRepository                  $userRepository,
+                                        $id
+
+    ): Response
+
+    {
+
+        $user = $userRepository->find($id);
+            $user->setPassword($userPasswordHasher->hashPassword($user, '1234'));
+
+        $this->addFlash('reset', 'Le mot de passe a bien été reinitialisé !');
+        $em->persist($user);
+        $em->flush();
+
+        return $this->redirectToRoute('admin_register');
+    }
+
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     */
     #[Route('/ajoutrepresentation', name: 'ajouterrep')]
     public function gestionrep(
                                  Request                         $request,
@@ -87,6 +148,7 @@ class RegistrationController extends AbstractController
 
         // validation du formulaire et envoi à la BDD
         if ($ajoutRep->isSubmitted() && $ajoutRep->isValid()) {
+            $this->addFlash('success', 'La représentation a bien été créé !');
             $em->persist($nvRep);
             $em->flush();
 
@@ -98,6 +160,9 @@ class RegistrationController extends AbstractController
         );
     }
 
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     */
     #[Route('/supprimerrepresentation/{id}', name: 'supprimerrepresentation')]
     public function supprimerrepresentation(
         Request                         $request,
@@ -111,14 +176,16 @@ class RegistrationController extends AbstractController
     {
         // Récupération de la représentation à supprimer
         $categorieasupprimer = $CatRepRepo->find($id);
-
+        $this->addFlash('stop', 'La représentation a bien été supprimé !');
         $em->remove($categorieasupprimer);
         $em->flush();
 
         return $this->redirectToRoute('admin_ajouterrep');
     }
 
-
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     */
     #[Route('/ajouttypecom', name: 'ajoutertypecom')]
     public function gestiontypecom(
         Request                         $request,
@@ -138,6 +205,7 @@ class RegistrationController extends AbstractController
 
         // validation du formulaire et envoi à la BDD
         if ($ajouttypecom->isSubmitted() && $ajouttypecom->isValid()) {
+            $this->addFlash('success', 'Le type de communication a bien été créé !');
             $em->persist($nvtypecom);
             $em->flush();
 
@@ -149,6 +217,9 @@ class RegistrationController extends AbstractController
         );
     }
 
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     */
     #[Route('/supprimertypecom/{id}', name: 'supprimertypecom')]
     public function supprimertypecom(
         Request                         $request,
@@ -161,14 +232,16 @@ class RegistrationController extends AbstractController
     {
         // Récupération de la représentation à supprimer
         $typecomasupprimer = $typecomRepo->find($id);
-
+        $this->addFlash('stop', 'Le type de communication a bien été supprimé !');
         $em->remove($typecomasupprimer);
         $em->flush();
 
         return $this->redirectToRoute('admin_ajoutertypecom');
     }
 
-
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     */
     #[Route('/ajouttypodossier', name: 'ajouttypodossier')]
     public function gestiontypodossier(
         Request                         $request,
@@ -188,6 +261,7 @@ class RegistrationController extends AbstractController
 
         // validation du formulaire et envoi à la BDD
         if ($ajouttypodossier->isSubmitted() && $ajouttypodossier->isValid()) {
+            $this->addFlash('success', 'La typologie de dossier a bien été créé !');
             $em->persist($nvtypodossier);
             $em->flush();
 
@@ -199,6 +273,9 @@ class RegistrationController extends AbstractController
         );
     }
 
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     */
     #[Route('/supprimertypodossier/{id}', name: 'supprimertypodossier')]
     public function supprimertypodossier(
         Request                         $request,
@@ -211,7 +288,7 @@ class RegistrationController extends AbstractController
     {
         // Récupération de la représentation à supprimer
         $typodossierasupprimer = $typodossierRepo->find($id);
-        dump('caca');
+        $this->addFlash('stop', 'La typologie de dossier a bien été supprimé !');
         $em->remove($typodossierasupprimer);
         $em->flush();
 

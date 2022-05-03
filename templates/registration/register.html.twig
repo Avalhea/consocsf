@@ -9,26 +9,80 @@
     <section class="section">
         <div class="hero-body">
             <div class="container has-text-centered">
-                <div class="column is-6 is-offset-3">
-                    <div class="box">
                         <h1 class="title txtviolet">Ajouter un compte</h1>
                         <hr class="login-hr">
-                        <div class="field">
+                <div class="row">
+                    <div class="column is-6">
+                        <div class="box" style="height: 450px; padding-top: 75px">
+                            <div class="field">
+                            {% for message in app.flashes('success') %}
+                                <div class="alert alert-success">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
 
-                            {{ form_start(registrationForm) }}
-                            {{ form_row(registrationForm.email) }}
+                            {{ form_start(form) }}
+                            {{ form_row(form.email) }}
                             <br>
-                            Echelle : {{ form_row(registrationForm.echelle) }}
+                            Echelle : {{ form_row(form.echelle) }}
                             <br>
-                            UD : {{ form_row(registrationForm.UD) }}
+                            UD : {{ form_row(form.UD) }}
                             <br>
                             <button type="submit" class="button bgbleu">Créer</button>
                             <button class="button bgbleu" name="return" value="Retour"><a href="{{ path('home') }}" id="retour">Retour à l'accueil</a></button>
                             <style>#retour  {text-decoration: none; color: #FFFFFF;font-family: 'Recursive', sans-serif}</style>
-
-
-                    {{ form_end(registrationForm) }}
+                    {{ form_end(form) }}
+                            </div>
                         </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="table-container">
+                            <td>
+                            {% for message in app.flashes('reset') %}
+                                <div class="alert alert-success">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                                {% for message in app.flashes('stop') %}
+                                    <div class="alert alert-success">
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                                {% for message in app.flashes('else') %}
+                                    <div class="alert alert-success">
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            </td>
+                            <table class="table table-striped">
+                                <tr>
+                                    <th> Nom</th>
+                                    <th> Action</th>
+                                </tr>
+                                {% for user in listeUser %}
+                                    <tr>
+                                        <td>{{ user.email }}</td>
+                                        <td>
+                                            <div id="modal-js-example" {{ user.email }} class="modal">
+                                                <div class="modal-background"></div>
+                                                <div class="modal-content modal-lg ">
+                                                    <div class="box">
+                                                        <div class="has-text-centered">
+                                                            <label for="nom">Nom</label>
+                                                            <input class="input is-link" type="text" name="nom">
+                                                            <br>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <button class="modal-close is-large" aria-label="close"></button>
+                                            </div>
+                                            <a class="button is-small button is-danger" href="{{ path('admin_resetpassword', {'id': user.id }) }}" title="réinitialiser le mot de passe"><i class="fa-solid fa-key"></i></a>
+                                            <a class="button is-small button is-danger" href="{{ path('admin_supprimeruser', {'id': user.id }) }}" title="supprimer le user"><i class="fa-solid fa-user-slash"></i></a>
+
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
                     </div>
                 </div>
             </div>

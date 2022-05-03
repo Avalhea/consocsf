@@ -6,6 +6,7 @@ use App\Entity\ActionJustice;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Positive;
 
 class ActionsEnJusticeType extends AbstractType
 {
@@ -14,10 +15,12 @@ class ActionsEnJusticeType extends AbstractType
         $builder
             ->add('nbActionConjointe',null,['label'=>' ',  'attr' => [
                 'class' => 'input is-rounded is-focused', 'col-xs-2',
+                'constraints' => [new Positive()],
                 'type' => 'int'
             ]])
             ->add('nbAccompagnement',null,['label'=>' ',  'attr' => [
                 'class' => 'input is-rounded', 'col-xs-2',
+                'constraints' => [new Positive()],
                 'type' => 'int'
             ]])
         ;

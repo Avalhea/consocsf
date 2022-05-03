@@ -25,7 +25,6 @@ class MdpType extends AbstractType
             'second_options' => ['label' => ' '],
             'constraints' => [
                 new NotBlank(),
-                new Regex('#^\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])\S*$#', 'mot de passe trop faible')
         ]]);
     }
 

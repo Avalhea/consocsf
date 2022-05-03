@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block navbar %}
+    <section class="hero-head">
+        <div class="container sticky-top">
+            <nav class="navbar navbar-light bgvertmenthe">
+                <div class="container-fluid">
+                    {% if 'ROLE_ADMIN' in app.user.roles %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle is-rounded bg-white" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Administer</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{ path('admin_register') }}">Gérer les comptes</a></li>
+                                <li><a class="dropdown-item" href="{{ path('admin_ajouterrep') }}">Ajouter une représentation</a></li>
+                                <li><a class="dropdown-item" href="{{ path('admin_ajouttypodossier') }}">Ajouter une typologie dossier</a></li>
+                                <li><a class="dropdown-item" href="{{ path('admin_ajoutertypecom') }}">Ajouter un type de communication</a></li>
+                            </ul>
+                        </li>
+                    {% endif %}
+                    <a class="navbar-brand"></a>
+                    <form class="d-flex">
+
+                        <a href="{{ path('faq') }}"><button class="btn bgbrun btn-default me-1" type="button" id="btnaide">FAQ</button></a>
+                        <button class="btn bggris"> <a style="text-decoration: none; color:white" href="{{ path('app_logout') }}">Se déconnecter</a></button>
+                    </form>
+                </div>
+            </nav>
+        </div>
+    </section>
+{% endblock %}
+
+{% block body %}
+    <section class="section">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <div class="column is-6 is-offset-3">
+                    <div class="box">
+                        <h1 class="title txtvert">Dossier envoyé avec succès</h1>
+                        <p>Merci pour la transmission de votre dossier !</p>
+                        <div class="field">
+                            <b><i class="fa-solid fa-exclamation"></i> ATTENTION <i class="fa-solid fa-exclamation"></i></b><br> <br>
+
+                            <b>Nous ne conservons aucun dossier, merci de cliquer sur le bouton ci-dessous afin de télécharger votre récapitulatif. Merci de le ranger et de le conserver à votre convenance.</b> <br><br>
+
+                            <i class="fa-regular fa-hand-point-right"></i> <a href="{{ path('gestion_formulaire_detailBilanPdf', {'idLieu': idLieu}) }}"><button type="button" class="btn bgorange">Téléchager le fichier PDF</button></a> <i class="fa-regular fa-hand-point-left"></i>
+                            <br> <br><br>
+
+                            <div class="row-12">
+                                <span class=""row-6><a href="{{ path('home',{'idLieu': idLieu} ) }}"><button type="button" class="btn bgvertmenthe" id="lien_precedent">retour sur la page d'accueil</button></a></span>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

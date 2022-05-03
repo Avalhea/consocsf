@@ -3,13 +3,16 @@
 namespace App\Controller;
 
 use App\Repository\UserRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
-
+    /**
+     * @IsGranted("ROLE_SECTION")
+     */
     #[Route('/faq', name: 'faq')]
     public function faq(): Response
     {
@@ -18,6 +21,9 @@ class HomeController extends AbstractController
         ]);
     }
 
+    /**
+     * @IsGranted("ROLE_SECTION")
+     */
     #[Route('/home', name: 'home')]
     public function home(
         UserRepository $userRepository

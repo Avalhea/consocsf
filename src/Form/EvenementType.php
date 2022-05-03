@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Evenement;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -14,9 +15,9 @@ class EvenementType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('detailEvenement',TextType::class,['label'=>false,  'attr' => [
-                'class' => 'input is-rounded is-focused', 'col-xs-2',
-                'type' => 'int'
+            ->add('detailEvenement',TextareaType::class,['label'=>false,  'attr' => [
+                'class' => 'input is-textarea is-rounded is-focused', 'col-xs-2',
+                'type' => 'String'
             ]])
         ;
     }

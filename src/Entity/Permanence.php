@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PermanenceRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PermanenceRepository::class)]
 class Permanence
@@ -13,15 +14,27 @@ class Permanence
     #[ORM\Column(type: 'integer')]
     private $id;
 
+    /**
+     * @Assert\PositiveOrZero
+     */
     #[ORM\Column(type: 'integer', nullable: true)]
     private $nbJours;
 
+    /**
+     * @Assert\PositiveOrZero
+     */
     #[ORM\Column(type: 'integer', nullable: true)]
     private $nbHeures;
 
+    /**
+     * @Assert\PositiveOrZero
+     */
     #[ORM\Column(type: 'integer', nullable: true)]
     private $nbDossierSimple;
 
+    /**
+     * @Assert\PositiveOrZero
+     */
     #[ORM\Column(type: 'integer', nullable: true)]
     private $nbDossierDifficile;
 

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Form\MdpType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -53,6 +54,9 @@ class LoginController extends AbstractController
         return $this->redirectToRoute('home');
     }
 
+    /**
+     * @IsGranted("ROLE_SECTION")
+     */
     #[Route('/mdp', name: 'mdp')]
     public function changeMdp(
         UserRepository $repository,

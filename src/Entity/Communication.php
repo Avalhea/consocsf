@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CommunicationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CommunicationRepository::class)]
 class Communication
@@ -13,6 +14,9 @@ class Communication
     #[ORM\Column(type: 'integer')]
     private $id;
 
+    /**
+     * @Assert\PositiveOrZero
+     */
     #[ORM\Column(type: 'integer', nullable: true)]
     private $nombre;
 

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ActionJusticeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ActionJusticeRepository::class)]
 class ActionJustice
@@ -13,9 +14,15 @@ class ActionJustice
     #[ORM\Column(type: 'integer')]
     private $id;
 
+    /**
+     * @Assert\PositiveOrZero
+     */
     #[ORM\Column(type: 'integer', nullable: true)]
     private $nbActionConjointe;
 
+    /**
+     * @Assert\PositiveOrZero
+     */
     #[ORM\Column(type: 'integer', nullable: true)]
     private $nbAccompagnement;
 

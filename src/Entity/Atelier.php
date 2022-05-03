@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\AtelierRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AtelierRepository::class)]
 class Atelier
@@ -16,9 +17,15 @@ class Atelier
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
     private $themeAtelier;
 
+    /**
+     * @Assert\PositiveOrZero
+     */
     #[ORM\Column(type: 'integer', nullable: true)]
     private $nbSeances;
 
+    /**
+     * @Assert\PositiveOrZero
+     */
     #[ORM\Column(type: 'integer', nullable: true)]
     private $nbPersonnesTotal;
 

@@ -6,6 +6,7 @@ use App\Entity\Atelier;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Positive;
 
 class AteliersConsoType extends AbstractType
 {
@@ -18,10 +19,12 @@ class AteliersConsoType extends AbstractType
             ]])
             ->add('nbSeances',null,['label'=>' ',  'attr' => [
                 'class' => 'input is-rounded', 'col-xs-2',
+                'constraints' => [new Positive()],
                 'type' => 'int'
             ]])
             ->add('nbPersonnesTotal',null,['label'=>' ',  'attr' => [
                 'class' => 'input is-rounded', 'col-xs-2',
+                'constraints' => [new Positive()],
                 'type' => 'int'
             ]])
         ;

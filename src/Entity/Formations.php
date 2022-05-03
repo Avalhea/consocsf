@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\FormationsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: FormationsRepository::class)]
 class Formations
@@ -13,6 +14,9 @@ class Formations
     #[ORM\Column(type: 'integer')]
     private $id;
 
+    /**
+     * @Assert\PositiveOrZero
+     */
     #[ORM\Column(type: 'integer', nullable: true)]
     private $NbFormationsAnnee;
 

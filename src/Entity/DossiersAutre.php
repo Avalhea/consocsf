@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\DossiersAutreRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: DossiersAutreRepository::class)]
 class DossiersAutre
@@ -16,6 +17,9 @@ class DossiersAutre
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $libelle;
 
+    /**
+     * @Assert\PositiveOrZero
+     */
     #[ORM\Column(type: 'integer', nullable: true)]
     private $nbDossiers;
 

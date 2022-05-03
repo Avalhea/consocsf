@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\RepresentationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: RepresentationRepository::class)]
 class Representation
@@ -13,6 +14,9 @@ class Representation
     #[ORM\Column(type: 'integer')]
     private $id;
 
+    /**
+     * @Assert\PositiveOrZero
+     */
     #[ORM\Column(type: 'integer', nullable: true)]
     private $frequence;
 

@@ -10,16 +10,36 @@
             <div class="container has-text-centered">
                 <div class="column is-6 is-offset-3">
                     <div class="box">
-                        <h1 class="title txtviolet">Actions en justice</h1>
+                        <h1 class="title txtviolet">Actions en justice <button type="button" class="btn bgviolet" data-bs-toggle="modal" data-bs-target="#exampleModal">Aide</button></h1>
                         <hr class="login-hr">
                         <div class="field">
                             {{ form_start(formActionJustice) }}
                             Nombre d'actions en justice conjointe : {{ form_row(formActionJustice.nbActionConjointe) }}<br>
                             Nombre d'actions de simple accompagnement du consommateur :  {{ form_row(formActionJustice.nbAccompagnement) }}<br>
-                            <button type="submit" class="btn bgviolet">Suivant</button>
+                            <div class="row-12">
+                                <span class=""row-6><a href="{{ path('formulaire_representation',{'idLieu': idLieu} ) }}"><button type="button" class="btn bgviolet" id="lien_precedent">Précedent</button></a></span>
+                                <span class=""row-6><button type="submit" class="btn bgviolet">Suivant</button></span>
+                            </div>
                             {{ form_end(formActionJustice) }}
-                            <a href="{{ path('formulaire_representation',{'idLieu': idLieu} ) }}"><button class="btn bgviolet" id="lien_precedent">Précedent</button></a>
                             <style>#lien_precedent {text-decoration: none; color: #FFFFFF;font-family: 'Recursive', sans-serif}</style>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Aide</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <i class="fa-regular fa-hand-point-right"></i> Il faut différencier ce qui consiste juste à accompagner une famille ou un consommateur devant le juge (mais sans être parti en tant que CSF au litige) de ce qui est une réelle représentation conjointe ou la CSF est parti à l'action judiciaire.
+                                    Il convient maintenant de préciser dans ce paragraphe s'il s'agit donc d'une action en justice au nom de la CSF ou du simple accompagnement d'un consommateur devant le tribunal (sans que la CSF ne soit parti à l'action).
+                                    <br>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

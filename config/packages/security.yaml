@@ -42,8 +42,9 @@ security:
         ROLE_ADMIN: ROLE_NATIONAL
 
     access_control:
-        - { path: ^/check, roles: ROLE_USER }
+        - { path: ^/formulaire, roles: ROLE_SECTION }
         - { path: ^/recap, roles: ROLE_UD }
+        - { path: ^/gestion/recapitulatif, roles: ROLE_UD }
         - { path: ^/national, roles: ROLE_NATIONAL }
         - { path: ^/admin, roles: ROLE_ADMIN }
 
