@@ -23,8 +23,11 @@
     <div class="container sticky-top">
         <nav class="navbar navbar-light {% block couleur %}{% endblock %}">
             <div class="container-fluid">
-                {% if app.user.echelle.id == 2 or app.user.echelle.id == 3 %}
+                {% if app.user.echelle.id >= 2 %}
                     <a href="{{ path('gestion_formulaire_recap', {'redirection': 'yes'}) }}" style="color: #ffffff" class="nav-link btn bgvertmenthe">Mon espace {{ app.user.echelle.libelle }}</a>
+                {% endif %}
+                {% if app.user is not null %}
+                    <button class="btn bgviolet"><a style="text-decoration: none; color:white" href="{{ path('home') }}">Formulaire</a></button>
                 {% endif %}
 
                 <a class="navbar-brand"></a>

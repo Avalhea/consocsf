@@ -293,7 +293,12 @@ class GestionFormulaireController extends AbstractController
         $user = $userRepository->find($this->getUser()->getId());
         if($user->getEchelle()->getId() == 2){
             $UD = $lieuRepository->findOneBy(['echelle'=>$echelleRepository->find(2),'UD'=>$user->getUd()]);
-            $Sections = $lieuRepository->findBy(['echelle'=>$echelleRepository->find(1),'UD'=>$UD->getUD()]);
+            if($UD !== null) {
+                $Sections = $lieuRepository->findBy(['echelle' => $echelleRepository->find(1), 'UD' => $UD->getUD()]);
+            }
+            else {
+                $Sections = 0;
+            }
             return $this->render('recap/tableau/ud.html.twig',
                 compact('UD', 'Sections'));
         }
@@ -305,7 +310,7 @@ class GestionFormulaireController extends AbstractController
             return $this->render('recap/tableau/national.html.twig',
                 compact('National','UDs', 'Sections'));
         }
-
+        return $this->redirectToRoute('home');
     }
 
     #[Route('/horaires/ouverture', name: '_horairesOuverture')]

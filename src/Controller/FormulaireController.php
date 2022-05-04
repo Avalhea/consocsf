@@ -38,6 +38,7 @@ use App\Repository\TypeCommunicationRepository;
 use App\Repository\TypologieDossierRepository;
 use App\Repository\UDRepository;
 use App\Repository\UserRepository;
+use App\Service\Verif;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -52,12 +53,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class FormulaireController extends AbstractController
 {
     #[Route('/presentation/{idLieu}', name: '_presentation', requirements: ['idLieu' => '\d+'])]
-    public function presentation(LieuRepository $lieuRepository, UDRepository $UDRepository, UserRepository $userRepository, EchelleRepository $echelleRepository, StatutRepository $statutRepository, EntityManagerInterface $entityManager,
+    public function presentation(Verif $verif,LieuRepository $lieuRepository, UDRepository $UDRepository, UserRepository $userRepository, EchelleRepository $echelleRepository, StatutRepository $statutRepository, EntityManagerInterface $entityManager,
                                  Request        $request, $idLieu = 0): Response
     {
-
-
-
+        $verif->verification($idLieu);
         if ($idLieu == 0) {
 
             $lieu = new Lieu();

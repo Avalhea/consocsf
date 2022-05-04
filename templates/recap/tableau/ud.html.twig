@@ -21,7 +21,7 @@
         <div class="hero-body">
             <div class="container has-text-centered">
                 <div class="box overflow-scroll" style="max-height: 70vh">
-
+                    {% if UD is not null %}
                         <div class="container" style="border: solid #464646; padding: 10px ">
                             <div class="row">
                                 <div class="col fw-bold"><a href="{{ path('gestion_formulaire_recap',{'idLieu':UD.id}) }}" target="_blank" >{{ UD.echelle.libelle }} {{ UD.nom }}</a> : </div>
@@ -39,6 +39,27 @@
                             {% endfor %}
                         </div>
                         <br>
+                    {% endif %}
+                    {% if UD is null %}
+                        <div class="container" style="border: solid #000000; padding: 10px; background-color: #b7b7b7">
+                            <div class="row">
+                                <div class="col fw-bold" >Dossier Consommation UD X : </div>
+                                <div class="col fw-bold"></div>
+                                <div class="col fw-bold text-end">Recapitulatif_dossier_conso_UD.pdf</div>
+                            </div>
+                            <hr class="login-hr">
+
+                            <div class="row">
+                                <div class="col fw-bold" >Dossier Consommation Section X : </div>
+                                <div class="col fw-bold"></div>
+                                <div class="col fw-bold text-end">Recapitulatif_dossier_conso_Section_X.pdf</div>
+                            </div>
+                        </div>
+                        <br>
+
+                        <h4>Votre bilan UD apparaîtra ici dès lors qu'un bilan sera complété</h4>
+                    {% endif %}
+
                 </div>
             </div>
         </div>
