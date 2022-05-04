@@ -93,16 +93,8 @@ class FormulaireController extends AbstractController
 
                     return $this->redirectToRoute('formulaire_permanence', array('idLieu' => $lieu->getId()));
                 }
-
-                if($lieu->getEchelle()->getId() == 1){
-                    $selectedUD=' ';
-                    $selectedSec='selected';
-                }
-                else {
-                    $selectedUD='selected';
-                    $selectedSec=' ';
-                }
-
+                $selectedUD = '';
+                $selectedSec = '';
                 return $this->renderForm('formulaire/presentation.html.twig',
                     compact('formPresentation','idLieu','selectedUD','selectedSec')
                 );
