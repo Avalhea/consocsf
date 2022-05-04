@@ -14,15 +14,25 @@
                     <h1 class="title txtbleu">Présentation <button type="button" class="btn bgbleu" data-bs-toggle="modal" data-bs-target="#exampleModal">Aide</button></h1>
                     <hr class="login-hr">
                     <div class="field">
+                        <form method='post' action='{{ path('formulaire_presentation', {'idLieu': idLieu}) }}'>
+
                         {{ form_start(formPresentation) }}
                         UD : {{ form_row(formPresentation.UD) }}
-                        Echelle : {{ form_row(formPresentation.echelle) }}
-                        Section : {{ form_row(formPresentation.nom) }}
+                            {% if app.user.echelle.id > 1 %}
+                        <p>Echelle:
+                            <select name="echelle" id="echelle" required>
+                                <option {{ selectedSec }} value="Section">Section</option>
+                                <option {{ selectedUD }} value="UD">UD</option>
+                            </select>
+                        </p>
+                            {% endif %}
+                            Section : {{ form_row(formPresentation.nom) }}
                         Adresse : {{ form_row(formPresentation.adresse) }}
                         Jours & horaires d'ouverture : {{ form_row(formPresentation.joursEtHorairesOuverture) }}<br>
 
                         <button type="submit" class="btn bgbleu">Suivant</button>
                         {{ form_end(formPresentation) }}
+                        </form>
                     </div>
                 </div>
             </div>

@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Repository\LieuRepository;
+use App\Repository\StatutRepository;
 use App\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,10 +28,18 @@ class HomeController extends AbstractController
      */
     #[Route('/home', name: 'home')]
     public function home(
-        UserRepository $userRepository
+        UserRepository $userRepository, LieuRepository $lieuRepository, StatutRepository $statutRepository
     ): Response {
 
+
         $user = $userRepository->find($this->getUser()->getId());
+        if ($user->getEchelle()->getId() == 1) {
+            if ($lieuRepository->findOneBy(['user'=>$user,'statut'=>$statutRepository->find(1)])){
+                $lieu = $lieuRepository->findOneBy(['user'=>$user,'statut'=>$statutRepository->find(1)]);
+                return $this->redirectToRoute('formulaire_presentation',array(['idLieu'=>$lieu->getId()]));
+            }
+            }
+
         if (count($user->getLieux()) >0 && $user->getEchelle()->getId() === 1) {
             $stop = 'Stop';
         }

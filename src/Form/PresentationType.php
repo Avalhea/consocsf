@@ -22,12 +22,13 @@ class PresentationType extends AbstractType
                     "choice_label"=>"libelle",
                     'label' => " "
                     ])
-            ->add('echelle', ChoiceType::class, [
-                'choices' => [
-                    'Section' => 'Section',
-                    'UD'=> 'UD'
-                ]
-                ])
+
+//            ->add('echelleString', ChoiceType::class, [
+//                'choices' => [
+//                    'Section'=>'Section',
+//                    'UD'=>'UD'
+//                ]])
+
             ->add('nom',null,['label'=>' ',  'attr' => [
                 'class' => 'input is-rounded ', 'col-xs-2',
                 'type' => 'int'

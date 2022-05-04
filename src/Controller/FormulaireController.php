@@ -77,14 +77,14 @@ class FormulaireController extends AbstractController
                         $lieu->setEchelle($echelleRepository->find(1));
                     }
                     else{
-                        if($formPresentation->get('Section')->isSubmitted())
-                        {
+                        $ech = $request->request->get('echelle');
+                        if ($ech == 'Section') {
                             $lieu->setEchelle($echelleRepository->find(1));
                         }
-                        if ($formPresentation->get('UD')->isSubmitted())
-                        {
+                        if ($ech == 'UD') {
                             $lieu->setEchelle($echelleRepository->find(2));
                         }
+
                     }
 
 
@@ -94,13 +94,20 @@ class FormulaireController extends AbstractController
                     return $this->redirectToRoute('formulaire_permanence', array('idLieu' => $lieu->getId()));
                 }
 
+                if($lieu->getEchelle()->getId() == 1){
+                    $selectedUD=' ';
+                    $selectedSec='selected';
+                }
+                else {
+                    $selectedUD='selected';
+                    $selectedSec=' ';
+                }
+
                 return $this->renderForm('formulaire/presentation.html.twig',
-                    compact('formPresentation')
+                    compact('formPresentation','idLieu','selectedUD','selectedSec')
                 );
 
             } else { //s'il existe déjà un lieu (ex : après avoir cliqué sur modifier au niveau des bilans US/Nationaux, ou quand on clique sur 'suivant')
-
-                //TODO Faire en sorte que la page soit accessible qu'au user qui est lié au formulaire et aux Victoires / Elsa
 
 
                 $lieu = $lieuRepository->find($idLieu);
@@ -109,15 +116,38 @@ class FormulaireController extends AbstractController
 
                 if ($formPresentation->isSubmitted() && $formPresentation->isValid()) {
 
+                    if($user->getEchelle()->getId() == 1) {
+                        $lieu->setEchelle($echelleRepository->find(1));
+                    }
+                    else{
+                        $ech = $request->request->get('echelle');
+                        if ($ech == 'Section') {
+                            $lieu->setEchelle($echelleRepository->find(1));
+                        }
+                        if ($ech == 'UD') {
+                            $lieu->setEchelle($echelleRepository->find(2));
+                        }
+
+                    }
                     $entityManager->persist($lieu);
                     $entityManager->flush();
-
+                    dump($idLieu);
                     return $this->redirectToRoute('formulaire_permanence', array('idLieu' => $idLieu));
 
                 }
+
+                if($lieu->getEchelle()->getId() == 1){
+                    $selectedUD=' ';
+                    $selectedSec='selected';
+                }
+                else {
+                    $selectedUD='selected';
+                    $selectedSec=' ';
+                }
+
             }
             return $this->renderForm('formulaire/presentation.html.twig',
-                compact('formPresentation')
+                compact('formPresentation','idLieu','selectedSec','selectedUD')
             );
         }
             return $this->redirectToRoute('home');
@@ -523,7 +553,7 @@ class FormulaireController extends AbstractController
             $entityManager->persist($lieu);
             $entityManager->flush();
         }
-
+dump($idLieu);
         return $this->render('formulaire/transmission.html.twig',compact('idLieu'));
     }
 
