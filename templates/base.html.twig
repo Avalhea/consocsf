@@ -26,15 +26,11 @@
                 {% if app.user.echelle.id >= 2 %}
                     <a href="{{ path('gestion_formulaire_recap', {'redirection': 'yes'}) }}" style="color: #ffffff" class="nav-link btn bgvertmenthe">Mon espace {{ app.user.echelle.libelle }}</a>
                 {% endif %}
-                {% if app.user is not null %}
-                    <button class="btn bgviolet"><a style="text-decoration: none; color:white" href="{{ path('home') }}">Formulaire</a></button>
-                {% endif %}
-
                 <a class="navbar-brand"></a>
                 <form class="d-flex">
                     {% if 'ROLE_ADMIN' in app.user.roles %}
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle is-rounded btn-default me-1 bg-white" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Administer</a>
+                            <a class="nav-link dropdown-toggle btn-default me-1 bg-white" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Administer</a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{ path('admin_register') }}">Gérer les comptes</a></li>
                                 <li><a class="dropdown-item" href="{{ path('admin_ajouterrep') }}">Ajouter une représentation</a></li>
