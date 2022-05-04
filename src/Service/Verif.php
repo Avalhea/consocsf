@@ -20,17 +20,18 @@ class Verif
 
     }
 
-    public function verification($idLieu) {
-        $user = $this->userRepository->find($this->getUser()->getId());
-        if($this->lieuRepository->findOneBy(['user'=>$user,'statut'=>$this->statutRepository->find(2)])) {
-            return $this->redirectToRoute('home');
+    public function verification($idLieu, $user) {
+
+        if($this->lieuRepository->findOneBy(['user'=>$user,'statut'=>$this->statutRepository->find(2)]) && $user->getEchelle()->getId() == 1) {
+            return "redirect";
         }
         $lieu = $this->lieuRepository->find($idLieu);
         if($idLieu !== 0) {
-            if ($lieu->getUser() !== $user) {
-                return $this->redirectToRoute('home');
-            } //TODO A FINIR !!!!!
+            if ($lieu->getUser() !== $user && $user->getEchelle()->getId() == 1) {
+                return "redirect";
+            }
         }
+        return "ok";
     }
 
 }

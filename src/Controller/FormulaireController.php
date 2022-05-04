@@ -50,65 +50,83 @@ use Symfony\Component\Routing\Annotation\Route;
  * @IsGranted("ROLE_SECTION")
  */
 #[Route('/formulaire', name: 'formulaire')]
+
+//$user = $this->userRepository->find($this->getUser()->getId());
 class FormulaireController extends AbstractController
 {
+
+
     #[Route('/presentation/{idLieu}', name: '_presentation', requirements: ['idLieu' => '\d+'])]
     public function presentation(Verif $verif,LieuRepository $lieuRepository, UDRepository $UDRepository, UserRepository $userRepository, EchelleRepository $echelleRepository, StatutRepository $statutRepository, EntityManagerInterface $entityManager,
                                  Request        $request, $idLieu = 0): Response
     {
-        $verif->verification($idLieu);
-        if ($idLieu == 0) {
 
-            $lieu = new Lieu();
-            $formPresentation = $this->createForm(PresentationType::class, $lieu);
-            $formPresentation->handleRequest($request);
+        $user = $userRepository->find($this->getUser()->getId());
+//        Appel du Service verif, et de sa fonction verification
+//        La fonction verification renvoie 0 si jamais l'utilisateur n'est pas censé avoir accès à la page -> redirection sur home
 
-            if ($formPresentation->isSubmitted() && $formPresentation->isValid()) {
+        $verifi = $verif->verification($idLieu, $user);
+        if ($verifi === "ok") {
+            if ($idLieu == 0) {
 
-                $user = $userRepository->find($this->getUser()->getId());
-                $lieu->setUser($user);
-                $lieu->setStatut($statutRepository->find(1));
-                $lieu->setEchelle($echelleRepository->find(1));
+                $lieu = new Lieu();
+                $formPresentation = $this->createForm(PresentationType::class, $lieu);
+                $formPresentation->handleRequest($request);
 
-                $entityManager->persist($lieu);
-                $entityManager->flush();
+                if ($formPresentation->isSubmitted() && $formPresentation->isValid()) {
 
-                return $this->redirectToRoute('formulaire_permanence', array('idLieu'=>$lieu->getId()));
+                    $user = $userRepository->find($this->getUser()->getId());
+                    $lieu->setUser($user);
+                    $lieu->setStatut($statutRepository->find(1));
+                    if($user->getEchelle()->getId() == 1) {
+                        $lieu->setEchelle($echelleRepository->find(1));
+                    }
+                    $entityManager->persist($lieu);
+                    $entityManager->flush();
+
+                    return $this->redirectToRoute('formulaire_permanence', array('idLieu' => $lieu->getId()));
+                }
+
+                return $this->renderForm('formulaire/presentation.html.twig',
+                    compact('formPresentation')
+                );
+
+            } else { //s'il existe déjà un lieu (ex : après avoir cliqué sur modifier au niveau des bilans US/Nationaux, ou quand on clique sur 'suivant')
+
+                //TODO Faire en sorte que la page soit accessible qu'au user qui est lié au formulaire et aux Victoires / Elsa
+
+
+                $lieu = $lieuRepository->find($idLieu);
+                $formPresentation = $this->createForm(PresentationType::class, $lieu);
+                $formPresentation->handleRequest($request);
+
+                if ($formPresentation->isSubmitted() && $formPresentation->isValid()) {
+
+                    $entityManager->persist($lieu);
+                    $entityManager->flush();
+
+                    return $this->redirectToRoute('formulaire_permanence', array('idLieu' => $idLieu));
+
+                }
             }
-
             return $this->renderForm('formulaire/presentation.html.twig',
                 compact('formPresentation')
             );
-
-        } else { //s'il existe déjà un lieu (ex : après avoir cliqué sur modifier au niveau des bilans US/Nationaux, ou quand on clique sur 'suivant')
-
-            //TODO Faire en sorte que la page soit accessible qu'au user qui est lié au formulaire et aux Victoires / Elsa
-
-
-            $lieu = $lieuRepository->find($idLieu);
-            $formPresentation = $this->createForm(PresentationType::class, $lieu);
-            $formPresentation->handleRequest($request);
-
-            if ($formPresentation->isSubmitted() && $formPresentation->isValid()) {
-
-                $entityManager->persist($lieu);
-                $entityManager->flush();
-
-                return $this->redirectToRoute('formulaire_permanence', array('idLieu'=>$idLieu));
-
-            }
         }
-        return $this->renderForm('formulaire/presentation.html.twig',
-            compact('formPresentation')
-        );
-    }
+            return $this->redirectToRoute('home');
+        }
 
     #[Route('/permanence/{idLieu}', name: '_permanence', requirements: ['idLieu' => '\d+'])]
     public function permanence(LieuRepository $lieuRepository, UDRepository $UDRepository, PermanenceRepository $permanenceRepository, UserRepository $userRepository, StatutRepository $statutRepository, EntityManagerInterface $entityManager,
                                Request $request, $idLieu): Response
     {
 
+        $user = $userRepository->find($this->getUser()->getId());
         $lieu = $lieuRepository->find($idLieu);
+
+        if ($lieu->getUser() !== $user) {
+            return $this->redirectToRoute('home');
+        }
 
         if ($lieu->getPermanence() !== null) {
             $permanence = $lieu->getPermanence();
@@ -139,8 +157,12 @@ class FormulaireController extends AbstractController
     public function typologieDossier(LieuRepository $lieuRepository, UDRepository $UDRepository, DossiersAutreRepository $dossiersAutreRepository , UserRepository $userRepository, StatutRepository $statutRepository, EntityManagerInterface $entityManager,
                                   Request $request, $idLieu, TypologieDossierRepository $typologieDossierRepository, $state=0): Response
     {
-
+        $user = $userRepository->find($this->getUser()->getId());
         $lieu = $lieuRepository->find($idLieu);
+
+        if ($lieu->getUser() !== $user) {
+            return $this->redirectToRoute('home');
+        }
         $Dossier = $lieu->getDossier();
 
 
@@ -202,8 +224,12 @@ class FormulaireController extends AbstractController
     public function vieAssociative(LieuRepository $lieuRepository, UDRepository $UDRepository, UserRepository $userRepository, StatutRepository $statutRepository, EntityManagerInterface $entityManager,
                                    Request $request, $idLieu): Response
     {
-
+        $user = $userRepository->find($this->getUser()->getId());
         $lieu = $lieuRepository->find($idLieu);
+
+        if ($lieu->getUser() !== $user) {
+            return $this->redirectToRoute('home');
+        }
 
         if ($lieu->getEvenement() !== null) {
             $Evenement = $lieu->getEvenement();
@@ -237,7 +263,12 @@ class FormulaireController extends AbstractController
                               Request $request, $idLieu): Response
     {
 
+        $user = $userRepository->find($this->getUser()->getId());
         $lieu = $lieuRepository->find($idLieu);
+
+        if ($lieu->getUser() !== $user) {
+            return $this->redirectToRoute('home');
+        }
 
         if ($lieu->getFormations() !== null) {
             $Formations = $lieu->getFormations();
@@ -275,7 +306,12 @@ class FormulaireController extends AbstractController
                                   Request $request, $idLieu, TypeCommunicationRepository $typeCommunicationRepository, $state=0): Response
     {
 
+        $user = $userRepository->find($this->getUser()->getId());
         $lieu = $lieuRepository->find($idLieu);
+
+        if ($lieu->getUser() !== $user) {
+            return $this->redirectToRoute('home');
+        }
         $Communication = $lieu->getCommunication();
 
         if($state === 0 ) {
@@ -323,7 +359,12 @@ class FormulaireController extends AbstractController
                               Request $request, $idLieu, $idAtelier=0): Response
     {
 
+        $user = $userRepository->find($this->getUser()->getId());
         $lieu = $lieuRepository->find($idLieu);
+
+        if ($lieu->getUser() !== $user) {
+            return $this->redirectToRoute('home');
+        }
         $ateliers = $lieu->getAtelier();
         $atelier = new Atelier();
 
@@ -359,7 +400,12 @@ class FormulaireController extends AbstractController
                                   Request $request, $idLieu, CategorieRepRepository $categorieRepRepository, $state=0): Response
     {
 
+        $user = $userRepository->find($this->getUser()->getId());
         $lieu = $lieuRepository->find($idLieu);
+
+        if ($lieu->getUser() !== $user) {
+            return $this->redirectToRoute('home');
+        }
         $Representation = $lieu->getRepresentation();
 
         if($state === 0 ) {
@@ -406,7 +452,12 @@ class FormulaireController extends AbstractController
                                    Request $request, $idLieu): Response
     {
 
+        $user = $userRepository->find($this->getUser()->getId());
         $lieu = $lieuRepository->find($idLieu);
+
+        if ($lieu->getUser() !== $user) {
+            return $this->redirectToRoute('home');
+        }
 
         if ($lieu->getActionJustice() !== null) {
             $actionJustice = $lieu->getActionJustice();
@@ -435,7 +486,12 @@ class FormulaireController extends AbstractController
     public function index(EntityManagerInterface $entityManager, UserRepository $userRepository, StatutRepository $statutRepository, RepresentationRepository $representationRepository, CategorieRepRepository $categorieRepRepository, TypologieDossierRepository $typologieDossierRepository, DossierRepository $dossierRepository, CommunicationRepository $communicationRepository, TypeCommunicationRepository $typeCommunicationRepository, LieuRepository $lieuRepository, EchelleRepository $echelleRepository, UDRepository $UDRepository, $idLieu = 0): Response
     {
 
+        $user = $userRepository->find($this->getUser()->getId());
         $lieu = $lieuRepository->find($idLieu);
+
+        if ($lieu->getUser() !== $user) {
+            return $this->redirectToRoute('home');
+        }
 
         $Sections = $lieuRepository->findBy(['echelle' => $echelleRepository->find(1), 'UD' => $lieu->getUD(), 'statut' => $statutRepository->find(2)]);
 
@@ -447,7 +503,13 @@ class FormulaireController extends AbstractController
     #[Route('/transmission/{idLieu}', name: '_transmission', requirements: ['idLieu' => '\d+'])]
     public function transmission(EntityManagerInterface $entityManager, UserRepository $userRepository, StatutRepository $statutRepository, RepresentationRepository $representationRepository, CategorieRepRepository $categorieRepRepository, TypologieDossierRepository $typologieDossierRepository, DossierRepository $dossierRepository, CommunicationRepository $communicationRepository, TypeCommunicationRepository $typeCommunicationRepository, LieuRepository $lieuRepository, EchelleRepository $echelleRepository, UDRepository $UDRepository, $idLieu = 0): Response
     {
+
+        $user = $userRepository->find($this->getUser()->getId());
         $lieu = $lieuRepository->find($idLieu);
+
+        if ($lieu->getUser() !== $user) {
+            return $this->redirectToRoute('home');
+        }
 
         if($lieu->getActionJustice() !== null && $lieu->getAtelier() !== null && $lieu->getCommunication() !== null && $lieu->getDossier() !== null && $lieu->getEvenement() !== null && $lieu->getFormations() !== null && $lieu->getPermanence() !== null && $lieu->getRepresentation() !== null ){
             $lieu->setStatut($statutRepository->find(2));
