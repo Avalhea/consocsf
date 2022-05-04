@@ -11,7 +11,6 @@ use Dompdf\Options;
 //require_once 'dompdf/autoload.inc.php';
 class Verif
 {
-//    :)
 
     public function __construct(UserRepository $userRepository, StatutRepository $statutRepository, LieuRepository $lieuRepository){
 

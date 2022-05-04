@@ -8,6 +8,7 @@ use App\Entity\UD;
 use Doctrine\ORM\Mapping\Entity;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -21,10 +22,11 @@ class PresentationType extends AbstractType
                     "choice_label"=>"libelle",
                     'label' => " "
                     ])
-            ->add('echelle', EntityType::class,
-                ["class"=>Echelle::class,
-                    "choice_label"=>"libelle",
-                    'label' => " "
+            ->add('echelle', ChoiceType::class, [
+                'choices' => [
+                    'Section' => 'Section',
+                    'UD'=> 'UD'
+                ]
                 ])
             ->add('nom',null,['label'=>' ',  'attr' => [
                 'class' => 'input is-rounded ', 'col-xs-2',

@@ -6,23 +6,17 @@ use App\Entity\ActionJustice;
 use App\Entity\Atelier;
 use App\Entity\Communication;
 use App\Entity\Dossier;
-use App\Entity\Dossiers;
 use App\Entity\DossiersAutre;
 use App\Entity\Evenement;
-use App\Entity\Formation;
 use App\Entity\Formations;
 use App\Entity\Lieu;
 use App\Entity\Permanence;
 use App\Entity\Representation;
 use App\Form\ActionsEnJusticeType;
 use App\Form\AteliersConsoType;
-use App\Form\CommunicationType;
-use App\Form\DossierType;
 use App\Form\FormationsType;
-use App\Form\PermanencesType;
 use App\Form\PermanenceType;
 use App\Form\PresentationType;
-use App\Form\RepresentationType;
 use App\Form\VieAssociativeType;
 use App\Repository\AtelierRepository;
 use App\Repository\CategorieRepRepository;
@@ -61,6 +55,7 @@ class FormulaireController extends AbstractController
                                  Request        $request, $idLieu = 0): Response
     {
 
+
         $user = $userRepository->find($this->getUser()->getId());
 //        Appel du Service verif, et de sa fonction verification
 //        La fonction verification renvoie 0 si jamais l'utilisateur n'est pas censé avoir accès à la page -> redirection sur home
@@ -81,6 +76,18 @@ class FormulaireController extends AbstractController
                     if($user->getEchelle()->getId() == 1) {
                         $lieu->setEchelle($echelleRepository->find(1));
                     }
+                    else{
+                        if($formPresentation->get('Section')->isSubmitted())
+                        {
+                            $lieu->setEchelle($echelleRepository->find(1));
+                        }
+                        if ($formPresentation->get('UD')->isSubmitted())
+                        {
+                            $lieu->setEchelle($echelleRepository->find(2));
+                        }
+                    }
+
+
                     $entityManager->persist($lieu);
                     $entityManager->flush();
 
