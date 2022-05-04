@@ -36,7 +36,7 @@ class HomeController extends AbstractController
         if ($user->getEchelle()->getId() == 1) {
             if ($lieuRepository->findOneBy(['user'=>$user,'statut'=>$statutRepository->find(1)])){
                 $lieu = $lieuRepository->findOneBy(['user'=>$user,'statut'=>$statutRepository->find(1)]);
-                return $this->redirectToRoute('formulaire_presentation',array(['idLieu'=>$lieu->getId()]));
+                return $this->redirectToRoute('formulaire_presentation',array('idLieu'=>$lieu->getId()));
             }
         }
 
