@@ -40,6 +40,13 @@ class HomeController extends AbstractController
             }
         }
 
+        if ($user->getEchelle()->getId() > 1) {
+            $lieuxUser = $lieuRepository->findBy(['user'=>$user,'statut'=>$statutRepository->find(1)]);
+        }
+        else {
+            $lieuxUser = '';
+        }
+
 
 
         if (count($user->getLieux()) >0 && $user->getEchelle()->getId() === 1) {
@@ -49,7 +56,7 @@ class HomeController extends AbstractController
             $stop = 'pasStop';
         }
 
-        return $this->render('home/index.html.twig',compact('stop'));
+        return $this->render('home/index.html.twig',compact('stop','lieuxUser'));
     }
 
     #[Route('/miniaide', name: 'miniaide')]

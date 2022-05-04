@@ -46,6 +46,25 @@ class GestionFormulaireController extends AbstractController
             }
         }
 
+        $listeDepartements = $UDRepository->findAll();
+
+        foreach($listeDepartements as $departement){
+            $LesUds = $lieuRepository->findBy(['echelle'=>$echelleRepository->find(2),'UD'=>$departement]);
+            if (count($LesUds)>1) {
+                if (count($lieuRepository->findBy(['UD'=>$departement,'echelle'=>$echelleRepository->find(2),'statut'=>null]))) {
+                $entityManager->remove($lieuRepository->findOneBy(['UD'=>$departement,'echelle'=>$echelleRepository->find(2),'statut'=>null]));
+                $entityManager->flush();
+                }
+                else {
+                    $aEffacer = $lieuRepository->findBy(['UD'=>$departement,'echelle'=>$echelleRepository->find(2),'statut'=>null]);
+                   foreach($aEffacer as $UnAEffacer) {
+                       $entityManager->remove($UnAEffacer);
+                   }
+
+                }
+            }
+        }
+
         if (count($lieuRepository->findBy(['echelle' => '3'])) == 0) {
                 $national = new Lieu();
                 $national->setEchelle($echelleRepository->find(3));
