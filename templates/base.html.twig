@@ -24,7 +24,7 @@
         <nav class="navbar navbar-light {% block couleur %}{% endblock %}">
             <div class="container-fluid">
                 {% if app.user.echelle.id >= 2 %}
-                    <a href="{{ path('gestion_formulaire_recap', {'redirection': 'yes'}) }}" style="color: #ffffff" class="nav-link btn bgvertmenthe">Mon espace {{ app.user.echelle.libelle }}</a>
+                    <a href="{{ path('gestion_formulaire_recap', {'Redirection': 'yes'}) }}" style="color: #ffffff" class="nav-link btn bgvertmenthe">Mon espace {{ app.user.echelle.libelle }}</a>
                 {% endif %}
                 <a class="navbar-brand"></a>
                 <form class="d-flex">
@@ -50,6 +50,7 @@
 {% block body %}
 
 {% endblock %}
+
 </body>
 
 {% block javascripts %}

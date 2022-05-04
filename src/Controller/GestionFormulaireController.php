@@ -49,21 +49,37 @@ class GestionFormulaireController extends AbstractController
         $listeDepartements = $UDRepository->findAll();
 
         foreach($listeDepartements as $departement){
-            $LesUds = $lieuRepository->findBy(['echelle'=>$echelleRepository->find(2),'UD'=>$departement]);
-            if (count($LesUds)>1) {
-                if (count($lieuRepository->findBy(['UD'=>$departement,'echelle'=>$echelleRepository->find(2),'statut'=>null]))) {
-                $entityManager->remove($lieuRepository->findOneBy(['UD'=>$departement,'echelle'=>$echelleRepository->find(2),'statut'=>null]));
-                $entityManager->flush();
-                }
-                else {
-                    $aEffacer = $lieuRepository->findBy(['UD'=>$departement,'echelle'=>$echelleRepository->find(2),'statut'=>null]);
-                   foreach($aEffacer as $UnAEffacer) {
-                       $entityManager->remove($UnAEffacer);
-                   }
 
-                }
+            $LesUds = $lieuRepository->findBy(['echelle'=>$echelleRepository->find(2),'UD'=>$departement]);
+
+            if (count($LesUds)>1) {
+                $UdsAEffacer = $lieuRepository->findBy(['UD'=>$departement,'echelle'=>$echelleRepository->find(2),'statut'=>null]);
+
+                    foreach ($UdsAEffacer as $UDAEffacer) {
+                        foreach ($UDAEffacer->getRepresentation() as $Rep){
+                            $entityManager->remove($Rep);
+                        }
+                        foreach ($UDAEffacer->getDossier() as $Dos){
+                            $entityManager->remove($Dos);
+                        }
+                        foreach ($UDAEffacer->getCommunication() as $Com){
+                            $entityManager->remove($Com);
+                        }
+                        $entityManager->remove($UDAEffacer);
+                        $entityManager->flush();
+                    }
+
+
             }
+
+//                else {
+//                    $aEffacer = $lieuRepository->findBy(['UD'=>$departement,'echelle'=>$echelleRepository->find(2),'statut'=>null]);
+//                   foreach($aEffacer as $UnAEffacer) {
+//                       $entityManager->remove($UnAEffacer);
+//                   }
         }
+
+
 
         if (count($lieuRepository->findBy(['echelle' => '3'])) == 0) {
                 $national = new Lieu();
@@ -78,7 +94,7 @@ class GestionFormulaireController extends AbstractController
         for($j=0;$j<2;$j++) {
 
             if($j==0) {
-                $lieux = $lieuRepository->findBy(['echelle' => $echelleRepository->find(2)]);
+                $lieux = $lieuRepository->findBy(['echelle' => $echelleRepository->find(2),'statut'=>null]);
             }
             else if($j==1) {
                 $lieux = $lieuRepository->findBy(['echelle'=>$echelleRepository->find(3)]);
@@ -277,6 +293,8 @@ class GestionFormulaireController extends AbstractController
                 $entityManager->flush();
             }
         }
+
+
             $user = $userRepository->find($this->getUser()->getId());
 
             if ($idLieu == 0) {
@@ -296,23 +314,23 @@ class GestionFormulaireController extends AbstractController
             else {
                 $Sections = $lieuRepository->findBy(['echelle' => $echelleRepository->find(1), 'statut' => $statutRepository->find(2)]);
             }
-
-            if($Redirection == 'yes') {
-
-                return $this->redirectToRoute('gestion_formulaire_recap');
+            dump($Redirection);
+            if($Redirection === 'yes') {
+                return $this->redirectToRoute('gestion_formulaire_recapTableaux');
             }
 
             return $this->render('recap/recap.html.twig',
                 compact('lieu', 'Sections'));
     }
 
-    #[Route('/recapitulatif', name: '_recap', requirements: ['id' => '\d+'])]
-    public function recapitulatif(LieuRepository $lieuRepository, UserRepository $userRepository ,StatutRepository $statutRepository, EchelleRepository $echelleRepository,$id = 0)
+    #[Route('/recapitulatif', name: '_recapTableaux', requirements: ['id' => '\d+'])]
+    public function tableaux(LieuRepository $lieuRepository, UserRepository $userRepository ,StatutRepository $statutRepository, EchelleRepository $echelleRepository,$id = 0):Response
     {
         $user = $userRepository->find($this->getUser()->getId());
-        if($user->getEchelle()->getId() == 2){
+
+        if($user->getEchelle()->getId() == 2) {
             $UD = $lieuRepository->findOneBy(['echelle'=>$echelleRepository->find(2),'UD'=>$user->getUd()]);
-            if($UD !== null) {
+            if($UD !== null && $UD->getStatut() == null) {
                 $Sections = $lieuRepository->findBy(['echelle' => $echelleRepository->find(1), 'UD' => $UD->getUD()]);
             }
             else {

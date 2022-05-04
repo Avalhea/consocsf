@@ -35,20 +35,29 @@
                                 <div class="container" style="border: solid #464646; padding: 10px ; background-color: #d3d3d3">
                                 <div class="row">
                                 <div class="col fw-bold"><a href="{{ path('gestion_formulaire_recap',{'idLieu':UD.id}) }}" target="_blank" >{{ UD.echelle.libelle }} {{ UD.nom }}</a> : </div>
+                                    {% if UD.statut is null %}
                                     <div class="col fw-bold detailBtn" onclick="change({{'sections' ~ UD.nom }})">Cliquer pour afficher/cacher le détail de l'UD</div>
-                                <div class="col fw-bold text-end"><a href="{{ path('gestion_formulaire_detailBilanPdf', {'id': UD.id })  }}">Recapitulatif_dossier_conso_{{ UD.echelle.libelle }}_{{ UD.nom }}.pdf</a></div>
+                                    {% endif %}
+                                    {% if UD.statut is not null %}
+                                    {% if UD.statut.id == 2 %}
+                                        <div class="col fw-bold"><a style="color: #4aa482; " href="{{ path('formulaire_presentation',{'idLieu':UD.id}) }}" target="_blank">modifier la saisie</a></div>
+                                    {% endif %}
+                                    {% endif %}
+                                    <div class="col fw-bold text-end"><a href="{{ path('gestion_formulaire_detailBilanPdf', {'id': UD.id })  }}">Recapitulatif_dossier_conso_{{ UD.echelle.libelle }}_{{ UD.nom }}.pdf</a></div>
                                 </div>
                                 </div>
                         <div class="container"  id="{{'sections' ~ UD.nom}}" style="border: solid #464646; border-top: none ; padding: 10px; display: none;">
+                            {% if UD.statut is null %}
                             {% for Section in Sections %}
                                     {% if Section.ud is same as UD.ud %}
                                 <div class="row">
                                     <div class="col fw-bold"><a href="{{ path('gestion_formulaire_recap',{'idLieu':UD.id}) }}" target="_blank" >{{ Section.echelle.libelle }} {{ Section.nom }}</a> : </div>
-                                    <div class="col fw-bold"><a style="color: #4aa482; " href="{{ path('formulaire_presentation',{'idLieu':Section.id}) }}" target="_blank">modifier la section</a></div>
+                                    <div class="col fw-bold"><a style="color: #4aa482; " href="{{ path('formulaire_presentation',{'idLieu':Section.id}) }}" target="_blank">modifier la saisie</a></div>
                                     <div class="col fw-bold text-end"><a href="{{ path('gestion_formulaire_detailBilanPdf', {'id': Section.id })  }}">Recapitulatif_dossier_conso_{{ Section.echelle.libelle }}_{{ Section.nom }}.pdf</a></div>
                                 </div>
                                     {% endif %}
                             {% endfor %}
+                            {% endif %}
                         </div>
                                 <br>
                             {% endfor %}

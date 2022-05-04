@@ -33,11 +33,12 @@
                         <div class="field">
                             <button class="btn is-round btn-lg" id="btn_href"><a href="{{ path('formulaire_presentation') }}" id="lien_href">Commencer</a></button>
                             <style>#btn_href {background-color: #005AA1}</style><style>#lien_href {text-decoration: none; color: #FFFFFF}</style>
+
                             {% else %}
-
-                            <div class="stop">Vous avez déjà rempli le bilan conso de votre section, merci!</div>
-
+                            <div class="stop">Vous avez déjà rempli le bilan conso de votre {% if app.user.echelle.id == 1 %}section, merci!{% endif %}{% if app.user.echelle.id == 2 %}UD, merci!{% endif %}</div>
+                                <p>Vous pouvez toujours modifier votre saisie dans votre espace UD. </p>
                             {% endif %}
+
                         </div>
                         </div>
                     </div>

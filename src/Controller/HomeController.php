@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\EchelleRepository;
 use App\Repository\LieuRepository;
 use App\Repository\StatutRepository;
 use App\Repository\UserRepository;
@@ -28,7 +29,7 @@ class HomeController extends AbstractController
      */
     #[Route('/home', name: 'home')]
     public function home(
-        UserRepository $userRepository, LieuRepository $lieuRepository, StatutRepository $statutRepository
+        UserRepository $userRepository, LieuRepository $lieuRepository, EchelleRepository $echelleRepository, StatutRepository $statutRepository
     ): Response {
 
 
@@ -49,13 +50,17 @@ class HomeController extends AbstractController
 
 
 
-        if (count($user->getLieux()) >0 && $user->getEchelle()->getId() === 1) {
+        if (count($user->getLieux()) >0 && $user->getEchelle()->getId() === 1 ) {
             $stop = 'Stop';
         }
         else {
             $stop = 'pasStop';
         }
 
+        if (count($lieuRepository->findBy(['user'=>$user,'echelle'=>$echelleRepository->find(2)]) ) > 0 && $user->getEchelle()->getId() === 2){
+//            dump('wtf');
+            $stop = 'Stop';
+        }
         return $this->render('home/index.html.twig',compact('stop','lieuxUser'));
     }
 
