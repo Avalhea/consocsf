@@ -19,7 +19,7 @@
                         {{ form_start(formPresentation) }}
                         UD : {{ form_row(formPresentation.UD) }}
                             {% if app.user.echelle.id > 1 %}
-                        <p>Echelle:
+                        <p>Echelle: <br>
                             <select name="echelle" id="echelle" required>
                                 <option {{ selectedSec }} value="Section">Section</option>
                                 <option {{ selectedUD }} value="UD">UD</option>
