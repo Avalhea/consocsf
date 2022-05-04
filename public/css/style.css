@@ -2,9 +2,8 @@ body{
     size: 100vh;
     font-family: 'Recursive', sans-serif;
     background: url("../img/RosaceCS.png") no-repeat;
-    background-size: 60em;
     background-position-x: center;
-    height: 100vh;
+    background-size: contain;
 }
 
 @media  {

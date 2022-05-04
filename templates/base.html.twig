@@ -30,7 +30,7 @@
                 <form class="d-flex">
                     {% if 'ROLE_ADMIN' in app.user.roles %}
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle btn-default me-1 bg-white" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Administer</a>
+                            <a class="nav-link dropdown-toggle btn-default me-1 bg-white" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Administrer</a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{ path('admin_register') }}">Gérer les comptes</a></li>
                                 <li><a class="dropdown-item" href="{{ path('admin_ajouterrep') }}">Ajouter une représentation</a></li>

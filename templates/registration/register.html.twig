@@ -29,14 +29,14 @@
                             UD : {{ form_row(form.UD) }}
                             <br>
                             <button type="submit" class="button bgbleu">Créer</button>
-                            <button class="button bgbleu" name="return" value="Retour"><a href="{{ path('home') }}" id="retour">Retour à l'accueil</a></button>
+                            <button class="button bgbleu" name="return" type="button" value="Retour"><a href="{{ path('home') }}" id="retour">Retour à l'accueil</a></button>
                             <style>#retour  {text-decoration: none; color: #FFFFFF;font-family: 'Recursive', sans-serif}</style>
                     {{ form_end(form) }}
                             </div>
                         </div>
                     </div>
                     <div class="column is-6">
-                        <div class="table-container">
+                        <div class="box" style="max-height: 55vh ;overflow: scroll">
                             <td>
                             {% for message in app.flashes('reset') %}
                                 <div class="alert alert-success">
