@@ -20,13 +20,18 @@ bgbleu
                         <br>
 
                         {% for ud in uds %}
-                            <h4>UD {{ ud.UD.libelle }}</h4>
+                            <h4>UD {{ ud.UD.libelle }}</h4>{% if ud.statut is not null %}{% if ud.statut.id == 2 %} {{ ud.joursEtHorairesOuverture }} {% endif %}{% endif %}
+
+
+                            {% if ud.statut is null %}
                             {% for section in sections %}
                                 {% if section.UD is same as ud.UD %}
                                     <b>{{ section.nom }}</b> : {{ section.joursEtHorairesOuverture }}
                                     <br>
                                 {% endif %}
                             {% endfor %}
+                            {% endif %}
+
                             <br>
                             <br>
                         {% endfor %}

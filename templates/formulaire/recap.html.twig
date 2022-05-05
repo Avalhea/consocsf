@@ -30,7 +30,7 @@
                         <p>Nombre de lieux de permanences : {{  Sections|length }}</p>
                         <p>Nombre de jours de permanences : {{  lieu.permanence.nbJours }}</p>
                         <p>Nombre d'heures de permanences : {{ lieu.permanence.nbHeures }}</p>
-                        <p>Lieux horaires et jours d'ouverture des permanences : <a href="">Cliquez ici</a></p>
+                        <p>Lieux horaires et jours d'ouverture des permanences : {{ lieu.joursEtHorairesOuverture }}</p>
                         <p>Nombre de dossiers consommation/vie quotidienne simples suivis : {{ lieu.permanence.nbDossierSimple }}</p>
                         <p>Nombre de dossiers consommation/vie quotidienne difficiles suivis (+ de trois courriers ou + de deux visites) {{ lieu.permanence.nbDossierDifficile }}</p>
                         <p>Total global du nombre de dossiers consommation : {{ lieu.permanence.nbDossierSimple + lieu.permanence.nbDossierDifficile }} </p>
