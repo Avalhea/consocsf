@@ -307,14 +307,16 @@ class GestionFormulaireController extends AbstractController
                     }
                 }
             }
-
-            if($lieu->getEchelle()->getId() < 3  ) {
-                $Sections = $lieuRepository->findBy(['echelle' => $echelleRepository->find(1), 'UD' => $lieu->getUD(), 'statut' => $statutRepository->find(2)]);
+            if($lieu !== null) {
+                if ($lieu->getEchelle()->getId() < 3) {
+                    $Sections = $lieuRepository->findBy(['echelle' => $echelleRepository->find(1), 'UD' => $lieu->getUD(), 'statut' => $statutRepository->find(2)]);
+                } else {
+                    $Sections = $lieuRepository->findBy(['echelle' => $echelleRepository->find(1), 'statut' => $statutRepository->find(2)]);
+                }
             }
             else {
-                $Sections = $lieuRepository->findBy(['echelle' => $echelleRepository->find(1), 'statut' => $statutRepository->find(2)]);
+                $Sections = 0;
             }
-            dump($Redirection);
             if($Redirection === 'yes') {
                 return $this->redirectToRoute('gestion_formulaire_recapTableaux');
             }
@@ -328,13 +330,13 @@ class GestionFormulaireController extends AbstractController
     {
         $user = $userRepository->find($this->getUser()->getId());
 
-        if($user->getEchelle()->getId() == 2) {
+        if($user->getEchelle()->getId() === 2) {
             $UD = $lieuRepository->findOneBy(['echelle'=>$echelleRepository->find(2),'UD'=>$user->getUd()]);
             if($UD !== null && $UD->getStatut() == null) {
                 $Sections = $lieuRepository->findBy(['echelle' => $echelleRepository->find(1), 'UD' => $UD->getUD()]);
             }
             else {
-                $Sections = 0;
+                $Sections = '';
             }
             return $this->render('recap/tableau/ud.html.twig',
                 compact('UD', 'Sections'));
