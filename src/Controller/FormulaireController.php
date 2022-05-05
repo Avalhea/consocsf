@@ -78,10 +78,10 @@ class FormulaireController extends AbstractController
                     }
                     else{
                         $ech = $request->request->get('echelle');
-                        if ($ech == 'Section') {
+                        if ($ech === 'Section') {
                             $lieu->setEchelle($echelleRepository->find(1));
                         }
-                        if ($ech == 'UD') {
+                        if ($ech === 'UD') {
                             $lieu->setEchelle($echelleRepository->find(2));
                         }
 
@@ -113,10 +113,10 @@ class FormulaireController extends AbstractController
                     }
                     else{
                         $ech = $request->request->get('echelle');
-                        if ($ech == 'Section') {
+                        if ($ech === 'Section') {
                             $lieu->setEchelle($echelleRepository->find(1));
                         }
-                        if ($ech == 'UD') {
+                        if ($ech === 'UD') {
                             $lieu->setEchelle($echelleRepository->find(2));
                         }
 
