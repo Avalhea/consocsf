@@ -32,8 +32,9 @@ class HomeController extends AbstractController
         UserRepository $userRepository, LieuRepository $lieuRepository, EchelleRepository $echelleRepository, StatutRepository $statutRepository
     ): Response {
 
-
+        // On recupere l'utilisation authentifié
         $user = $userRepository->find($this->getUser()->getId());
+        // condition lié à l'affichage du contenu en fonction du statut dossier (validé ou en cours)
         if ($user->getEchelle()->getId() == 1) {
             if ($lieuRepository->findOneBy(['user'=>$user,'statut'=>$statutRepository->find(1)])){
                 $lieu = $lieuRepository->findOneBy(['user'=>$user,'statut'=>$statutRepository->find(1)]);
@@ -49,16 +50,16 @@ class HomeController extends AbstractController
         }
 
 
-
+        // Condition lié à l'affichage des options de la page en fonction de l'echelle (1= affichage section)
         if (count($user->getLieux()) >0 && $user->getEchelle()->getId() === 1 ) {
             $stop = 'Stop';
         }
         else {
             $stop = 'pasStop';
         }
-
+        // Si connecté en UD alors possible affichage des dossiers de ses sections en cours
         if (count($lieuRepository->findBy(['user'=>$user,'echelle'=>$echelleRepository->find(2)]) ) > 0 && $user->getEchelle()->getId() === 2){
-//            dump('wtf');
+
             $stop = 'Stop';
         }
         return $this->render('home/index.html.twig',compact('stop','lieuxUser'));

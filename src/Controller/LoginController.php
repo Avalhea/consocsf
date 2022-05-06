@@ -23,7 +23,7 @@ class LoginController extends AbstractController
         //     return $this->redirectToRoute('target_path');
         // }
 
-        // get the login error if there is one
+        // Recuperer l'erreur d'authentification si il y a en une
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
@@ -43,11 +43,12 @@ class LoginController extends AbstractController
     ): Response
 
     {
+        // recupere le user authentifié
         $user = $this->getUser();
-
+        // verificication si le mot de passe est toujours celui par defaut
         $isPassword1234 = password_verify('1234',$user->getPassword());
 
-
+        // si toujours mdp par defaut alors redirection sur la twig dedié à la modif
         if($isPassword1234){
             return $this->redirectToRoute('mdp');
         }
@@ -65,10 +66,15 @@ class LoginController extends AbstractController
         UserPasswordHasherInterface $passwordHasher
     ): Response {
 
+        // récupération du user en cours
         $user = $this->getUser();
+
+        // creation du formulaire de modif du mdp pour le user authentifié
         $form = $this->createForm(MdpType::class, $user );
         $form->handleRequest($request);
 
+        // Si formulaire est valide -> le nouveau mdp saisi par user est enregistré,
+        // lié via id et hashé avant d'être envoyé à la db
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $this->getUser();
             $mdpSimple = $user->GetPassword();
@@ -77,7 +83,7 @@ class LoginController extends AbstractController
             $entityManager->flush();
             return $this->redirectToRoute('home');
         }
-
+        // erreur si les mdp entrés ne sont pas les mêmes
         $this->addFlash('error', ' Les deux mots de passes ne correspondent pas !');
         return $this->renderForm('home/mdp.html.twig', compact('form', 'user'));
     }

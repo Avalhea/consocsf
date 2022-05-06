@@ -96,12 +96,13 @@ class RegistrationController extends AbstractController
         // Récupération du user à supprimer
         $userasupprimer = $userRepo->find($id);
 
-        // si le user n'a pas de dossier en cours
+        // verif si le user n'a pas de dossier en cours, if ok, suppression
         if($userasupprimer->getLieux() === null) {
             $this->addFlash('stop', 'Le user a bien été supprimé !');
             $em->remove($userasupprimer);
             $em->flush();
         }
+        // si le user a déjà un dossier de commencer alors pas de suppression
         else {
             $this->addFlash('else', 'Le user a un dossier en cours et ne peut être supprimé. ');
         }
@@ -122,10 +123,11 @@ class RegistrationController extends AbstractController
     ): Response
 
     {
-
+        // Recuperation du user via son id
         $user = $userRepository->find($id);
+        //set du password initial sur le user selectionnné par son id
             $user->setPassword($userPasswordHasher->hashPassword($user, '1234'));
-
+        // message flash confirmant la réussite puis envoi sur la db
         $this->addFlash('reset', 'Le mot de passe a bien été reinitialisé !');
         $em->persist($user);
         $em->flush();
@@ -181,6 +183,7 @@ class RegistrationController extends AbstractController
     {
         // Récupération de la représentation à supprimer
         $categorieasupprimer = $CatRepRepo->find($id);
+        // message de confirmation et envoi sur la db
         $this->addFlash('stop', 'La représentation a bien été supprimé !');
         $em->remove($categorieasupprimer);
         $em->flush();
@@ -198,23 +201,23 @@ class RegistrationController extends AbstractController
         TypeCommunicationRepository     $typecomRepo,
     ): Response
     {
-        // récupère la liste des representations
+        // récupère la liste des types de communication
         $listetypecom = $typecomRepo->findAll();
 
-        // Ajout d'une nouvelle representations
+        // Ajout d'une nouveau type de communication
         $nvtypecom = new TypeCommunication();
 
-        // créer le formulaire d'ajout representations
+        // créer le formulaire d'ajout du type de com
         $ajouttypecom = $this->createForm(FormTypeComType ::class, $nvtypecom);
         $ajouttypecom->handleRequest($request);
 
-        // validation du formulaire et envoi à la BDD
+        // validation du formulaire et envoi à la db
         if ($ajouttypecom->isSubmitted() && $ajouttypecom->isValid()) {
             $this->addFlash('success', 'Le type de communication a bien été créé !');
             $em->persist($nvtypecom);
             $em->flush();
 
-            // redirection vers la page de gestionnaire des representations
+            // redirection vers la page de gestionnaire
             return $this->redirectToRoute('admin_ajoutertypecom');
         }
         return $this->renderForm('registration/ajoutcom.html.twig',
@@ -233,10 +236,10 @@ class RegistrationController extends AbstractController
                                         $id
 
     ): Response
-
     {
-        // Récupération de la représentation à supprimer
+        // Récupération du type de com à supprimer
         $typecomasupprimer = $typecomRepo->find($id);
+        // Message de confirmation puis envoi sur la db
         $this->addFlash('stop', 'Le type de communication a bien été supprimé !');
         $em->remove($typecomasupprimer);
         $em->flush();
@@ -254,23 +257,23 @@ class RegistrationController extends AbstractController
         TypologieDossierRepository     $typodossierRepo,
     ): Response
     {
-        // récupère la liste des representations
+        // récupère la liste des typo dossiers
         $listetypodossier = $typodossierRepo->findAll();
 
-        // Ajout d'une nouvelle representations
+        // Ajout d'une nouvelle typo de dossiers
         $nvtypodossier = new TypologieDossier();
 
-        // créer le formulaire d'ajout representations
+        // créer le formulaire d'ajout
         $ajouttypodossier = $this->createForm(FormTypoDossierType ::class, $nvtypodossier);
         $ajouttypodossier->handleRequest($request);
 
-        // validation du formulaire et envoi à la BDD
+        // validation du formulaire et envoi à la db
         if ($ajouttypodossier->isSubmitted() && $ajouttypodossier->isValid()) {
             $this->addFlash('success', 'La typologie de dossier a bien été créé !');
             $em->persist($nvtypodossier);
             $em->flush();
 
-            // redirection vers la page de gestionnaire des representations
+            // redirection vers la page de gestionnaire
             return $this->redirectToRoute('admin_ajouttypodossier');
         }
         return $this->renderForm('registration/ajouttypodossier.html.twig',
@@ -291,7 +294,7 @@ class RegistrationController extends AbstractController
     ): Response
 
     {
-        // Récupération de la représentation à supprimer
+        // Récupération de la typo dossier à supprimer
         $typodossierasupprimer = $typodossierRepo->find($id);
         $this->addFlash('stop', 'La typologie de dossier a bien été supprimé !');
         $em->remove($typodossierasupprimer);
