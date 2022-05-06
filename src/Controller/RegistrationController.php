@@ -52,6 +52,7 @@ class RegistrationController extends AbstractController
         // validation du formulaire, set du mot de passe par défaut et envoi à la BDD
         if ($form->isSubmitted() && $form->isValid()) {
 
+            // Set du role du user
                 $user->setPassword($userPasswordHasher->hashPassword(
                     $user, '1234'));
                 if($user->getEchelle()->getId()== 1) {
@@ -64,8 +65,10 @@ class RegistrationController extends AbstractController
                     $user->setRoles(["ROLE_NATIONAL"]);
                 }
 
+                //message flash de confirmation de compte -> a display sur la twig
             $this->addFlash('success', 'Le compte a bien été créé !');
 
+                // on rentre les données sur la db
             $entityManager->persist($user);
             $entityManager->flush();
 
@@ -90,9 +93,11 @@ class RegistrationController extends AbstractController
     ): Response
 
     {
-        // Récupération de la représentation à supprimer
-        $userasupprimer = $userRepo->find($id)->getLieux();
-        if($userasupprimer === null) {
+        // Récupération du user à supprimer
+        $userasupprimer = $userRepo->find($id);
+
+        // si le user n'a pas de dossier en cours
+        if($userasupprimer->getLieux() === null) {
             $this->addFlash('stop', 'Le user a bien été supprimé !');
             $em->remove($userasupprimer);
             $em->flush();
