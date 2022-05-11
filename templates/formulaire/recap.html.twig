@@ -1,11 +1,44 @@
 {% extends 'base.html.twig' %}
 
-{% block couleur %}
-    bgviolet
-{% endblock %}
+{#{% block couleur %}#}
+{#    bgbleu#}
+{#{% endblock %}#}
+
 
 {% block body %}
+    <style>
+        header {
+            position: fixed;
+            top: -60px;
+            left: 0px;
+            right: 0px;
+            height: 50px;
+
+            /** Extra personal styles **/
+            background-color: #03a9f4;
+            color: white;
+            text-align: center;
+            line-height: 35px;
+        }
+
+        footer {
+            position: fixed;
+            bottom: -60px;
+            left: 0px;
+            right: 0px;
+            height: 50px;
+
+            /** Extra personal styles **/
+            background-color: #03a9f4;
+            color: white;
+            text-align: center;
+            line-height: 35px;
+        }
+    </style>
+    <body>
+
     <section class="section">
+
         <div class="container has-text-centered">
             <div class="box" style="background-color: rgba(255,255,255,0.64); height: 80vh; overflow: scroll">
                 <h1 class="title txtbleu">Mon bilan {{ lieu.echelle.libelle }}</h1>
@@ -16,48 +49,41 @@
                             <h3> {{ lieu.ud.libelle }} </h3>
                         {% endif %}
                     </div>
-
-                    <div class="center" style="text-align: center">
-                        <br>
-                       <b>Vous venez de remplir votre dossier 'bilan consommation'. Merci de prendre le temps de relire les informations fournies ci-dessous.<br>
-                        En cas d'erreur, cliquez sur le nom de la section correspondante pour y revenir et la corriger. <br> <br>
-                           <i class="fa-solid fa-exclamation"></i><i class="fa-solid fa-exclamation"></i> Une fois toutes les informations vérifiées, cliquez sur le bouton 'valider et envoyer' en bas de la page pour nous le transmettre. <i class="fa-solid fa-exclamation"></i> <i class="fa-solid fa-exclamation"></i></b>
-                    </div>
-                    <br> <br>
                     <div class="Permanence">
+                        <h3><b>I) Permanences</b></h3>
                         {% set idLieu = lieu.id %}
-                        <a href="{{ path('formulaire_permanence',{'idLieu' : idLieu} ) }}"><button type="button" class="btn bgviolet btn-block"> <i class="fa-regular fa-hand-point-right"></i> Permanences</button></a> <br> <br>
+                        <a href="{{ path('gestion_formulaire_detailBilanPdf', {'id': idLieu}) }}">PDF</a>
                         <p>Nombre de lieux de permanences : {{  Sections|length }}</p>
                         <p>Nombre de jours de permanences : {{  lieu.permanence.nbJours }}</p>
                         <p>Nombre d'heures de permanences : {{ lieu.permanence.nbHeures }}</p>
-                        <p>Lieux horaires et jours d'ouverture des permanences : {{ lieu.joursEtHorairesOuverture }}</p>
+                        <p>Lieux horaires et jours d'ouverture des permanences : <a href="">CF Horaires.PDF</a></p>
                         <p>Nombre de dossiers consommation/vie quotidienne simples suivis : {{ lieu.permanence.nbDossierSimple }}</p>
                         <p>Nombre de dossiers consommation/vie quotidienne difficiles suivis (+ de trois courriers ou + de deux visites) {{ lieu.permanence.nbDossierDifficile }}</p>
                         <p>Total global du nombre de dossiers consommation : {{ lieu.permanence.nbDossierSimple + lieu.permanence.nbDossierDifficile }} </p>
 
 
-                        <a href="{{ path('formulaire_typologieDossier',{'idLieu' : idLieu} ) }}"><button type="button" class="btn bgviolet btn-block"> <i class="fa-regular fa-hand-point-right"></i> Typologies des dossiers</button></a> <br> <br>
+                        <p><i><b>Typologie dossiers (nombre de dossiers en détails)</b></i></p>
 
                         {% for dossier in lieu.dossier %}
                             <b> {{ dossier.typologiedossier.libelle}} </b>: {{dossier.nbDossiers }}
                             <br>
+
                         {% endfor %}
-                        <br>
-                        <a href="{{ path('formulaire_vieAssociative',{'idLieu' : idLieu} ) }}"><button type="button" class="btn bgviolet btn-block"> <i class="fa-regular fa-hand-point-right"></i> Vie associative</button></a> <br> <br>
                         <p>Nombre de consommateurs renseignés par téléphone <br> (orientés vers d'autres structures ou informations générales) : {{ lieu.NbConsomRensTel }}</p>
                         <p>Nombre de <b>salariés</b> participant aux activités consommation <br> (perm/représentations/organisation ou participation à des actions) : {{ lieu.nbSalaries }}</p>
                         <p>Nombre de <b>bénévoles</b> qui font de l'activité consommation (permanences, représentations, organisation ou participations à des actions...) : {{ lieu.nbBenevole }}</p>
                         <p>Total global de toutes les personnes faisant de l'activité consommation dans le département : {{ lieu.nbSalaries + lieu.nbBenevole }}</p>
                     </div>
 
+                    <br>
                     <div class="Formation">
-                        <a href="{{ path('formulaire_formation',{'idLieu' : idLieu} ) }}"><button type="button" class="btn bgviolet btn-block"> <i class="fa-regular fa-hand-point-right"></i> Formation</button></a> <br> <br>
-                        Nombre de formations menées sur l'année : {{ lieu.formations.NbFormationsAnnee }} <br>
-                        Thèmes des formations et nombre de participants : {{ lieu.formations.ThemeFormationEtParticipants }}
+                        <h3><b>II) Formations menées :</b></h3>
+                        <p>Nombre de formations menées sur l'année : {{ lieu.formations.NbFormationsAnnee }}</p>
+                        <p>Thèmes des formations et nombre de participants : {{ lieu.formations.ThemeFormationEtParticipants }}</p>
                     </div>
                     <br>
                     <div class="Communication">
-                        <a href="{{ path('formulaire_communication',{'idLieu' : idLieu} ) }}"><button type="button" class="btn bgviolet btn-block"> <i class="fa-regular fa-hand-point-right"></i> Communication</button></a> <br> <br>
+                        <h3><b>III) Communications</b></h3>
                         {%  for com in lieu.communication %}
                             <b>{{ com.typeCommunication.libelle}} :</b>
                             <br>
@@ -65,39 +91,48 @@
                             {% if lieu.echelle.libelle == 'Section' %}
                                 <br>Sujets : {{com.sujets }}
                             {% endif %}
+
                             <br>
                         {% endfor %}
                     </div>
                     <br>
                     <div class="AteliersConso">
-                        <a href="{{ path('formulaire_atelier',{'idLieu' : idLieu} ) }}"><button type="button" class="btn bgviolet btn-block"> <i class="fa-regular fa-hand-point-right"></i> Atelier</button></a> <br> <br>
-                        Nombre d'ateliers : {{ lieu.nbAteliers }}<br>
-                        Nombre de participants total : {{ lieu.nbPartiAteliers }}
+                        <h3><b>IV) Ateliers consommation et éducation des consommateurs</b></h3>
+                        {% if lieu.statut is null %}
+                            Nombre d'ateliers : {{ lieu.nbAteliers }}
+                            Nombre de participants total : {{ lieu.nbPartiAteliers }}
+                        {% endif %}
+
+                        {% if lieu.statut is not null %}
+                            Nombre d'ateliers : {{ lieu.atelier|length }}
+                            {% set nbParti = 0 %}
+                            Nombre de participants total : {% for atelier in lieu.atelier %}{% set nbParti = nbParti + atelier.nbPersonnesTotal %}{% endfor %}
+                        {% endif %}
+
+
                     </div>
                     <br>
                     <div class="representation">
-                        <a href="{{ path('formulaire_representation',{'idLieu' : idLieu} ) }}"><button type="button" class="btn bgviolet btn-block"> <i class="fa-regular fa-hand-point-right"></i> Représentation</button></a> <br> <br>
+                        <h3><b>V) Représentations</b></h3>
                         {% for rep in lieu.representation  %}
                             <b>{{ rep.categorie.libelle }} :</b>
                             <br>Fréquence des réunions : {{ rep.frequence }}
                             <br>
                         {% endfor %}
                     </div>
-                    <br>
-                    <div class="actionJustice">
-                        <a href="{{ path('formulaire_actionJustice',{'idLieu' : idLieu} ) }}"><button type="button" class="btn bgviolet btn-block"> <i class="fa-regular fa-hand-point-right"></i> Action en justice</button></a> <br> <br>
 
-                        Nombre d'actions en justice en représentation conjointe : {{ lieu.actionJustice.nbActionConjointe }} <br>
+                    <div class="actionJustice">
+                        Nombre d'actions en justice en représentation conjointe : {{ lieu.actionJustice.nbActionConjointe }}
                         Nombre d'actions de simple accompagnement du consommateur : {{ lieu.actionJustice.nbAccompagnement }}
                     </div>
-                    <br>
-                    <div>
-
-                    </div>
                 </div>
-                <a href="{{ path('formulaire_transmission',{'idLieu' : idLieu} ) }}"><button type="button" class="btn btn-lg bgviolet">Valider et envoyer</button></a> <br> <br>
             </div>
         </div>
 
     </section>
+    </body>
 {% endblock %}
+
+
+
+

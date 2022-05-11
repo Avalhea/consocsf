@@ -61,38 +61,48 @@ class FormulaireController extends AbstractController
 //        La fonction verification renvoie 0 si jamais l'utilisateur n'est pas censé avoir accès à la page -> redirection sur home
 
         $verifi = $verif->verification($idLieu, $user);
+// Si le user a bien accès à cette page >
         if ($verifi === "ok") {
+// Si le paramètre 'idLieu' n'a pas été spécifié dans le path > idLieu = 0 > on veut instancier un nouveau 'lieu'
             if ($idLieu == 0) {
-
+// création de lieu
                 $lieu = new Lieu();
+// création et instanciation du form
                 $formPresentation = $this->createForm(PresentationType::class, $lieu);
                 $formPresentation->handleRequest($request);
-
+// Si le formulaire a bien été soumis et est valide >
                 if ($formPresentation->isSubmitted() && $formPresentation->isValid()) {
-
+// On récupère le user connecté
                     $user = $userRepository->find($this->getUser()->getId());
+// On assigne à notre instance de lieu 'user' en tant que user > càd que l'utilisateur connecté est celui qui remplie le formulaire, et est donc rattaché à celui ci
                     $lieu->setUser($user);
+// On set le 'statut' de 'lieu' en statut 1, càd en ' En cours '
                     $lieu->setStatut($statutRepository->find(1));
+// Si l'échelle du User est 1, càd 'Section' >
                     if($user->getEchelle()->getId() == 1) {
+//                        On set d'office l'échelle du lieu en 1, càd 'Section'
                         $lieu->setEchelle($echelleRepository->find(1));
                     }
                     else{
+//                        On vérifie quelle échelle l'utilisateur a selectionné dans le form; 1>Section ou 2>UD  : Cette option n'est accessible que si l'utilisateur a une échelle d'ID 2 minimum ( UD ou National )
                         $ech = $request->request->get('echelle');
+//                        Si 'Section' a été selectionné, on set l'échelle du lieu en Section (Echelle where ID=1)
                         if ($ech === 'Section') {
                             $lieu->setEchelle($echelleRepository->find(1));
                         }
+                        // Si 'UD' a été selectionné, on set l'échelle du lieu en UD (Echelle where ID=2)
                         if ($ech === 'UD') {
                             $lieu->setEchelle($echelleRepository->find(2));
                         }
 
                     }
 
-
                     $entityManager->persist($lieu);
                     $entityManager->flush();
-
+// redirection sur la page suivante > Permanence, en transmettant l'idLieu, qui est l'ID du lieu fraichement instancié
                     return $this->redirectToRoute('formulaire_permanence', array('idLieu' => $lieu->getId()));
                 }
+//                les variables ci dessous ne sont pas importantes quand il s'agit d'un nouveau formulaire
                 $selectedUD = '';
                 $selectedSec = '';
                 return $this->renderForm('formulaire/presentation.html.twig',
@@ -107,7 +117,6 @@ class FormulaireController extends AbstractController
                 $formPresentation->handleRequest($request);
 
                 if ($formPresentation->isSubmitted() && $formPresentation->isValid()) {
-
                     if($user->getEchelle()->getId() == 1) {
                         $lieu->setEchelle($echelleRepository->find(1));
                     }
@@ -128,20 +137,31 @@ class FormulaireController extends AbstractController
 
                 }
 
+//                Si l'échelle du 'lieu' sur lequel nous travaillons dans le form est set à '1'; soit Section >
+
                 if($lieu->getEchelle()->getId() == 1){
+//                    Ces variables sont utilisées dans la twig au niveau des options de mon 'select' echelle
+//                    si l'échelle est à 1, alors je veux que le select soit pré-remplie par 'Section'
                     $selectedUD=' ';
                     $selectedSec='selected';
                 }
+
+//                Si l'échelle du 'lieu' sur lequel nous travaillons dans le form est set à '2' ou '3'; soit UD ou National (même si la deuxième option n'est pas possible) >
+
                 else {
+//                    Ces variables sont utilisées dans la twig au niveau des options de mon 'select' echelle
+//                    si l'échelle est à 2, alors je veux que le select soit pré-remplie par 'UD'
                     $selectedUD='selected';
                     $selectedSec=' ';
                 }
 
             }
+//            render du form
             return $this->renderForm('formulaire/presentation.html.twig',
                 compact('formPresentation','idLieu','selectedSec','selectedUD')
             );
         }
+//        redirection sur 'home' si jamais les vérifications n'ont pas été concluentes
             return $this->redirectToRoute('home');
         }
 
@@ -150,10 +170,13 @@ class FormulaireController extends AbstractController
                                Request $request, $idLieu): Response
     {
 
+//        Instanciation du user connecté et du 'lieu' avec l'idLieu passé dans le paramètre du path
         $user = $userRepository->find($this->getUser()->getId());
         $lieu = $lieuRepository->find($idLieu);
 
+//            Si jamais le user connecté n'est pas assigné au lieu qu'il essai de modifier dans le formulaire...
         if ($lieu->getUser() !== $user) {
+//            ...Il est redirigé sur l'accueil
             return $this->redirectToRoute('home');
         }
 
@@ -186,6 +209,9 @@ class FormulaireController extends AbstractController
     public function typologieDossier(LieuRepository $lieuRepository, UDRepository $UDRepository, DossiersAutreRepository $dossiersAutreRepository , UserRepository $userRepository, StatutRepository $statutRepository, EntityManagerInterface $entityManager,
                                   Request $request, $idLieu, TypologieDossierRepository $typologieDossierRepository, $state=0): Response
     {
+
+        //        Instanciation du user connecté et du 'lieu' avec l'idLieu passé dans le paramètre du path
+
         $user = $userRepository->find($this->getUser()->getId());
         $lieu = $lieuRepository->find($idLieu);
 
@@ -253,6 +279,9 @@ class FormulaireController extends AbstractController
     public function vieAssociative(LieuRepository $lieuRepository, UDRepository $UDRepository, UserRepository $userRepository, StatutRepository $statutRepository, EntityManagerInterface $entityManager,
                                    Request $request, $idLieu): Response
     {
+
+        //        Instanciation du user connecté et du 'lieu' avec l'idLieu passé dans le paramètre du path
+
         $user = $userRepository->find($this->getUser()->getId());
         $lieu = $lieuRepository->find($idLieu);
 
@@ -291,6 +320,9 @@ class FormulaireController extends AbstractController
     public function formation(LieuRepository $lieuRepository, UDRepository $UDRepository, UserRepository $userRepository, StatutRepository $statutRepository, EntityManagerInterface $entityManager,
                               Request $request, $idLieu): Response
     {
+
+        //        Instanciation du user connecté et du 'lieu' avec l'idLieu passé dans le paramètre du path
+
 
         $user = $userRepository->find($this->getUser()->getId());
         $lieu = $lieuRepository->find($idLieu);
@@ -334,6 +366,9 @@ class FormulaireController extends AbstractController
     public function communication(LieuRepository $lieuRepository, UDRepository $UDRepository, UserRepository $userRepository, StatutRepository $statutRepository, EntityManagerInterface $entityManager,
                                   Request $request, $idLieu, TypeCommunicationRepository $typeCommunicationRepository, $state=0): Response
     {
+
+        //        Instanciation du user connecté et du 'lieu' avec l'idLieu passé dans le paramètre du path
+
 
         $user = $userRepository->find($this->getUser()->getId());
         $lieu = $lieuRepository->find($idLieu);
@@ -388,6 +423,9 @@ class FormulaireController extends AbstractController
                               Request $request, $idLieu, $idAtelier=0): Response
     {
 
+        //        Instanciation du user connecté et du 'lieu' avec l'idLieu passé dans le paramètre du path
+
+
         $user = $userRepository->find($this->getUser()->getId());
         $lieu = $lieuRepository->find($idLieu);
 
@@ -428,6 +466,9 @@ class FormulaireController extends AbstractController
     public function representation(LieuRepository $lieuRepository, UDRepository $UDRepository, UserRepository $userRepository, StatutRepository $statutRepository, EntityManagerInterface $entityManager,
                                   Request $request, $idLieu, CategorieRepRepository $categorieRepRepository, $state=0): Response
     {
+
+        //        Instanciation du user connecté et du 'lieu' avec l'idLieu passé dans le paramètre du path
+
 
         $user = $userRepository->find($this->getUser()->getId());
         $lieu = $lieuRepository->find($idLieu);
@@ -481,6 +522,9 @@ class FormulaireController extends AbstractController
                                    Request $request, $idLieu): Response
     {
 
+        //        Instanciation du user connecté et du 'lieu' avec l'idLieu passé dans le paramètre du path
+
+
         $user = $userRepository->find($this->getUser()->getId());
         $lieu = $lieuRepository->find($idLieu);
 
@@ -514,6 +558,8 @@ class FormulaireController extends AbstractController
     #[Route('/recap/{idLieu}', name: '_recap', requirements: ['idLieu' => '\d+'])]
     public function index(EntityManagerInterface $entityManager, UserRepository $userRepository, StatutRepository $statutRepository, RepresentationRepository $representationRepository, CategorieRepRepository $categorieRepRepository, TypologieDossierRepository $typologieDossierRepository, DossierRepository $dossierRepository, CommunicationRepository $communicationRepository, TypeCommunicationRepository $typeCommunicationRepository, LieuRepository $lieuRepository, EchelleRepository $echelleRepository, UDRepository $UDRepository, $idLieu = 0): Response
     {
+        //        Instanciation du user connecté et du 'lieu' avec l'idLieu passé dans le paramètre du path
+
 
         $user = $userRepository->find($this->getUser()->getId());
         $lieu = $lieuRepository->find($idLieu);
@@ -522,6 +568,7 @@ class FormulaireController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
+//        On récupère la liste des Sections, soit tout les 'lieux' a échelle '1' (Section) dont le statut est à '2' (Verifié), appartenant à l'UD de lieu
         $Sections = $lieuRepository->findBy(['echelle' => $echelleRepository->find(1), 'UD' => $lieu->getUD(), 'statut' => $statutRepository->find(2)]);
 
 
@@ -539,13 +586,13 @@ class FormulaireController extends AbstractController
         if ($lieu->getUser() !== $user) {
             return $this->redirectToRoute('home');
         }
-
+// Si toutes les étapes du formulaires ont bien étés remplies, et que 'lieu' a toute les données nécessaires, alors on set le statut de 'lieu' à '2' soit 'Verifié'
         if($lieu->getActionJustice() !== null && $lieu->getAtelier() !== null && $lieu->getCommunication() !== null && $lieu->getDossier() !== null && $lieu->getEvenement() !== null && $lieu->getFormations() !== null && $lieu->getPermanence() !== null && $lieu->getRepresentation() !== null ){
             $lieu->setStatut($statutRepository->find(2));
             $entityManager->persist($lieu);
             $entityManager->flush();
         }
-dump($idLieu);
+
         return $this->render('formulaire/transmission.html.twig',compact('idLieu'));
     }
 

@@ -98,8 +98,17 @@
                         <br>
                         <div class="AteliersConso">
                             <h3><b>IV) Ateliers consommation et éducation des consommateurs</b></h3>
-                            Nombre d'ateliers : {{ lieu.nbAteliers }}
-                            Nombre de participants total : {{ lieu.nbPartiAteliers }}
+                            {% if lieu.statut is null %}
+                                Nombre d'ateliers : {{ lieu.nbAteliers }}
+                                Nombre de participants total : {{ lieu.nbPartiAteliers }}
+                            {% endif %}
+
+                            {% if lieu.statut is not null %}
+                                Nombre d'ateliers : {{ lieu.atelier|length }}
+                                {% set nbParti = 0 %}
+                                Nombre de participants total : {% for atelier in lieu.atelier %}{% set nbParti = nbParti + atelier.nbPersonnesTotal %}{% endfor %} {{ nbParti }}
+                            {% endif %}
+
                         </div>
                         <br>
                         <div class="representation">
