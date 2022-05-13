@@ -471,9 +471,14 @@ class GestionFormulaireController extends AbstractController
     #[Route('/horaires/pdf', name: '_horairesPDF')]
     public function generatePdfHoraires(PdfService $pdf,LieuRepository $lieuRepository,StatutRepository $statutRepository, EchelleRepository $echelleRepository,$id = 0)
     {
+
+//        Cette route permet de générer un pdf sur la base de la page html 'horaires.html.twig' en utilisant DomPdf
+
+//        J'initialise mes variables
         $sections = $lieuRepository->findBy(['echelle'=>$echelleRepository->find(1)]);
         $uds = $lieuRepository->findBy(['echelle'=>$echelleRepository->find(2)]);
 
+//        J'initialise ma variable "html", qui est la page twig/html qui sera render en pdf grace à ma fonction showPdfFile
         $html = $this->render('recap/horaires.html.twig',
             compact('sections','uds'));;
 
@@ -486,7 +491,13 @@ class GestionFormulaireController extends AbstractController
     #[Route('/pdf/{id}', name: '_detailBilanPdf', requirements: ['id' => '\d+'])]
     public function generatePdfRecap(PdfService $pdf,LieuRepository $lieuRepository,StatutRepository $statutRepository, EchelleRepository $echelleRepository,$id = 0)
     {
+
+//        Cette route permet de générer un pdf sur la base de la page html 'recap.html.twig' en utilisant DomPdf
+
+//        J'initialise mes variables
         $lieu = $lieuRepository->find($id);
+
+//        Ma variable "Sections" dépend du récap' : Si le lieu étudié est à l'échelle Nationale, Sections concernera TOUTES les sections, à échelle Section / UD(lieu), Sections ne sera constitué que des sections appartenant à la même UD(département)
         if($lieu->getEchelle()->getId() < 3  ) {
             $Sections = $lieuRepository->findBy(['echelle' => $echelleRepository->find(1), 'UD' => $lieu->getUD(), 'statut' => $statutRepository->find(2)]);
         }
@@ -494,11 +505,15 @@ class GestionFormulaireController extends AbstractController
             $Sections = $lieuRepository->findBy(['echelle' => $echelleRepository->find(1), 'statut' => $statutRepository->find(2)]);
 
         }
+
+        //        J'initialise ma variable "html", qui est la page twig/html qui sera render en pdf grace à ma fonction showPdfFile
+
         $html = $this->render('recap/recap.html.twig', compact('lieu','Sections'));
 
-
+        //       Je variablilise le nom du PDF, qui changera selon l'échelle et le nom de mon lieu
         $name = 'Recapitulatif_dossier_conso_' . $lieu->getEchelle()->getLibelle() . '_' . $lieu->getNom() .'.PDF';
 
+        //       Je render le pdf
         $pdf->showPdfFile($html, $name);
     }
 
