@@ -97,7 +97,7 @@ class RegistrationController extends AbstractController
         $userasupprimer = $userRepo->find($id);
 
         // verif si le user n'a pas de dossier en cours, if ok, suppression
-        if($userasupprimer->getLieux() === null) {
+        if(count($userasupprimer->getLieux())==0) {
             $this->addFlash('stop', 'Le user a bien été supprimé !');
             $em->remove($userasupprimer);
             $em->flush();
